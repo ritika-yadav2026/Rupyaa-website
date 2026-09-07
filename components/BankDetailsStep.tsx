@@ -26,6 +26,7 @@ import { isEnteredAccountSalaryMatch } from "@/utils/salaryAccountValidation";
 import NonSalaryAccountModal from "@/components/non-salary-account/NonSalaryAccountModal";
 import NeedContactSupport from "./NeedContactSupport";
 import ValidatedTextInput from "./ValidatedTextInput";
+import AppSelectField from "@/components/app-select-field";
 
 type Props = { onContinue?: () => void };
 
@@ -375,34 +376,18 @@ export default function BankDetailsStep({ onContinue }: Props) {
             )}
           </div>
 
-          <div>
-            <label htmlFor="accountType" className="text-sm font-medium text-gray-700 mb-1 block">
-              Account Type *
-            </label>
-            <select
-              id="accountType"
-              value={accountType}
-              onChange={(e) => {
-                setAccountType(e.target.value as BankAccountType);
-                setErrors((prev) => ({ ...prev, accountType: undefined }));
-                setSubmitError(null);
-              }}
-              className={`${inputBase} bg-white ${errors.accountType ? inputError : inputNormal}`}
-              aria-invalid={!!errors.accountType}
-              aria-describedby={errors.accountType ? "accountType-error" : undefined}
-            >
-              {ACCOUNT_TYPE_OPTIONS.map((opt) => (
-                <option key={opt.value} value={opt.value}>
-                  {opt.label}
-                </option>
-              ))}
-            </select>
-            {errors.accountType && (
-              <p id="accountType-error" className="text-sm text-red-600 mt-1" role="alert">
-                {errors.accountType}
-              </p>
-            )}
-          </div>
+          <AppSelectField
+            id="accountType"
+            label="Account Type *"
+            value={accountType}
+            onChange={(e) => {
+              setAccountType(e.target.value as BankAccountType);
+              setErrors((prev) => ({ ...prev, accountType: undefined }));
+              setSubmitError(null);
+            }}
+            options={ACCOUNT_TYPE_OPTIONS}
+            error={errors.accountType}
+          />
 
           <div>
             <label htmlFor="ifscCode" className="text-sm font-medium text-gray-700 mb-1 block">

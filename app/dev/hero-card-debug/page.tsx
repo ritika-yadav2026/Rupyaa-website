@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import HeroLoggedInCardArea from "@/components/home/HeroLoggedInCardArea";
+import AppSelectField from "@/components/app-select-field";
 import type { HeroHomeResolvedCard } from "@/lib/build-hero-home-card";
 import type { HeroLoggedInCardCase } from "@/lib/hero-home-card-case";
 import { UserStagesInBackend } from "@/lib/user-stage";
@@ -225,21 +226,16 @@ export default function HeroCardDebugPage() {
         </p>
 
         <div className="mt-4 rounded-xl border border-gray-200 bg-white p-4">
-          <label htmlFor="hero-ui-case" className="block text-sm font-semibold text-gray-700">
-            Hero UI case
-          </label>
-          <select
+          <AppSelectField
             id="hero-ui-case"
-            className="mt-2 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
+            label="Hero UI case"
             value={uiCase}
             onChange={(e) => setUiCase(e.target.value as UiCaseOption)}
-          >
-            {UI_CASE_OPTIONS.map((option) => (
-              <option key={option} value={option}>
-                {UI_CASE_LABELS[option]}
-              </option>
-            ))}
-          </select>
+            options={UI_CASE_OPTIONS.map((option) => ({
+              value: option,
+              label: UI_CASE_LABELS[option],
+            }))}
+          />
 
           <pre className="mt-3 max-h-64 overflow-auto rounded bg-gray-50 p-3 text-xs text-gray-700">
             {JSON.stringify(resolved, null, 2)}

@@ -14,16 +14,17 @@ import {
 } from "@/lib/user-api";
 import NeedContactSupport from "./NeedContactSupport";
 import ValidatedTextInput from "./ValidatedTextInput";
+import AppSelectField from "@/components/app-select-field";
 
 type Props = { onContinue?: () => void };
 
 const RELATIONSHIP_OPTIONS = [
-  "Father",
-  "Mother",
-  "Spouse",
-  "Brother",
-  "Sister",
-  "Other",
+  { value: "Father", label: "Father" },
+  { value: "Mother", label: "Mother" },
+  { value: "Spouse", label: "Spouse" },
+  { value: "Brother", label: "Brother" },
+  { value: "Sister", label: "Sister" },
+  { value: "Other", label: "Other" },
 ] as const;
 
 type FieldErrors = {
@@ -118,34 +119,18 @@ export default function FamilyDetailsStep({ onContinue }: Props) {
             )}
           </div>
 
-          <div>
-            <label htmlFor="family-relation" className="text-sm font-medium text-gray-700 mb-1 block">
-              Relationship *
-            </label>
-            <select
-              id="family-relation"
-              value={relation}
-              onChange={(e) => {
-                setRelation(e.target.value);
-                setErrors((prev) => ({ ...prev, relation: undefined }));
-              }}
-              className={`w-full px-4 py-3 rounded-xl border min-h-[48px] focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary bg-white ${errors.relation ? "border-red-500" : "border-gray-200"}`}
-              aria-invalid={!!errors.relation}
-              aria-describedby={errors.relation ? "family-relation-error" : undefined}
-            >
-              <option value="">Select relation</option>
-              {RELATIONSHIP_OPTIONS.map((r) => (
-                <option key={r} value={r}>
-                  {r}
-                </option>
-              ))}
-            </select>
-            {errors.relation && (
-              <p id="family-relation-error" className="text-sm text-red-600 mt-1" role="alert">
-                {errors.relation}
-              </p>
-            )}
-          </div>
+          <AppSelectField
+            id="family-relation"
+            label="Relationship *"
+            value={relation}
+            onChange={(e) => {
+              setRelation(e.target.value);
+              setErrors((prev) => ({ ...prev, relation: undefined }));
+            }}
+            placeholder="Select relation"
+            options={RELATIONSHIP_OPTIONS}
+            error={errors.relation}
+          />
 
           <div>
             <label htmlFor="family-mobile" className="text-sm font-medium text-gray-700 mb-1 block">

@@ -8,7 +8,7 @@ import { useAppDownload } from "@/hooks/useAppDownload";
 function CheckCircleIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-      <circle cx="10" cy="10" r="10" fill="#006525" />
+      <circle cx="10" cy="10" r="10" fill="#FECA42" />
       <path
         d="M5.5 10.2L8.4 13.1L14.5 7"
         stroke="white"
@@ -24,7 +24,7 @@ export default function BasicInfoSidebar() {
   const downloadConfig = useAppDownload();
 
   return (
-    <div className="flex h-full flex-col gap-5 rounded-2xl border border-primary/25 bg-[#eaf5ee] p-5 sm:gap-6 sm:p-6 lg:p-8">
+    <div className="flex h-full flex-col gap-5 rounded-2xl border border-[#FECA42] bg-[#FFF8E6] p-5 sm:gap-6 sm:p-6 lg:p-8">
       <div className="hidden justify-center sm:flex">
         <span className="size-[140px] md:size-[200px] lg:size-[250px]">
           <AppDownloadQrCode

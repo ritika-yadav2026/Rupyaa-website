@@ -9,11 +9,13 @@ import {
   type PostEmploymentDetailsPayload,
 } from "@/lib/user-api";
 import { getCurrentOffer } from "@/lib/eligibility-api";
-import { validateOrganizationName } from "@/lib/validation";
+import { validateOrganizationName, sanitizeTextInput } from "@/lib/validation";
 import { useFlowStore } from "@/store/useFlowStore";
+import AppTextField from "@/components/app-text-field";
+import AppSelectField from "@/components/app-select-field";
+import AppSelectableField from "@/components/app-selectable-field";
 import BasicInfoSidebar from "@/components/BasicInfoSidebar";
 import BasicInfoFooter from "@/components/BasicInfoFooter";
-import ValidatedTextInput from "@/components/ValidatedTextInput";
 
 export type EmploymentMode = "salaried" | "self-employed";
 
@@ -61,111 +63,75 @@ function EmploymentModeFields({
   onOrganizationNameChange,
   onDeclaredSalaryDayChange,
 }: Omit<EmbeddedProps, "embedded">) {
-  let modeError: ReactNode = null;
-  if (errors.mode) {
-    modeError = <p className="text-sm text-red-600" role="alert">{errors.mode}</p>;
-  }
-
-  let organizationError: ReactNode = null;
-  if (errors.organization) {
-    organizationError = <p className="text-sm text-red-600" role="alert">{errors.organization}</p>;
-  }
-
-  let salaryDayError: ReactNode = null;
-  if (errors.declaredSalaryDay) {
-    salaryDayError = <p className="text-sm text-red-600" role="alert">{errors.declaredSalaryDay}</p>;
-  }
+  const salaryDayOptions = SALARY_DAY_OPTIONS.map((day) => ({
+    value: String(day),
+    label: String(day),
+  }));
 
   let salariedFields: ReactNode = null;
   if (mode === "salaried") {
+    let salaryDayValue = "";
+    if (declaredSalaryDay !== "") {
+      salaryDayValue = String(declaredSalaryDay);
+    }
     salariedFields = (
       <>
-        <div className="flex flex-col gap-2">
-          <label htmlFor="organizationName" className="text-sm font-semibold text-gray-900">
-            Organization Name
-          </label>
-          <ValidatedTextInput
-            id="organizationName"
-            value={organizationName}
-            policy="organization"
-            maxLength={200}
-            onValueChange={onOrganizationNameChange}
-            placeholder="e.g. ABC Corp"
-            className={`w-full rounded-xl border-2 px-4 py-3 outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-primary/20 ${errors.organization ? "border-red-500" : "border-gray-200"}`}
-            aria-invalid={!!errors.organization}
-            disabled={disabled}
-          />
-          {organizationError}
-        </div>
+        <AppTextField
+          id="organizationName"
+          label="Organization Name"
+          value={organizationName}
+          maxLength={200}
+          onChange={(event) => {
+            const nextValue = sanitizeTextInput(event.target.value, "organization").slice(0, 200);
+            onOrganizationNameChange(nextValue);
+          }}
+          placeholder="e.g. ABC Corp"
+          error={errors.organization}
+          disabled={disabled}
+        />
 
-        <div className="flex flex-col gap-2">
-          <label htmlFor="declaredSalaryDay" className="text-sm font-semibold text-gray-900">
-            Salary Day (1-31)
-          </label>
-          <select
-            id="declaredSalaryDay"
-            value={declaredSalaryDay}
-            onChange={(event) => {
-              const value = event.target.value;
-              onDeclaredSalaryDayChange(value === "" ? "" : Number(value));
-            }}
-            className={`w-full rounded-xl border-2 bg-white px-4 py-3 outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-primary/20 ${errors.declaredSalaryDay ? "border-red-500" : "border-gray-200"}`}
-            aria-invalid={!!errors.declaredSalaryDay}
-            disabled={disabled}
-          >
-            <option value="">Select salary day</option>
-            {SALARY_DAY_OPTIONS.map((day) => (
-              <option key={day} value={day}>{day}</option>
-            ))}
-          </select>
-          <p className="text-xs text-gray-500">Day of the month when your salary is credited</p>
-          {salaryDayError}
-        </div>
+        <AppSelectField
+          id="declaredSalaryDay"
+          label="Salary Day (1-31)"
+          value={salaryDayValue}
+          onChange={(event) => {
+            const value = event.target.value;
+            onDeclaredSalaryDayChange(value === "" ? "" : Number(value));
+          }}
+          placeholder="Select salary day"
+          options={salaryDayOptions}
+          hint="Day of the month when your salary is credited"
+          error={errors.declaredSalaryDay}
+          disabled={disabled}
+        />
       </>
     );
   }
 
   return (
     <div className="flex flex-col gap-5">
-      <fieldset className="flex flex-col gap-3">
-        <legend className="mb-2 text-sm font-semibold text-gray-900">Employment Type</legend>
-        <label className={`flex cursor-pointer flex-col gap-2 rounded-xl border-2 p-4 transition-colors ${mode === "salaried" ? "border-primary bg-[#e8f5e9]" : "border-gray-200 bg-white hover:border-gray-300"}`}>
-          <div className="flex items-start gap-3">
-            <input
-              type="radio"
-              name="employmentMode"
-              value="salaried"
-              checked={mode === "salaried"}
-              onChange={() => onModeChange("salaried")}
-              disabled={disabled}
-              className="mt-1 h-5 w-5 shrink-0 rounded-full border-2 border-gray-300 text-primary focus:ring-primary"
-            />
-            <div className="flex min-w-0 flex-col gap-1">
-              <span className="text-base font-semibold text-gray-900">Employed (Salaried)</span>
-              <span className="text-sm text-gray-600">Choose this if you receive a regular salary from your employer directly into your bank account.</span>
-            </div>
-          </div>
-        </label>
-
-        <label className={`flex cursor-pointer flex-col gap-2 rounded-xl border-2 p-4 transition-colors ${mode === "self-employed" ? "border-primary bg-[#e8f5e9]" : "border-gray-200 bg-white hover:border-gray-300"}`}>
-          <div className="flex items-start gap-3">
-            <input
-              type="radio"
-              name="employmentMode"
-              value="self-employed"
-              checked={mode === "self-employed"}
-              onChange={() => onModeChange("self-employed")}
-              disabled={disabled}
-              className="mt-1 h-5 w-5 shrink-0 rounded-full border-2 border-gray-300 text-primary focus:ring-primary"
-            />
-            <div className="flex min-w-0 flex-col gap-1">
-              <span className="text-base font-semibold text-gray-900">Self Employed/Business Owner/Freelancer</span>
-              <span className="text-sm text-gray-600">Choose this if you earn through your own business, freelance work, or client projects.</span>
-            </div>
-          </div>
-        </label>
-        {modeError}
-      </fieldset>
+      <AppSelectableField
+        name="employmentMode"
+        legend="Employment Type"
+        value={mode}
+        onChange={(nextValue) => onModeChange(nextValue as EmploymentMode)}
+        disabled={disabled}
+        error={errors.mode}
+        options={[
+          {
+            value: "salaried",
+            title: "Employed (Salaried)",
+            description:
+              "Choose this if you receive a regular salary from your employer directly into your bank account.",
+          },
+          {
+            value: "self-employed",
+            title: "Self Employed/Business Owner/Freelancer",
+            description:
+              "Choose this if you earn through your own business, freelance work, or client projects.",
+          },
+        ]}
+      />
 
       {salariedFields}
     </div>

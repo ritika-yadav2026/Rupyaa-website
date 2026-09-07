@@ -15,6 +15,9 @@
   --color-brand-hover: color-mix(in srgb, var(--brand-color) 88%, black);
   --color-brand-panel-start: color-mix(in srgb, var(--brand-color) 88%, #00b84a);
   --color-brand-panel-end: color-mix(in srgb, var(--brand-color) 88%, black);
+  --color-input-bg: #FFFCF4;
+  --color-input-border: #FECA42;
+  --color-button: #FECA42;
   --payment-accent: #006837;
   --payment-summary-bg: #e8f5e9;
   --payment-card-border: #c8d8d0;

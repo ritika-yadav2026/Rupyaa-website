@@ -22,6 +22,7 @@ import {
 import { LoanApplicationHeader } from "@/components/loans/LoanApplicationHeader";
 import { AmountSummaryBox, LoanDetailRow } from "@/components/loans/LoanDetailSection";
 import { ErrorContainer } from "@/components/loans/ErrorContainer";
+import AppSelectableField from "@/components/app-selectable-field";
 
 export interface PaymentCardProps {
   loan: Loan;
@@ -181,31 +182,24 @@ export function PaymentCard({
         {isOverdue ? (
           <>
             <h2 className="text-base font-semibold text-gray-900 mt-6 mb-3">Payment Options</h2>
-            <fieldset className="space-y-3 mb-4" disabled={ctaLoading}>
-              <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-gray-200 p-4 has-checked:border-primary has-checked:bg-[#E8F5E9]/30">
-                <input
-                  type="radio"
-                  name="paymentOption"
-                  checked={paymentOption === "full"}
-                  onChange={() => setPaymentOption("full")}
-                  className="mt-1 accent-primary"
-                />
-                <span>
-                  <span className="block text-sm font-semibold text-gray-900">Pay Full Amount</span>
-                  <span className="text-sm text-gray-600">{formatCurrency(paymentLeft)}</span>
-                </span>
-              </label>
-              <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-gray-200 p-4 has-checked:border-primary has-checked:bg-[#E8F5E9]/30">
-                <input
-                  type="radio"
-                  name="paymentOption"
-                  checked={paymentOption === "custom"}
-                  onChange={() => setPaymentOption("custom")}
-                  className="mt-1 accent-primary"
-                />
-                <span className="block text-sm font-semibold text-gray-900">Pay Custom Amount</span>
-              </label>
-            </fieldset>
+            <AppSelectableField
+              name="paymentOption"
+              value={paymentOption}
+              onChange={(nextValue) => setPaymentOption(nextValue as PaymentOption)}
+              disabled={ctaLoading}
+              className="mb-4"
+              options={[
+                {
+                  value: "full",
+                  title: "Pay Full Amount",
+                  description: formatCurrency(paymentLeft),
+                },
+                {
+                  value: "custom",
+                  title: "Pay Custom Amount",
+                },
+              ]}
+            />
 
             {paymentOption === "custom" ? (
               <div className="mb-6">

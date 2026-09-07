@@ -14,6 +14,8 @@ import {
   readAttributionFromSearchParams,
 } from "@/lib/marketing-attribution-storage";
 import BasicInfoSidebar from "@/components/BasicInfoSidebar";
+import AppTextField from "@/components/app-text-field";
+import AppButton from "@/components/app-button";
 
 const OTP_LENGTH = 4;
 const RESEND_COOLDOWN_SECONDS = 60;
@@ -74,7 +76,6 @@ function PencilIcon() {
     </svg>
   );
 }
-
 
 
 function AuthPageContent() {
@@ -253,18 +254,6 @@ function AuthPageContent() {
   const isSubmitting =
     generateOtpMutation.isPending || verifyOtpMutation.isPending;
 
-  let phoneInputBorderClassName = "border-gray-200";
-  if (phoneError) {
-    phoneInputBorderClassName = "border-red-500";
-  }
-
-  let verifyButtonClassName =
-    "w-full py-3.5 rounded-xl font-semibold min-h-[48px] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 bg-gray-300 text-gray-500 cursor-not-allowed";
-  if (otpComplete && !isSubmitting) {
-    verifyButtonClassName =
-      "w-full py-3.5 rounded-xl font-semibold min-h-[48px] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 bg-primary text-white hover:bg-primary/90";
-  }
-
   let formContent;
   if (step === "phone") {
     formContent = (
@@ -281,46 +270,29 @@ function AuthPageContent() {
           </h1>
           <p className="text-base text-gray-500">Login to Your Account</p>
         </div>
-        <div className="mb-6 flex flex-col gap-2">
-          <label htmlFor="auth-phone" className="text-sm font-semibold text-gray-800">
-            Phone Number
-          </label>
-          <div
-            className={`flex min-h-[52px] overflow-hidden rounded-xl border bg-white focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20 ${phoneInputBorderClassName}`}
-          >
-            <span className="flex shrink-0 items-center gap-3 px-4 text-sm font-medium text-gray-700">
-              +91
-              <span className="h-5 w-px bg-gray-300" aria-hidden="true" />
-            </span>
-            <input
-              id="auth-phone"
-              name="auth-phone"
-              type="tel"
-              inputMode="numeric"
-              value={phone}
-              onChange={(e) => handlePhoneChange(e.target.value)}
-              placeholder="Enter mobile number"
-              disabled={generateOtpMutation.isPending}
-              className="min-h-[52px] w-full flex-1 bg-transparent py-3.5 pr-4 text-gray-900 placeholder:text-gray-400 focus:outline-none disabled:opacity-60"
-              aria-invalid={!!phoneError}
-              aria-describedby={phoneError ? "auth-phone-error" : undefined}
-              autoComplete="tel"
-              enterKeyHint="send"
-            />
-          </div>
-          {phoneError ? (
-            <p id="auth-phone-error" className="text-sm text-red-600" role="alert">
-              {phoneError}
-            </p>
-          ) : null}
-        </div>
-        <button
-          type="submit"
+        <AppTextField
+          id="auth-phone"
+          name="auth-phone"
+          label="Phone Number"
+          type="tel"
+          inputMode="numeric"
+          prefix="+91"
+          value={phone}
+          onChange={(e) => handlePhoneChange(e.target.value)}
+          placeholder="Enter mobile number"
           disabled={generateOtpMutation.isPending}
-          className="min-h-[52px] w-full rounded-xl bg-primary py-3.5 font-semibold text-white transition-colors hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
+          error={phoneError}
+          autoComplete="tel"
+          enterKeyHint="send"
+          className="mb-6"
+        />
+        <AppButton
+          type="submit"
+          fullWidth
+          disabled={generateOtpMutation.isPending}
         >
           {generateOtpMutation.isPending ? "Sending..." : "Get OTP"}
-        </button>
+        </AppButton>
       </form>
     );
   } else {
@@ -333,15 +305,16 @@ function AuthPageContent() {
           <p className="text-sm text-gray-600">
             Enter the {OTP_LENGTH}-digit code sent to {formattedPhone}
           </p>
-          <button
+          <AppButton
             type="button"
+            variant="ghost"
             onClick={handleBackToPhone}
             disabled={isSubmitting}
-            className="flex items-center gap-1.5 text-sm font-medium text-primary hover:underline disabled:cursor-not-allowed disabled:opacity-50"
+            className="gap-1.5 text-sm font-medium"
           >
             <PencilIcon />
             Change Phone Number
-          </button>
+          </AppButton>
         </div>
         <form
           onSubmit={(e) => {
@@ -387,22 +360,23 @@ function AuthPageContent() {
           <p className="mb-6 flex items-center gap-2 text-sm text-gray-600">
             <ClockIcon />
             <span>Resend OTP in </span>
-            <button
+            <AppButton
               type="button"
+              variant="ghost"
               onClick={handleResendOtp}
               disabled={resendCooldown > 0 || generateOtpMutation.isPending}
-              className="font-medium text-primary hover:underline disabled:hover:no-underline"
+              className="font-medium"
             >
               {resendCooldown > 0 ? formatCooldown(resendCooldown) : "Resend now"}
-            </button>
+            </AppButton>
           </p>
-          <button
+          <AppButton
             type="submit"
+            fullWidth
             disabled={!otpComplete || isSubmitting}
-            className={verifyButtonClassName}
           >
             {verifyOtpMutation.isPending ? "Verifying..." : "Continue"}
-          </button>
+          </AppButton>
         </form>
       </>
     );
