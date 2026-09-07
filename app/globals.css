@@ -1,0 +1,122 @@
+@import "tailwindcss";
+
+:root {
+  --brand-color: #006625;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--brand-color);
+  --color-secondary: #22C55E;
+  --color-brand-soft: color-mix(in srgb, var(--brand-color) 10%, white);
+  --color-brand-surface: color-mix(in srgb, var(--brand-color) 2%, white);
+  --color-brand-border: color-mix(in srgb, var(--brand-color) 14%, white);
+  --color-brand-hover: color-mix(in srgb, var(--brand-color) 88%, black);
+  --color-brand-panel-start: color-mix(in srgb, var(--brand-color) 88%, #00b84a);
+  --color-brand-panel-end: color-mix(in srgb, var(--brand-color) 88%, black);
+  --payment-accent: #006837;
+  --payment-summary-bg: #e8f5e9;
+  --payment-card-border: #c8d8d0;
+  --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, monospace;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-x: hidden;
+}
+
+button, a, input[type="submit"], input[type="button"], [role="button"] {
+  touch-action: manipulation;
+  cursor: pointer;
+}
+
+@supports (padding: env(safe-area-inset-bottom)) {
+  body {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--brand-color);
+  cursor: pointer;
+  margin-top: -8px;
+}
+input[type="range"]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--brand-color);
+  cursor: pointer;
+  border: none;
+}
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 8px;
+  border-radius: 9999px;
+  background: #e5e7eb;
+}
+input[type="range"]::-moz-range-track {
+  height: 8px;
+  border-radius: 9999px;
+  background: #e5e7eb;
+}
+
+.emi-slider {
+  height: 8px;
+  border-radius: 9999px;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.emi-slider::-webkit-slider-runnable-track {
+  background: transparent;
+}
+.emi-slider::-moz-range-track {
+  background: transparent;
+}
+.emi-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #2E7D32;
+  border: 2px solid white;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  cursor: pointer;
+}
+.emi-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #2E7D32;
+  border: 2px solid white;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  cursor: pointer;
+}
+
+/* Hide scrollbar while keeping scroll behavior */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}

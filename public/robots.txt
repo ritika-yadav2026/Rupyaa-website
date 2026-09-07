@@ -1,0 +1,18 @@
+User-agent: *
+Allow: /
+Disallow: /auth
+Disallow: /dashboard
+Disallow: /active-loan
+Disallow: /loan-applications
+Disallow: /profile
+Disallow: /document-requests
+Disallow: /payment
+Disallow: /enach
+Disallow: /esign
+Disallow: /digilocker
+Disallow: /bsa
+Disallow: /dev
+Disallow: /_next/static/media/
+Disallow: /site.webmanifest
+
+Sitemap: https://zapcash.in/sitemap.xml

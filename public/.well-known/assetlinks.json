@@ -1,0 +1,11 @@
+[
+    {
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "com.zapcash.loan",
+        "sha256_cert_fingerprints":
+          ["8E:9A:5B:72:08:E7:EB:DC:CE:0E:62:86:07:4D:79:E5:4A:48:7D:27:AF:4B:C4:33:AA:9C:54:70:FD:67:9E:1E"]
+      }
+    }
+  ]

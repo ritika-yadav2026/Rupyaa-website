@@ -1,0 +1,473 @@
+"use client";
+
+import { useReducer, useEffect, type ReactNode } from "react";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import toast from "react-hot-toast";
+import {
+  validatePan,
+  validateDob,
+  validateIncome,
+  validatePincodeString,
+  validateOrganizationName,
+  sanitizePanInput,
+} from "@/lib/validation";
+import {
+  getPersonalDetails,
+  type PostPersonalDetailsPayload,
+} from "@/lib/user-api";
+import BasicInfoSidebar from "@/components/BasicInfoSidebar";
+import BasicInfoFooter from "@/components/BasicInfoFooter";
+import LocationPermissionModal from "@/components/LocationPermissionModal";
+import { useRequireLocationPermission } from "@/hooks/useRequireLocationPermission";
+import { REACT_QUERY_KEYS } from "@/utils/app-constants";
+import EmploymentModeForm from "@/components/EmploymentModeForm";
+import { submitPersonalEmploymentDetails } from "@/services/user/submit-personal-employment-details";
+import { useFlowStore } from "@/store/useFlowStore";
+
+type EmploymentMode = "salaried" | "self-employed";
+
+const GENDER_OPTIONS = [
+  { value: "", label: "Select gender" },
+  { value: "male", label: "Male" },
+  { value: "female", label: "Female" },
+  { value: "other", label: "Other" },
+] as const;
+
+type FieldErrors = {
+  panNumber?: string;
+  dob?: string;
+  income?: string;
+  pincode?: string;
+  gender?: string;
+  employmentMode?: string;
+  organization?: string;
+  declaredSalaryDay?: string;
+};
+
+type FormState = {
+  panNumber: string;
+  dob: string;
+  income: string;
+  pincode: string;
+  gender: string;
+  employmentMode: EmploymentMode | null;
+  organization: string;
+  declaredSalaryDay: number | "";
+  errors: FieldErrors;
+};
+
+const INITIAL_STATE: FormState = {
+  panNumber: "",
+  dob: "",
+  income: "",
+  pincode: "",
+  gender: "",
+  employmentMode: null,
+  organization: "",
+  declaredSalaryDay: "",
+  errors: {},
+};
+
+type FormAction =
+  | { type: "SET_PAN_NUMBER"; payload: string }
+  | { type: "SET_DOB"; payload: string }
+  | { type: "SET_INCOME"; payload: string }
+  | { type: "SET_PINCODE"; payload: string }
+  | { type: "SET_GENDER"; payload: string }
+  | { type: "SET_EMPLOYMENT_MODE"; payload: EmploymentMode }
+  | { type: "SET_ORGANIZATION"; payload: string }
+  | { type: "SET_DECLARED_SALARY_DAY"; payload: number | "" }
+  | { type: "SET_VALIDATION_ERRORS"; payload: FieldErrors }
+  | { type: "SET_PREFILL"; payload: Partial<Omit<FormState, "errors">> };
+
+function formReducer(state: FormState, action: FormAction): FormState {
+  switch (action.type) {
+    case "SET_PAN_NUMBER":
+      return { ...state, panNumber: action.payload, errors: { ...state.errors, panNumber: undefined } };
+    case "SET_DOB":
+      return { ...state, dob: action.payload, errors: { ...state.errors, dob: undefined } };
+    case "SET_INCOME":
+      return { ...state, income: action.payload, errors: { ...state.errors, income: undefined } };
+    case "SET_PINCODE":
+      return { ...state, pincode: action.payload, errors: { ...state.errors, pincode: undefined } };
+    case "SET_GENDER":
+      return { ...state, gender: action.payload, errors: { ...state.errors, gender: undefined } };
+    case "SET_EMPLOYMENT_MODE":
+      return { ...state, employmentMode: action.payload, errors: { ...state.errors, employmentMode: undefined } };
+    case "SET_ORGANIZATION":
+      return { ...state, organization: action.payload, errors: { ...state.errors, organization: undefined } };
+    case "SET_DECLARED_SALARY_DAY":
+      return { ...state, declaredSalaryDay: action.payload, errors: { ...state.errors, declaredSalaryDay: undefined } };
+    case "SET_VALIDATION_ERRORS":
+      return { ...state, errors: action.payload };
+    case "SET_PREFILL":
+      return { ...state, ...action.payload };
+    default:
+      return state;
+  }
+}
+
+function parseDobToDateInput(isoDate: string): string {
+  if (!isoDate) return "";
+  const date = new Date(isoDate);
+  if (Number.isNaN(date.getTime())) return "";
+  return date.toISOString().slice(0, 10);
+}
+
+function formatIncomeDisplay(value: string): string {
+  const num = value.replace(/\D/g, "");
+  if (!num) return "";
+  return Number(num).toLocaleString("en-IN");
+}
+
+export default function PersonalDetailsForm() {
+  const [state, dispatch] = useReducer(formReducer, INITIAL_STATE);
+  const { panNumber, dob, income, pincode, gender, employmentMode, organization, declaredSalaryDay, errors } = state;
+  const setFlowFromUserStage = useFlowStore((flowState) => flowState.setFlowFromUserStage);
+  const {
+    isBlocked,
+    isRequesting,
+    error: locationError,
+    permissionStatus,
+    location,
+    requestPermission,
+  } = useRequireLocationPermission();
+
+  const { data: personalDetails } = useQuery({
+    queryKey: [REACT_QUERY_KEYS.PERSONAL_DETAILS],
+    queryFn: getPersonalDetails,
+    retry: 1,
+    staleTime: 0,
+    gcTime: 0,
+    refetchOnMount: "always",
+  });
+
+  const getEmploymentMode = (employmentMode: string | undefined): EmploymentMode | null => {
+    switch (employmentMode) {
+      case "salaried":
+        return "salaried";
+      case "self-employed":
+        return "self-employed";
+      default:
+        return null;
+    }
+  };
+
+  useEffect(() => {
+    if (!personalDetails) return;
+    const pincodeStr = personalDetails.pincode ?? "";
+    dispatch({
+      type: "SET_PREFILL",
+      payload: {
+        panNumber: personalDetails.pan ?? "",
+        dob: parseDobToDateInput(personalDetails.dob ?? ""),
+        income: personalDetails.salary != null ? String(personalDetails.salary) : "",
+        pincode: pincodeStr,
+        gender: personalDetails.gender ?? "",
+        employmentMode: getEmploymentMode(personalDetails.employmentMode),
+        organization: personalDetails.organization ?? "",
+        declaredSalaryDay: personalDetails.declaredSalaryDay ?? "",
+      },
+    });
+  }, [personalDetails]);
+
+  const submitMutation = useMutation({
+    mutationFn: submitPersonalEmploymentDetails,
+    onSuccess: (userStage) => {
+      toast.success("Personal and employment details saved");
+      setFlowFromUserStage(
+        userStage.showDashboard,
+        userStage.stage,
+        userStage.sectionsCompleted,
+        userStage.context,
+        userStage,
+      );
+    },
+    onError: (err: Error) => {
+      toast.error(err.message ?? "Failed to save details");
+    },
+  });
+
+  const handleIncomeChange = (value: string) => {
+    const digits = value.replace(/\D/g, "");
+    dispatch({ type: "SET_INCOME", payload: digits });
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const panNumberErr = validatePan(panNumber);
+    const dobErr = validateDob(dob);
+    const incomeErr = validateIncome(income);
+    const pincodeErr = validatePincodeString(pincode);
+    const genderErr = !gender.trim() ? "Please select your gender" : null;
+    const employmentModeErr = !employmentMode ? "Please select your employment type" : null;
+    let organizationErr: string | null = null;
+    let declaredSalaryDayErr: string | null = null;
+    if (employmentMode === "salaried") {
+      organizationErr = validateOrganizationName(organization);
+      declaredSalaryDayErr =
+        declaredSalaryDay === "" || declaredSalaryDay < 1 || declaredSalaryDay > 31
+          ? "Please select your salary day (1-31)"
+          : null;
+    }
+    const newErrors: FieldErrors = {};
+    if (panNumberErr) newErrors.panNumber = panNumberErr;
+    if (dobErr) newErrors.dob = dobErr;
+    if (incomeErr) newErrors.income = incomeErr;
+    if (pincodeErr) newErrors.pincode = pincodeErr;
+    if (genderErr) newErrors.gender = genderErr;
+    if (employmentModeErr) newErrors.employmentMode = employmentModeErr;
+    if (organizationErr) newErrors.organization = organizationErr;
+    if (declaredSalaryDayErr) newErrors.declaredSalaryDay = declaredSalaryDayErr;
+    dispatch({ type: "SET_VALIDATION_ERRORS", payload: newErrors });
+    if (
+      panNumberErr ||
+      dobErr ||
+      incomeErr ||
+      pincodeErr ||
+      genderErr ||
+      employmentModeErr ||
+      organizationErr ||
+      declaredSalaryDayErr ||
+      !employmentMode
+    ) return;
+    const pincodeStr = pincode.replace(/\D/g, "").slice(0, 6);
+    const salaryNum = Number(income.replace(/,/g, ""));
+    const dobFormatted = dob ? dob.slice(0, 10) : "";
+    const payload: PostPersonalDetailsPayload = {
+      pincode: pincodeStr,
+      pan: panNumber.trim().toUpperCase(),
+      dob: dobFormatted,
+      salary: salaryNum,
+      gender: gender.trim(),
+      employmentMode,
+      ...(employmentMode === "salaried" && declaredSalaryDay !== ""
+        ? {
+            organization: organization.trim(),
+            declaredSalaryDay,
+          }
+        : {}),
+      ...(location
+        ? {
+            geolocation: {
+              latitude: location.latitude,
+              longitude: location.longitude,
+            },
+          }
+        : {}),
+    };
+    submitMutation.mutate(payload);
+  };
+
+  const inputBase =
+    "w-full px-4 py-3 rounded-xl border text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary min-h-[48px]";
+  const inputError = "border-red-500";
+  const inputNormal = "border-gray-200";
+
+  let panError: ReactNode = null;
+  if (errors.panNumber) {
+    panError = (
+      <p id="pan_number-error" className="text-sm text-red-600" role="alert">
+        {errors.panNumber}
+      </p>
+    );
+  }
+  let genderError: ReactNode = null;
+  if (errors.gender) {
+    genderError = (
+      <p id="gender-error" className="text-sm text-red-600" role="alert">
+        {errors.gender}
+      </p>
+    );
+  }
+  let dobError: ReactNode = null;
+  if (errors.dob) {
+    dobError = (
+      <p id="dob-error" className="text-sm text-red-600" role="alert">
+        {errors.dob}
+      </p>
+    );
+  }
+  let incomeError: ReactNode = null;
+  if (errors.income) {
+    incomeError = (
+      <p id="income-error" className="text-sm text-red-600" role="alert">
+        {errors.income}
+      </p>
+    );
+  }
+  let pincodeError: ReactNode = null;
+  if (errors.pincode) {
+    pincodeError = (
+      <p id="pincode-error" className="text-sm text-red-600" role="alert">
+        {errors.pincode}
+      </p>
+    );
+  }
+
+  let submitLabel = "Continue";
+  if (submitMutation.isPending) {
+    submitLabel = "Saving...";
+  }
+
+  let formShellClassName =
+    "w-full max-w-full sm:max-w-[95vw] md:max-w-[90vw] lg:max-w-[80vw] min-w-0 mx-auto bg-white rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.06)] overflow-hidden";
+  if (isBlocked) {
+    formShellClassName += " pointer-events-none select-none opacity-60";
+  }
+
+  return (
+    <>
+      <LocationPermissionModal
+        visible={isBlocked}
+        isRequesting={isRequesting}
+        error={locationError}
+        permissionStatus={permissionStatus}
+        onAllow={requestPermission}
+      />
+      <div className={formShellClassName} aria-hidden={isBlocked}>
+        <div className="flex flex-col lg:flex-row">
+          <div className="flex-1 p-6 sm:p-8 lg:p-10">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-1">Personal &amp; Employment Details</h2>
+            <p className="text-sm text-gray-600 mb-6">
+              Please provide your personal and employment details to start the application.
+            </p>
+
+            <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
+              <div className="flex flex-col gap-1.5">
+                <label htmlFor="pan_number" className="text-sm font-medium text-gray-900">
+                  PAN Number
+                </label>
+                <input
+                  id="pan_number"
+                  type="text"
+                  placeholder="e.g., ABCDE1234F"
+                  value={panNumber}
+                  onChange={(e) => dispatch({ type: "SET_PAN_NUMBER", payload: sanitizePanInput(e.target.value) })}
+                  className={`${inputBase} ${errors.panNumber ? inputError : inputNormal}`}
+                  aria-invalid={!!errors.panNumber}
+                  aria-describedby={errors.panNumber ? "pan_number-error" : undefined}
+                  disabled={isBlocked}
+                />
+                {panError}
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label htmlFor="gender" className="text-sm font-medium text-gray-900">
+                  Gender
+                </label>
+                <select
+                  id="gender"
+                  value={gender}
+                  onChange={(e) => dispatch({ type: "SET_GENDER", payload: e.target.value })}
+                  className={`${inputBase} ${errors.gender ? inputError : inputNormal}`}
+                  aria-invalid={!!errors.gender}
+                  aria-describedby={errors.gender ? "gender-error" : undefined}
+                  disabled={isBlocked}
+                >
+                  {GENDER_OPTIONS.map((opt) => (
+                    <option key={opt.value || "empty"} value={opt.value}>
+                      {opt.label}
+                    </option>
+                  ))}
+                </select>
+                {genderError}
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label htmlFor="dob" className="text-sm font-medium text-gray-900">
+                  Date of Birth
+                </label>
+                <input
+                  id="dob"
+                  type="date"
+                  value={dob}
+                  onChange={(e) => dispatch({ type: "SET_DOB", payload: e.target.value })}
+                  className={`${inputBase} ${errors.dob ? inputError : inputNormal}`}
+                  aria-invalid={!!errors.dob}
+                  aria-describedby={errors.dob ? "dob-error" : undefined}
+                  disabled={isBlocked}
+                />
+                {dobError}
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label htmlFor="income" className="text-sm font-medium text-gray-900">
+                  Monthly Income
+                </label>
+                <div className="relative">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500">₹</span>
+                  <input
+                    id="income"
+                    type="text"
+                    inputMode="numeric"
+                    placeholder="40,000 - 50,000"
+                    value={income ? formatIncomeDisplay(income) : ""}
+                    onChange={(e) => handleIncomeChange(e.target.value)}
+                    className={`${inputBase} pl-8 ${errors.income ? inputError : inputNormal}`}
+                    aria-invalid={!!errors.income}
+                    aria-describedby={errors.income ? "income-error" : undefined}
+                    disabled={isBlocked}
+                  />
+                </div>
+                {incomeError}
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label htmlFor="pincode" className="text-sm font-medium text-gray-900">
+                  Pincode (Current Address)
+                </label>
+                <input
+                  id="pincode"
+                  type="text"
+                  inputMode="numeric"
+                  maxLength={6}
+                  placeholder="e.g., 110006"
+                  value={pincode}
+                  onChange={(e) =>
+                    dispatch({ type: "SET_PINCODE", payload: e.target.value.replace(/\D/g, "").slice(0, 6) })
+                  }
+                  className={`${inputBase} ${errors.pincode ? inputError : inputNormal}`}
+                  aria-invalid={!!errors.pincode}
+                  aria-describedby={errors.pincode ? "pincode-error" : undefined}
+                  disabled={isBlocked}
+                />
+                {pincodeError}
+              </div>
+
+              <EmploymentModeForm
+                embedded
+                mode={employmentMode}
+                organizationName={organization}
+                declaredSalaryDay={declaredSalaryDay}
+                errors={{
+                  mode: errors.employmentMode,
+                  organization: errors.organization,
+                  declaredSalaryDay: errors.declaredSalaryDay,
+                }}
+                disabled={isBlocked}
+                onModeChange={(value) => dispatch({ type: "SET_EMPLOYMENT_MODE", payload: value })}
+                onOrganizationNameChange={(value) => dispatch({ type: "SET_ORGANIZATION", payload: value })}
+                onDeclaredSalaryDayChange={(value) => dispatch({ type: "SET_DECLARED_SALARY_DAY", payload: value })}
+              />
+
+              <button
+                type="submit"
+                disabled={submitMutation.isPending || isBlocked}
+                className="w-full py-3.5 rounded-xl bg-primary text-white font-semibold hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-colors mt-2 min-h-[48px] disabled:opacity-60 disabled:cursor-not-allowed"
+              >
+                {submitLabel}
+              </button>
+            </form>
+          </div>
+
+          <div className="lg:w-[320px] xl:w-[380px] shrink-0 border-t lg:border-t-0 lg:border-l border-gray-100">
+            <BasicInfoSidebar />
+          </div>
+        </div>
+
+        <BasicInfoFooter />
+      </div>
+    </>
+  );
+}

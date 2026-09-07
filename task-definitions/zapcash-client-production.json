@@ -1,0 +1,97 @@
+{
+    "taskDefinitionArn": "arn:aws:ecs:ap-south-1:512934070677:task-definition/zapcash-client-production:83",
+    "containerDefinitions": [
+        {
+            "name": "zapcash-client-production",
+            "image": "512934070677.dkr.ecr.ap-south-1.amazonaws.com/zapcash-client-production:5b66e94",
+            "cpu": 512,
+            "memory": 1024,
+            "memoryReservation": 512,
+            "portMappings": [
+                {
+                    "containerPort": 3000,
+                    "hostPort": 3000,
+                    "protocol": "tcp",
+                    "name": "http",
+                    "appProtocol": "http"
+                }
+            ],
+            "essential": true,
+            "environment": [],
+            "mountPoints": [],
+            "volumesFrom": [],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "/ecs/zapcash-client-production",
+                    "awslogs-create-group": "true",
+                    "awslogs-region": "ap-south-1",
+                    "awslogs-stream-prefix": "ecs"
+                }
+            },
+            "systemControls": []
+        }
+    ],
+    "family": "zapcash-client-production",
+    "executionRoleArn": "arn:aws:iam::512934070677:role/ecsTaskExecutionRole",
+    "networkMode": "awsvpc",
+    "revision": 83,
+    "volumes": [],
+    "status": "ACTIVE",
+    "requiresAttributes": [
+        {
+            "name": "com.amazonaws.ecs.capability.logging-driver.awslogs"
+        },
+        {
+            "name": "ecs.capability.execution-role-awslogs"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.ecr-auth"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.21"
+        },
+        {
+            "name": "ecs.capability.execution-role-ecr-pull"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
+        },
+        {
+            "name": "ecs.capability.task-eni"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.29"
+        }
+    ],
+    "placementConstraints": [],
+    "compatibilities": [
+        "EC2",
+        "FARGATE",
+        "MANAGED_INSTANCES"
+    ],
+    "runtimePlatform": {
+        "cpuArchitecture": "X86_64",
+        "operatingSystemFamily": "LINUX"
+    },
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "cpu": "512",
+    "memory": "1024",
+    "registeredAt": "2026-08-05T09:36:40.747Z",
+    "registeredBy": "arn:aws:iam::512934070677:user/sibashis",
+    "tags": [
+        {
+            "key": "Env",
+            "value": "Prod"
+        },
+        {
+            "key": "Name",
+            "value": "zapcash-client-production"
+        }
+    ]
+}

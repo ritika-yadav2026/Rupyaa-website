@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        width: 175px;
+        height: 100px;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      if (["zapcash.in", "www.zapcash.in", "staging.zapcash.in", "localhost", "127.0.0.1"].includes(window.location.hostname)) {
+        document.write('<script src="https://security-seal.emsign.com/generateSeal?width=175"><\/script>');
+      }
+    </script>
+  </body>
+</html>
