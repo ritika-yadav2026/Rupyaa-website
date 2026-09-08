@@ -21,6 +21,7 @@ import {
   getActiveProvider,
   resolveHyperKycLaunchParams,
 } from "@/lib/external-app-config-api";
+import AppButton from "@/components/app-button";
 
 type Props = { onContinue?: () => void };
 
@@ -28,7 +29,7 @@ type FacePhase = "intro" | "verifying" | "polling" | "failed";
 
 function CheckIcon() {
   return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-secondary shrink-0">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[#FECA42] shrink-0">
       <path d="M20 6L9 17l-5-5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
@@ -315,25 +316,21 @@ export default function FaceKYCStep({ onContinue }: Props) {
         </div>
 
         {(phase === "intro" || phase === "verifying" || phase === "polling") && (
-          <button
+          <AppButton
             type="button"
+            fullWidth
             onClick={() => void handleStartFaceKYC()}
             disabled={phase !== "intro"}
-            className="w-full py-3.5 rounded-xl bg-primary text-white font-semibold hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 min-h-[48px] disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {phase === "intro" && "Start Face KYC"}
             {phase === "verifying" && "Opening HyperKYC..."}
             {phase === "polling" && "Finalizing..."}
-          </button>
+          </AppButton>
         )}
         {phase === "failed" && (
-          <button
-            type="button"
-            onClick={handleTryAgain}
-            className="w-full py-3.5 rounded-xl bg-primary text-white font-semibold hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 min-h-[48px]"
-          >
+          <AppButton type="button" fullWidth onClick={handleTryAgain}>
             Try Again
-          </button>
+          </AppButton>
         )}
       </div>
 

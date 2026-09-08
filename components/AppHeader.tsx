@@ -8,6 +8,8 @@ import { appShellContainerClassName } from "@/lib/app-shell-layout";
 import { useAuthLoggedInHint } from "@/hooks/use-auth-logged-in-hint";
 import { useAuthStore } from "@/store/useAuthStore";
 import { STRING_CONSTANTS } from "@/utils/app-constants";
+import { IMAGES } from "@/lib/images";
+import AppButton from "@/components/app-button";
 
 const NAV_LINKS = [
   { href: "/personal-loan", label: "Personal Loan" },
@@ -67,13 +69,13 @@ export default function AppHeader() {
   return (
     <header
       className="fixed top-0 left-0 right-0 z-50 border-b shadow-sm border-gray-200/40"
-      style={{ background: HEADER_GRADIENT }}
+      // style={{ background: HEADER_GRADIENT }}
     >
       <nav className={`flex items-center justify-between h-16 ${appShellContainerClassName}`}>
         <Link href="/" className="flex items-center gap-2 shrink-0">
           <Image
-            src="/images/logo.png"
-            alt="ZapCash"
+            src={IMAGES.logo.src}
+            alt="Rupyaa"
             width={130}
             height={130}
             className="object-contain h-8 sm:h-9 md:h-10 w-auto"
@@ -131,14 +133,15 @@ export default function AppHeader() {
             </>
           )}
 
-          <button
+          <AppButton
             type="button"
+            variant="ghost"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg text-gray-700 hover:bg-primary/10"
+            className="md:hidden p-2 rounded-lg !text-gray-700 bg-button hover:bg-button/90 hover:no-underline"
             aria-label="Menu"
           >
             <MenuIcon />
-          </button>
+          </AppButton>
           {isLoggedIn ? (
             <div className="relative hidden md:block" ref={menuRef}>
               <button
@@ -185,7 +188,7 @@ export default function AppHeader() {
           ) : (
             <Link
               href={authHref}
-              className="hidden md:inline-flex items-center justify-center px-6 py-2.5 rounded-xl bg-primary text-white text-sm sm:text-base font-bold  hover:bg-primary/90 active:scale-[0.98] transition-all min-h-[44px] min-w-[96px]"
+              className="hidden md:inline-flex items-center justify-center px-6 py-2.5 rounded-xl bg-button text-gray-900 text-sm sm:text-base font-bold hover:bg-button/90 active:scale-[0.98] transition-all min-h-[44px] min-w-[96px]"
             >
               Login
             </Link>
@@ -245,7 +248,7 @@ export default function AppHeader() {
             <Link
               href={authHref}
               onClick={() => setMobileMenuOpen(false)}
-              className="mt-2 inline-flex items-center justify-center w-full py-3 rounded-xl bg-primary text-white font-bold shadow-md shadow-primary/25 hover:bg-primary/90 transition-colors min-h-[48px]"
+              className="mt-2 inline-flex items-center justify-center w-full py-3 rounded-xl bg-button text-gray-900 font-bold shadow-md shadow-button/25 hover:bg-button/90 transition-colors min-h-[48px]"
             >
               Login
             </Link>

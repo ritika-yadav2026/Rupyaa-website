@@ -1,6 +1,11 @@
-'use client';
+"use client";
+
+import AppButton from "@/components/app-button";
 
 type Props = { isOpen: boolean; onClose: () => void };
+
+const BRAND_YELLOW = "#FECA42";
+const BRAND_HALO = "#FFFCF4";
 
 export default function AadharCompletedModal({ isOpen, onClose }: Props) {
   if (!isOpen) return null;
@@ -9,15 +14,28 @@ export default function AadharCompletedModal({ isOpen, onClose }: Props) {
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="aadhar-completed-title">
       <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} aria-hidden="true" />
       <div className="relative w-full max-w-md rounded-2xl bg-white p-6 sm:p-8 shadow-xl text-center">
-        <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-[#F0FBF2] flex items-center justify-center mx-auto mb-4">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-secondary relative z-10">
+        <div
+          className="relative mx-auto mb-4 flex h-24 w-24 items-center justify-center rounded-full sm:h-28 sm:w-28"
+          style={{ backgroundColor: BRAND_HALO }}
+        >
+          <svg
+            width="48"
+            height="48"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            className="relative z-10"
+            style={{ color: BRAND_YELLOW }}
+          >
             <path d="M20 6L9 17l-5-5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
           {[...Array(8)].map((_, i) => (
             <span
               key={i}
-              className="absolute w-2 h-2 rounded-full bg-secondary/60"
+              className="absolute h-2 w-2 rounded-full"
               style={{
+                backgroundColor: `${BRAND_YELLOW}99`,
                 top: "50%",
                 left: "50%",
                 transform: `rotate(${i * 45}deg) translateY(-52px)`,
@@ -25,20 +43,21 @@ export default function AadharCompletedModal({ isOpen, onClose }: Props) {
             />
           ))}
         </div>
-        <h2 id="aadhar-completed-title" className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
+        <h2 id="aadhar-completed-title" className="mb-2 text-xl font-bold text-gray-900 sm:text-2xl">
           Completed!
         </h2>
-        <p className="text-sm text-gray-600 mb-6">
+        <p className="mb-6 text-sm text-gray-600">
           Your Aadhar details have been successfully verified.
         </p>
-        <button
-          type="button"
-          onClick={onClose}
-          className="w-full py-3.5 rounded-xl bg-primary text-white font-semibold hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 min-h-[48px]"
-        >
+        <AppButton type="button" fullWidth onClick={onClose}>
           Continue
-        </button>
-        <p className="text-sm text-gray-500 mt-4">Need help? <a href="#" className="text-primary font-medium hover:underline">Contact support</a></p>
+        </AppButton>
+        <p className="mt-4 text-sm text-gray-500">
+          Need help?{" "}
+          <a href="#" className="font-medium text-[#FECA42] hover:underline">
+            Contact support
+          </a>
+        </p>
       </div>
     </div>
   );

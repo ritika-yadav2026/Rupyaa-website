@@ -20,6 +20,8 @@ import {
   verifyEmailOtp,
 } from "@/lib/user-api";
 import { validateEmail, validateOtpDigits } from "@/lib/validation";
+import AppButton from "@/components/app-button";
+import AppTextField from "@/components/app-text-field";
 
 const RESEND_COOLDOWN_SECONDS = 60;
 const EMAIL_OTP_LENGTH = 4;
@@ -380,10 +382,24 @@ export default function ContactDetailsStep({ onContinue }: Props): ReactElement 
     submitMutation.mutate(mapContactDetailsToApi({ email, alternate_mobile: alternateMobile, officeEmail }));
   };
 
-  const inputBase =
-    "w-full px-4 py-3 rounded-xl border text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary min-h-[48px]";
-  const inputError = "border-red-500";
-  const inputNormal = "border-gray-200";
+  let alternateMobileLabel: ReactElement;
+  if (altRequired) {
+    alternateMobileLabel = (
+      <>
+        Alternate Mobile
+        <span className="text-red-600"> *</span>
+      </>
+    );
+  } else {
+    alternateMobileLabel = <>Alternate Mobile</>;
+  }
+
+  let submitLabel: string;
+  if (submitMutation.isPending) {
+    submitLabel = "Saving…";
+  } else {
+    submitLabel = "Continue";
+  }
 
   if (isLoading && !contactRaw) {
     return (
@@ -397,21 +413,17 @@ export default function ContactDetailsStep({ onContinue }: Props): ReactElement 
     return (
       <div className="w-full max-w-2xl mx-auto bg-white rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.06)] p-8 text-center space-y-4">
         <p className="text-red-600 text-sm">{error instanceof Error ? error.message : "Failed to load"}</p>
-        <button
-          type="button"
-          onClick={() => refetch()}
-          className="px-6 py-3 rounded-xl bg-primary text-white font-semibold min-h-[48px] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
-        >
+        <AppButton type="button" onClick={() => refetch()}>
           Retry
-        </button>
+        </AppButton>
       </div>
     );
   }
 
   return (
-    <div className="w-full max-w-full sm:max-w-[95vw] md:max-w-[90vw] lg:max-w-[80vw] min-w-0 mx-auto bg-white rounded-2xl border border-gray-200 overflow-hidden">
+    <div className="w-full max-w-full sm:max-w-[95vw] md:max-w-[90vw] lg:max-w-[80vw] min-w-0 mx-auto bg-white rounded-2xl border border-[#FFF4D9] overflow-hidden">
       <form className="pb-6 px-4 sm:px-6" onSubmit={handleSubmit} noValidate>
-        <div className="flex items-center gap-2 rounded-t-xl bg-primary/10 px-4 py-3 border border-b-0 border-gray-200 -mx-4 sm:-mx-6 sm:rounded-t-2xl mb-4">
+        <div className="flex items-center gap-2 rounded-t-xl bg-[#FFE398] px-4 py-3 border border-b-0 border-[#FFF4D9] -mx-4 sm:-mx-6 sm:rounded-t-2xl mb-4">
           <MailIcon />
           <h3 className="text-sm font-bold text-gray-900">Contact Details</h3>
         </div>
@@ -449,34 +461,23 @@ export default function ContactDetailsStep({ onContinue }: Props): ReactElement 
           )}
 
           {showAlternate && (
-            <div>
-              <label htmlFor="contact-alt-mobile" className="text-sm font-medium text-gray-700 mb-1 block">
-                Alternate Mobile
-                {altRequired && <span className="text-red-600"> *</span>}
-              </label>
-              <input
-                ref={altInputRef}
-                id="contact-alt-mobile"
-                type="tel"
-                inputMode="numeric"
-                autoComplete="tel"
-                placeholder="10-digit mobile"
-                value={alternateMobile}
-                onChange={(ev) => {
-                  const d = ev.target.value.replace(/\D/g, "").slice(0, 10);
-                  setAlternateMobile(d);
-                  setErrors((o) => ({ ...o, alternate_mobile: undefined }));
-                }}
-                className={`${inputBase} ${errors.alternate_mobile ? inputError : inputNormal}`}
-                aria-invalid={!!errors.alternate_mobile}
-                aria-describedby={errors.alternate_mobile ? "contact-alt-err" : undefined}
-              />
-              {errors.alternate_mobile && (
-                <p id="contact-alt-err" className="text-xs text-red-600 mt-1" role="alert">
-                  {errors.alternate_mobile}
-                </p>
-              )}
-            </div>
+            <AppTextField
+              ref={altInputRef}
+              id="contact-alt-mobile"
+              label={alternateMobileLabel}
+              type="tel"
+              inputMode="numeric"
+              autoComplete="tel"
+              placeholder="10-digit mobile"
+              value={alternateMobile}
+              error={errors.alternate_mobile}
+              maxLength={10}
+              onChange={(ev) => {
+                const d = ev.target.value.replace(/\D/g, "").slice(0, 10);
+                setAlternateMobile(d);
+                setErrors((o) => ({ ...o, alternate_mobile: undefined }));
+              }}
+            />
           )}
 
           {showOffice && (
@@ -507,17 +508,9 @@ export default function ContactDetailsStep({ onContinue }: Props): ReactElement 
           )}
         </div>
 
-        <button
-          type="submit"
-          disabled={!canSubmit}
-          className={`w-full mt-8 py-3.5 rounded-xl font-semibold min-h-[48px] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 ${
-            canSubmit
-              ? "bg-primary text-white hover:opacity-95"
-              : "bg-gray-200 text-gray-500 cursor-not-allowed"
-          }`}
-        >
-          {submitMutation.isPending ? "Saving…" : "Continue"}
-        </button>
+        <AppButton type="submit" fullWidth disabled={!canSubmit} className="mt-8">
+          {submitLabel}
+        </AppButton>
       </form>
 
       <OtpVerificationModal

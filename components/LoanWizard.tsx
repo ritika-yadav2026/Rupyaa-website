@@ -244,9 +244,13 @@ export default function LoanWizard() {
     ...(ctaProp === "onContinue" ? { onContinue: handleNext } : {}),
   };
 
+  const isPersonalDetailsStep = currentSubstep.component === "PersonalDetailsForm";
+
   return (
     <div className={appShellContainerClassName}>
-      <Progress steps={steps} completedUpTo={completedUpTo} currentStep={progressCurrentStep} />
+      {!isPersonalDetailsStep && (
+        <Progress steps={steps} completedUpTo={completedUpTo} currentStep={progressCurrentStep} />
+      )}
       <div className="flex flex-col gap-5 py-4 sm:py-6 overflow-x-hidden">
         <StepComponent {...stepBaseProps} />
       </div>

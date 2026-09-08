@@ -11,6 +11,7 @@ import type { CurrentOffer, LoanType } from "@/lib/eligibility-api";
 import { useCurrentOfferStore } from "@/store/useCurrentOfferStore";
 import { trackReviewOfferPageLand, trackReviewOfferPageClick } from "@/lib/gtm";
 import ZapcashLoading from "@/components/ZapcashLoading";
+import AppButton from "@/components/app-button";
 
 type Props = {
   onContinue?: () => void;
@@ -100,13 +101,9 @@ function RegisterLoanOfferMarketing({
           <div>
             <p className="text-sm text-gray-700 mb-4">To continue this offer download our ZapCash App.</p>
             <div className="flex flex-col gap-3">
-              <button
-                type="button"
-                onClick={handleDownload}
-                className="px-8 py-3.5 w-full rounded-2xl bg-primary text-white font-bold hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-colors min-h-[48px]"
-              >
+              <AppButton type="button" fullWidth onClick={handleDownload}>
                 Continue In App
-              </button>
+              </AppButton>
             </div>
           </div>
         </div>
@@ -171,7 +168,7 @@ function OfferDetailsCard({
 function ButtonSpinner() {
   return (
     <span
-      className="inline-block h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent"
+      className="inline-block h-5 w-5 animate-spin rounded-full border-2 border-gray-900 border-t-transparent"
       aria-hidden
     />
   );
@@ -261,7 +258,7 @@ function ApprovedOfferReview({ onContinue }: { onContinue?: () => void }) {
       <button
         type="button"
         onClick={improveOfferByUsingBsa}
-        className="w-full text-left rounded-2xl border border-primary/30 bg-[#e8f5e9]/40 p-4 mb-4 hover:bg-[#e8f5e9]/70 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+        className="w-full text-left rounded-2xl border border-button bg-[#FFFCF4]/40 p-4 mb-4 hover:bg-[#e8f5e9]/70 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
       >
         <p className="text-sm font-semibold text-gray-900 mb-1">
           {OFFER_COPY.HIGHER_LOAN_TITLE}
@@ -337,18 +334,19 @@ function ApprovedOfferReview({ onContinue }: { onContinue?: () => void }) {
       {offerContent}
 
       <div className="fixed bottom-0 left-0 right-0 z-20 border-t border-gray-200 bg-white/95 backdrop-blur-sm px-4 py-3 sm:py-4 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
-        <div className="max-w-lg mx-auto">
-          <button
+        <div className="mx-auto max-w-lg">
+          <AppButton
             type="button"
+            fullWidth
             onClick={buttonAction}
             disabled={buttonDisabled}
-            className="w-full flex items-center justify-center gap-2 min-h-[52px] rounded-2xl bg-primary text-white font-bold hover:bg-primary/90 disabled:opacity-60 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-colors"
+            className="gap-2"
           >
             {acceptingSpinner}
             <span>
               {isRefreshing ? OFFER_COPY.REFRESHING_BUTTON : buttonLabel}
             </span>
-          </button>
+          </AppButton>
         </div>
       </div>
     </div>

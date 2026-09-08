@@ -1,9 +1,10 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, type ReactNode } from "react";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import {
+  sanitizeTextInput,
   validateBankAccountNumber,
   validateBankAccountConfirmation,
   validateIfsc,
@@ -24,9 +25,10 @@ import {
 import { useSalaryAccounts } from "@/hooks/useSalaryAccounts";
 import { isEnteredAccountSalaryMatch } from "@/utils/salaryAccountValidation";
 import NonSalaryAccountModal from "@/components/non-salary-account/NonSalaryAccountModal";
-import NeedContactSupport from "./NeedContactSupport";
-import ValidatedTextInput from "./ValidatedTextInput";
+import AppButton from "@/components/app-button";
 import AppSelectField from "@/components/app-select-field";
+import AppTextField from "@/components/app-text-field";
+import NeedContactSupport from "./NeedContactSupport";
 
 type Props = { onContinue?: () => void };
 
@@ -46,6 +48,7 @@ const ACCOUNT_TYPE_OPTIONS: ReadonlyArray<{ value: BankAccountType; label: strin
 ];
 
 const MAX_BANK_ACCOUNT_DIGITS = 18;
+const ACCOUNT_HOLDER_MAX_LENGTH = 100;
 
 const IFSC_STATUS_MESSAGES: Record<IfscLookupStatus, string> = {
   idle: "Enter the IFSC as mentioned in your passbook or cheque",
@@ -263,118 +266,141 @@ export default function BankDetailsStep({ onContinue }: Props) {
     }
   };
 
-  const inputBase =
-    "w-full px-4 py-3 rounded-xl border text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary min-h-[48px]";
-  const inputError = "border-red-500";
-  const inputNormal = "border-gray-200";
-  const readOnlyInput = "bg-gray-50 text-gray-700";
-
   const isSubmitting = submitMutation.isPending;
   const isLookingUp = ifscStatus === "loading";
   const ifscHelperMessage =
     !errors.ifscCode && ifscStatus !== "loading" ? IFSC_STATUS_MESSAGES[ifscStatus] : null;
   const ifscHelperIsError = IFSC_STATUS_ERROR_STATES.has(ifscStatus);
 
-  return (
-    <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden max-w-2xl mx-auto w-full">
+  let submitLabel: string;
+  if (isSubmitting) {
+    submitLabel = "Saving...";
+  } else {
+    submitLabel = "Confirm and Continue";
+  }
 
+  let salaryHintContent: ReactNode = null;
+  if (shouldShowSalaryHint && !errors.accountNumber) {
+    salaryHintContent = (
+      <p id="accountNumber-hint" className="text-xs font-semibold text-gray-700">
+        {salaryHintText}
+      </p>
+    );
+  }
+
+  let ifscHelperContent: ReactNode = null;
+  if (!errors.ifscCode && ifscHelperMessage) {
+    let ifscHelperClassName = "text-gray-500";
+    if (ifscHelperIsError) {
+      ifscHelperClassName = "text-red-600";
+    } else if (ifscStatus === "success") {
+      ifscHelperClassName = "text-button";
+    }
+    ifscHelperContent = (
+      <p id="ifscCode-status" className={`text-sm ${ifscHelperClassName}`}>
+        {ifscHelperMessage}
+      </p>
+    );
+  }
+
+  let ifscActionContent: ReactNode;
+  if (isLookingUp) {
+    ifscActionContent = (
+      <span className="mt-7 flex min-h-[52px] min-w-23 items-center justify-center" aria-hidden="true">
+        <Spinner />
+      </span>
+    );
+  } else {
+    ifscActionContent = (
+      <AppButton
+        type="button"
+        variant="secondary"
+        onClick={runIfscLookup}
+        disabled={!isValidIfscFormat(ifscCode)}
+        className="mt-7 shrink-0 px-4"
+        aria-busy={isLookingUp}
+      >
+        Search
+      </AppButton>
+    );
+  }
+
+  let submitErrorContent: ReactNode = null;
+  if (submitError) {
+    submitErrorContent = (
+      <div
+        role="alert"
+        className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+      >
+        {submitError}
+      </div>
+    );
+  }
+
+  return (
+    <div className="bg-white rounded-2xl border border-[#FFF4D9] overflow-hidden max-w-2xl mx-auto w-full">
       <form className="pb-6 px-4 sm:px-6" onSubmit={handleSubmit} noValidate>
-        <div className="flex items-center gap-2 rounded-t-xl bg-primary/10 px-4 py-3 border border-b-0 border-gray-200 -mx-4 sm:-mx-6 sm:rounded-t-2xl">
+        <div className="flex items-center gap-2 rounded-t-xl bg-[#FFE398] px-4 py-3 border border-b-0 border-[#FFF4D9] -mx-4 sm:-mx-6 sm:rounded-t-2xl">
           <BankIcon />
           <h3 className="text-sm font-bold text-gray-900">Bank Details</h3>
         </div>
 
-        <div className=" border-gray-200 rounded-b-xl -mx-4 sm:-mx-6 px-4 sm:px-6 py-4 space-y-4">
-          <div>
-            <label htmlFor="accountNumber" className="text-sm font-medium text-gray-700 mb-1 block">
-              Account Number *
-            </label>
-            <input
+        <div className="border-gray-200 rounded-b-xl -mx-4 sm:-mx-6 px-4 sm:px-6 py-4 space-y-4">
+          <div className="flex flex-col gap-2">
+            <AppTextField
               id="accountNumber"
               ref={accountNumberRef}
+              label="Account Number *"
               type="tel"
               inputMode="numeric"
               placeholder="Enter your bank account number"
               value={accountNumber}
+              error={errors.accountNumber}
+              autoComplete="off"
               onChange={(e) => {
                 setAccountNumber(e.target.value.replace(/\D/g, "").slice(0, MAX_BANK_ACCOUNT_DIGITS));
                 setErrors((prev) => ({ ...prev, accountNumber: undefined, confirmAccountNumber: undefined }));
                 setSubmitError(null);
               }}
-              className={`${inputBase} ${errors.accountNumber ? inputError : inputNormal}`}
-              aria-invalid={!!errors.accountNumber}
-              aria-describedby={errors.accountNumber ? "accountNumber-error" : shouldShowSalaryHint ? "accountNumber-hint" : undefined}
-              autoComplete="off"
             />
-            {errors.accountNumber && (
-              <p id="accountNumber-error" className="text-sm text-red-600 mt-1" role="alert">
-                {errors.accountNumber}
-              </p>
-            )}
-            {shouldShowSalaryHint && !errors.accountNumber && (
-              <p id="accountNumber-hint" className="text-xs font-semibold text-gray-700 mt-1">
-                {salaryHintText}
-              </p>
-            )}
+            {salaryHintContent}
           </div>
 
-          <div>
-            <label htmlFor="confirmAccountNumber" className="text-sm font-medium text-gray-700 mb-1 block">
-              Re-enter Account Number *
-            </label>
-            <input
-              id="confirmAccountNumber"
-              type="tel"
-              inputMode="numeric"
-              placeholder="Re-enter your bank account number"
-              value={confirmAccountNumber}
-              onChange={(e) => {
-                setConfirmAccountNumber(e.target.value.replace(/\D/g, "").slice(0, MAX_BANK_ACCOUNT_DIGITS));
-                setErrors((prev) => ({ ...prev, confirmAccountNumber: undefined }));
-                setSubmitError(null);
-              }}
-              onPaste={blockConfirmPaste}
-              onDrop={blockConfirmPaste}
-              onKeyDown={handleConfirmKeyDown}
-              className={`${inputBase} ${errors.confirmAccountNumber ? inputError : inputNormal}`}
-              aria-invalid={!!errors.confirmAccountNumber}
-              aria-describedby={errors.confirmAccountNumber ? "confirmAccountNumber-error" : undefined}
-              autoComplete="off"
-              autoCorrect="off"
-              spellCheck={false}
-            />
-            {errors.confirmAccountNumber && (
-              <p id="confirmAccountNumber-error" className="text-sm text-red-600 mt-1" role="alert">
-                {errors.confirmAccountNumber}
-              </p>
-            )}
-          </div>
+          <AppTextField
+            id="confirmAccountNumber"
+            label="Re-enter Account Number *"
+            type="tel"
+            inputMode="numeric"
+            placeholder="Re-enter your bank account number"
+            value={confirmAccountNumber}
+            error={errors.confirmAccountNumber}
+            autoComplete="off"
+            autoCorrect="off"
+            spellCheck={false}
+            onPaste={blockConfirmPaste}
+            onDrop={blockConfirmPaste}
+            onKeyDown={handleConfirmKeyDown}
+            onChange={(e) => {
+              setConfirmAccountNumber(e.target.value.replace(/\D/g, "").slice(0, MAX_BANK_ACCOUNT_DIGITS));
+              setErrors((prev) => ({ ...prev, confirmAccountNumber: undefined }));
+              setSubmitError(null);
+            }}
+          />
 
-          <div>
-            <label htmlFor="accountHolderName" className="text-sm font-medium text-gray-700 mb-1 block">
-              Account Holder Name *
-            </label>
-            <ValidatedTextInput
-              id="accountHolderName"
-              placeholder="Name as per bank records"
-              value={accountHolderName}
-              policy="name"
-              maxLength={100}
-              onValueChange={(value) => {
-                setAccountHolderName(value);
-                setErrors((prev) => ({ ...prev, accountHolderName: undefined }));
-                setSubmitError(null);
-              }}
-              className={`${inputBase} ${errors.accountHolderName ? inputError : inputNormal}`}
-              aria-invalid={!!errors.accountHolderName}
-              aria-describedby={errors.accountHolderName ? "accountHolderName-error" : undefined}
-            />
-            {errors.accountHolderName && (
-              <p id="accountHolderName-error" className="text-sm text-red-600 mt-1" role="alert">
-                {errors.accountHolderName}
-              </p>
-            )}
-          </div>
+          <AppTextField
+            id="accountHolderName"
+            label="Account Holder Name *"
+            placeholder="Name as per bank records"
+            value={accountHolderName}
+            maxLength={ACCOUNT_HOLDER_MAX_LENGTH}
+            error={errors.accountHolderName}
+            onChange={(e) => {
+              const value = sanitizeTextInput(e.target.value, "name").slice(0, ACCOUNT_HOLDER_MAX_LENGTH);
+              setAccountHolderName(value);
+              setErrors((prev) => ({ ...prev, accountHolderName: undefined }));
+              setSubmitError(null);
+            }}
+          />
 
           <AppSelectField
             id="accountType"
@@ -389,21 +415,21 @@ export default function BankDetailsStep({ onContinue }: Props) {
             error={errors.accountType}
           />
 
-          <div>
-            <label htmlFor="ifscCode" className="text-sm font-medium text-gray-700 mb-1 block">
-              IFSC Code *
-            </label>
-            <div
-              className={`flex rounded-xl border overflow-hidden focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary ${
-                errors.ifscCode ? inputError : inputNormal
-              }`}
-            >
-              <input
+          <div className="flex flex-col gap-2">
+            <div className="flex items-start gap-2">
+              <AppTextField
                 id="ifscCode"
+                label="IFSC Code *"
                 type="text"
                 placeholder="e.g. HDFC0001234"
                 value={ifscCode}
                 maxLength={11}
+                error={errors.ifscCode}
+                autoCapitalize="characters"
+                autoCorrect="off"
+                spellCheck={false}
+                inputClassName="uppercase tracking-wider"
+                className="min-w-0 flex-1"
                 onChange={(e) => {
                   const next = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 11);
                   setIfscCode(next);
@@ -421,119 +447,51 @@ export default function BankDetailsStep({ onContinue }: Props) {
                     void runIfscLookup();
                   }
                 }}
-                className="flex-1 px-4 py-3 min-h-[48px] focus:outline-none uppercase tracking-wider"
-                aria-invalid={!!errors.ifscCode}
-                aria-describedby={errors.ifscCode ? "ifscCode-error" : ifscHelperMessage ? "ifscCode-status" : undefined}
-                autoCapitalize="characters"
-                autoCorrect="off"
-                spellCheck={false}
               />
-              <div
-                className="flex shrink-0 flex-col self-stretch border-l border-gray-200 bg-white min-w-23"
-                aria-busy={isLookingUp}
-              >
-                {isLookingUp ? (
-                  <span className="flex flex-1 min-h-[48px] items-center justify-center" aria-hidden="true">
-                    <Spinner />
-                  </span>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={runIfscLookup}
-                    disabled={!isValidIfscFormat(ifscCode)}
-                    className="flex flex-1 min-h-[48px] items-center justify-center px-4 text-sm font-medium text-primary hover:text-primary/80 disabled:text-gray-400 disabled:cursor-not-allowed"
-                  >
-                    Search
-                  </button>
-                )}
-              </div>
+              {ifscActionContent}
             </div>
-            {errors.ifscCode && (
-              <p id="ifscCode-error" className="text-sm text-red-600 mt-1" role="alert">
-                {errors.ifscCode}
-              </p>
-            )}
-            {!errors.ifscCode && ifscHelperMessage && (
-              <p
-                id="ifscCode-status"
-                className={`text-sm mt-1 ${
-                  ifscHelperIsError
-                    ? "text-red-600"
-                    : ifscStatus === "success"
-                      ? "text-green-700"
-                      : "text-gray-500"
-                }`}
-              >
-                {ifscHelperMessage}
-              </p>
-            )}
+            {ifscHelperContent}
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label htmlFor="bankName" className="text-sm font-medium text-gray-700 mb-1 block">
-                Bank Name *
-              </label>
-              <input
-                id="bankName"
-                type="text"
-                placeholder="Auto-filled from IFSC"
-                value={bankName}
-                readOnly
-                tabIndex={-1}
-                className={`${inputBase} ${readOnlyInput} ${errors.bankName ? inputError : inputNormal} cursor-not-allowed`}
-                aria-invalid={!!errors.bankName}
-                aria-describedby={errors.bankName ? "bankName-error" : undefined}
-              />
-              {errors.bankName && (
-                <p id="bankName-error" className="text-sm text-red-600 mt-1" role="alert">
-                  {errors.bankName}
-                </p>
-              )}
-            </div>
-            <div>
-              <label htmlFor="branchName" className="text-sm font-medium text-gray-700 mb-1 block">
-                Branch Name *
-              </label>
-              <input
-                id="branchName"
-                type="text"
-                placeholder="Auto-filled from IFSC"
-                value={branchName}
-                readOnly
-                tabIndex={-1}
-                className={`${inputBase} ${readOnlyInput} ${errors.branchName ? inputError : inputNormal} cursor-not-allowed`}
-                aria-invalid={!!errors.branchName}
-                aria-describedby={errors.branchName ? "branchName-error" : undefined}
-              />
-              {errors.branchName && (
-                <p id="branchName-error" className="text-sm text-red-600 mt-1" role="alert">
-                  {errors.branchName}
-                </p>
-              )}
-            </div>
+            <AppTextField
+              id="bankName"
+              label="Bank Name *"
+              type="text"
+              placeholder="Auto-filled from IFSC"
+              value={bankName}
+              readOnly
+              tabIndex={-1}
+              error={errors.bankName}
+              inputClassName="cursor-not-allowed bg-gray-50 text-gray-700"
+            />
+            <AppTextField
+              id="branchName"
+              label="Branch Name *"
+              type="text"
+              placeholder="Auto-filled from IFSC"
+              value={branchName}
+              readOnly
+              tabIndex={-1}
+              error={errors.branchName}
+              inputClassName="cursor-not-allowed bg-gray-50 text-gray-700"
+            />
           </div>
 
-          {submitError && (
-            <div
-              role="alert"
-              className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
-            >
-              {submitError}
-            </div>
-          )}
+          {submitErrorContent}
 
           <p className="text-xs text-gray-500 text-center mt-2">
             This account will only be used to credit your loan
           </p>
 
-          <button
+          <AppButton
             type="submit"
+            fullWidth
             disabled={isSubmitting || ifscStatus === "stale"}
-            className="w-full mt-2 py-3.5 rounded-xl bg-primary text-white font-semibold hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 min-h-[48px] disabled:opacity-60 disabled:cursor-not-allowed"
+            className="mt-2"
           >
-            {isSubmitting ? "Saving..." : "Confirm and Continue"}
-          </button>
+            {submitLabel}
+          </AppButton>
         </div>
       </form>
 

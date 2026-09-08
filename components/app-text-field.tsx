@@ -1,4 +1,4 @@
-import type { InputHTMLAttributes, ReactNode } from "react";
+import { forwardRef, type InputHTMLAttributes, type ReactElement, type ReactNode } from "react";
 import { cn } from "@/utils/cn-utils";
 
 export type AppTextFieldProps = Omit<
@@ -29,16 +29,19 @@ const prefixedInputClassName =
 /**
  * Shared text field: neutral idle state, cream/yellow highlight on focus.
  */
-export default function AppTextField({
-  id,
-  label,
-  error,
-  prefix,
-  className,
-  inputClassName,
-  disabled,
-  ...inputProps
-}: AppTextFieldProps): React.ReactElement {
+const AppTextField = forwardRef<HTMLInputElement, AppTextFieldProps>(function AppTextField(
+  {
+    id,
+    label,
+    error,
+    prefix,
+    className,
+    inputClassName,
+    disabled,
+    ...inputProps
+  },
+  ref
+): ReactElement {
   const errorId = id ? `${id}-error` : undefined;
   const hasError = Boolean(error);
   let prefixContent: ReactNode = null;
@@ -79,6 +82,7 @@ export default function AppTextField({
         {prefixContent}
         <input
           {...inputProps}
+          ref={ref}
           id={id}
           disabled={disabled}
           aria-invalid={hasError}
@@ -95,6 +99,7 @@ export default function AppTextField({
     fieldControl = (
       <input
         {...inputProps}
+        ref={ref}
         id={id}
         disabled={disabled}
         aria-invalid={hasError}
@@ -110,4 +115,6 @@ export default function AppTextField({
       {errorMessage}
     </div>
   );
-}
+});
+
+export default AppTextField;

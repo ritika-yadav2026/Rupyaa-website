@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import {
+  sanitizeTextInput,
   validateName,
   validateIndianMobile,
   validateReferenceMobilesDistinct,
@@ -12,10 +13,13 @@ import {
   postReferenceDetails,
   type PostReferenceDetailsPayload,
 } from "@/lib/user-api";
+import AppButton from "@/components/app-button";
+import AppTextField from "@/components/app-text-field";
 import NeedContactSupport from "./NeedContactSupport";
-import ValidatedTextInput from "./ValidatedTextInput";
 
 type Props = { onContinue?: () => void };
+
+const NAME_MAX_LENGTH = 100;
 
 type FieldErrors = {
   ref1Name?: string;
@@ -102,59 +106,54 @@ export default function ReferenceDetailsStep({ onContinue }: Props) {
 
   const isSubmitting = submitMutation.isPending;
 
+  let submitLabel: string;
+  if (isSubmitting) {
+    submitLabel = "Saving...";
+  } else {
+    submitLabel = "Continue";
+  }
+
   return (
     <div className="bg-white rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.06)] overflow-hidden max-w-2xl mx-auto w-full">
-      
       <form className="pb-6 px-4 sm:px-6" onSubmit={handleSubmit} noValidate>
-        <div className="flex items-center gap-2 rounded-t-xl bg-primary/10 px-4 py-3 border border-b-0 border-primary/20 -mx-4 sm:-mx-6 sm:rounded-t-2xl">
+        <div className="flex items-center gap-2 rounded-t-xl bg-[#FFE398] px-4 py-3 border border-b-0 border-[#FFF4D9] -mx-4 sm:-mx-6 sm:rounded-t-2xl">
           <PeopleIcon />
           <h3 className="text-sm font-bold text-gray-900">References</h3>
         </div>
 
-        <div className=" border-gray-200 rounded-b-xl -mx-4 sm:-mx-6 px-4 sm:px-6 py-4 space-y-0">
+        <div className="border-gray-200 rounded-b-xl -mx-4 sm:-mx-6 px-4 sm:px-6 py-4 space-y-0">
           <div className="flex items-center gap-2 rounded-lg bg-gray-100 px-3 py-2 mb-4">
             <PersonIcon />
             <span className="text-sm font-semibold text-gray-800">Reference Details 1</span>
           </div>
           <div className="space-y-3 mb-6">
-            <div>
-              <label htmlFor="ref1-name" className="text-sm font-medium text-gray-700 mb-1 block">Name of Reference *</label>
-              <ValidatedTextInput
-                id="ref1-name"
-                placeholder="Please enter your Full Name"
-                value={ref1Name}
-                policy="name"
-                maxLength={100}
-                onValueChange={(value) => { setRef1Name(value); setErrors((prev) => ({ ...prev, ref1Name: undefined })); }}
-                className={`w-full px-4 py-3 rounded-xl border min-h-[48px] focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary ${errors.ref1Name ? "border-red-500" : "border-gray-200"}`}
-                aria-invalid={!!errors.ref1Name}
-                aria-describedby={errors.ref1Name ? "ref1-name-error" : undefined}
-              />
-              {errors.ref1Name && <p id="ref1-name-error" className="text-sm text-red-600 mt-1" role="alert">{errors.ref1Name}</p>}
-            </div>
-            <div>
-              <label htmlFor="ref1-mobile" className="text-sm font-medium text-gray-700 mb-1 block">Mobile Number *</label>
-              <div className={`flex rounded-xl border overflow-hidden focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary ${errors.ref1Mobile ? "border-red-500" : "border-gray-200"}`}>
-                <span className="flex items-center gap-1 px-4 bg-gray-50 text-gray-600 text-sm border-r border-gray-200 min-h-[48px]">
-                  +91
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="opacity-70">
-                    <polyline points="6 9 12 15 18 9" />
-                  </svg>
-                </span>
-                <input
-                  id="ref1-mobile"
-                  type="tel"
-                  inputMode="numeric"
-                  placeholder="Enter a valid 10 digit number"
-                  value={ref1Mobile}
-                  onChange={(e) => { setRef1Mobile(e.target.value.replace(/\D/g, "").slice(0, 10)); setErrors((prev) => ({ ...prev, ref1Mobile: undefined })); }}
-                  className="flex-1 px-4 py-3 min-h-[48px] focus:outline-none"
-                  aria-invalid={!!errors.ref1Mobile}
-                  aria-describedby={errors.ref1Mobile ? "ref1-mobile-error" : undefined}
-                />
-              </div>
-              {errors.ref1Mobile && <p id="ref1-mobile-error" className="text-sm text-red-600 mt-1" role="alert">{errors.ref1Mobile}</p>}
-            </div>
+            <AppTextField
+              id="ref1-name"
+              label="Name of Reference *"
+              placeholder="Please enter your Full Name"
+              value={ref1Name}
+              maxLength={NAME_MAX_LENGTH}
+              error={errors.ref1Name}
+              onChange={(e) => {
+                const value = sanitizeTextInput(e.target.value, "name").slice(0, NAME_MAX_LENGTH);
+                setRef1Name(value);
+                setErrors((prev) => ({ ...prev, ref1Name: undefined }));
+              }}
+            />
+            <AppTextField
+              id="ref1-mobile"
+              label="Mobile Number *"
+              type="tel"
+              inputMode="numeric"
+              placeholder="Enter a valid 10 digit number"
+              value={ref1Mobile}
+              prefix="+91"
+              error={errors.ref1Mobile}
+              onChange={(e) => {
+                setRef1Mobile(e.target.value.replace(/\D/g, "").slice(0, 10));
+                setErrors((prev) => ({ ...prev, ref1Mobile: undefined }));
+              }}
+            />
           </div>
 
           <div className="flex items-center gap-2 rounded-lg bg-gray-100 px-3 py-2 mb-4">
@@ -162,54 +161,39 @@ export default function ReferenceDetailsStep({ onContinue }: Props) {
             <span className="text-sm font-semibold text-gray-800">Reference Details 2</span>
           </div>
           <div className="space-y-3">
-            <div>
-              <label htmlFor="ref2-name" className="text-sm font-medium text-gray-700 mb-1 block">Name of Reference *</label>
-              <ValidatedTextInput
-                id="ref2-name"
-                placeholder="Please enter your Full Name"
-                value={ref2Name}
-                policy="name"
-                maxLength={100}
-                onValueChange={(value) => { setRef2Name(value); setErrors((prev) => ({ ...prev, ref2Name: undefined })); }}
-                className={`w-full px-4 py-3 rounded-xl border min-h-[48px] focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary ${errors.ref2Name ? "border-red-500" : "border-gray-200"}`}
-                aria-invalid={!!errors.ref2Name}
-                aria-describedby={errors.ref2Name ? "ref2-name-error" : undefined}
-              />
-              {errors.ref2Name && <p id="ref2-name-error" className="text-sm text-red-600 mt-1" role="alert">{errors.ref2Name}</p>}
-            </div>
-            <div>
-              <label htmlFor="ref2-mobile" className="text-sm font-medium text-gray-700 mb-1 block">Mobile Number *</label>
-              <div className={`flex rounded-xl border overflow-hidden focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary ${errors.ref2Mobile ? "border-red-500" : "border-gray-200"}`}>
-                <span className="flex items-center gap-1 px-4 bg-gray-50 text-gray-600 text-sm border-r border-gray-200 min-h-[48px]">
-                  +91
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="opacity-70">
-                    <polyline points="6 9 12 15 18 9" />
-                  </svg>
-                </span>
-                <input
-                  id="ref2-mobile"
-                  type="tel"
-                  inputMode="numeric"
-                  placeholder="Enter a valid 10 digit number"
-                  value={ref2Mobile}
-                  onChange={(e) => { setRef2Mobile(e.target.value.replace(/\D/g, "").slice(0, 10)); setErrors((prev) => ({ ...prev, ref2Mobile: undefined })); }}
-                  className="flex-1 px-4 py-3 min-h-[48px] focus:outline-none"
-                  aria-invalid={!!errors.ref2Mobile}
-                  aria-describedby={errors.ref2Mobile ? "ref2-mobile-error" : undefined}
-                />
-              </div>
-              {errors.ref2Mobile && <p id="ref2-mobile-error" className="text-sm text-red-600 mt-1" role="alert">{errors.ref2Mobile}</p>}
-            </div>
+            <AppTextField
+              id="ref2-name"
+              label="Name of Reference *"
+              placeholder="Please enter your Full Name"
+              value={ref2Name}
+              maxLength={NAME_MAX_LENGTH}
+              error={errors.ref2Name}
+              onChange={(e) => {
+                const value = sanitizeTextInput(e.target.value, "name").slice(0, NAME_MAX_LENGTH);
+                setRef2Name(value);
+                setErrors((prev) => ({ ...prev, ref2Name: undefined }));
+              }}
+            />
+            <AppTextField
+              id="ref2-mobile"
+              label="Mobile Number *"
+              type="tel"
+              inputMode="numeric"
+              placeholder="Enter a valid 10 digit number"
+              value={ref2Mobile}
+              prefix="+91"
+              error={errors.ref2Mobile}
+              onChange={(e) => {
+                setRef2Mobile(e.target.value.replace(/\D/g, "").slice(0, 10));
+                setErrors((prev) => ({ ...prev, ref2Mobile: undefined }));
+              }}
+            />
           </div>
         </div>
 
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="w-full mt-6 py-3.5 rounded-xl bg-primary text-white font-semibold hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 min-h-[48px] disabled:opacity-60 disabled:cursor-not-allowed"
-        >
-          {isSubmitting ? "Saving..." : "Continue"}
-        </button>
+        <AppButton type="submit" fullWidth disabled={isSubmitting} className="mt-6">
+          {submitLabel}
+        </AppButton>
       </form>
 
       <NeedContactSupport />

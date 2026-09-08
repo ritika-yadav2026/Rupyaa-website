@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import {
+  sanitizeTextInput,
   validateRequired,
   validateStreetAddress,
   validatePincodeString,
@@ -16,8 +17,9 @@ import {
   postResidenceAddress,
   type PostResidenceAddressPayload,
 } from "@/lib/user-api";
+import AppButton from "@/components/app-button";
+import AppTextField from "@/components/app-text-field";
 import NeedContactSupport from "./NeedContactSupport";
-import ValidatedTextInput from "./ValidatedTextInput";
 
 type Props = { onContinue?: () => void };
 
@@ -30,6 +32,7 @@ type FieldErrors = {
 };
 
 const PINCODE_DEBOUNCE_MS = 300;
+const ADDRESS_MAX_LENGTH = 500;
 
 const LOOKUP_FAILURE_COPY: Record<
   Extract<PincodeLookupResult, { ok: false }>["reason"],
@@ -165,166 +168,116 @@ export default function AddressDetailsStep({ onContinue }: Props) {
     submitMutation.mutate(payload);
   };
 
-  const inputBase =
-    "w-full px-4 py-3 rounded-xl border text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary min-h-[48px]";
-  const inputError = "border-red-500";
-  const inputNormal = "border-gray-200";
-  const readOnlyInput = "bg-gray-50 text-gray-700";
-
   const isSubmitting = submitMutation.isPending;
 
-  return (
-    <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden max-w-2xl mx-auto w-full">
+  let submitLabel: string;
+  if (isSubmitting) {
+    submitLabel = "Saving...";
+  } else {
+    submitLabel = "Continue";
+  }
 
+  let pinCodeLookupContent: ReactNode = null;
+  if (!errors.pinCode && lookupMessage) {
+    pinCodeLookupContent = (
+      <p id="pinCode-lookup" className="text-sm text-amber-600">
+        {lookupMessage}
+      </p>
+    );
+  }
+
+  let lookupSpinner: ReactNode = null;
+  if (lookupLoading) {
+    lookupSpinner = (
+      <span className="pointer-events-none absolute right-4 top-[2.65rem]" aria-hidden="true">
+        <Spinner />
+      </span>
+    );
+  }
+
+  return (
+    <div className="bg-white rounded-2xl border border-[#FFF4D9] overflow-hidden max-w-2xl mx-auto w-full">
       <form className="pb-6 px-4 sm:px-6" onSubmit={handleSubmit} noValidate>
-        <div className="flex items-center gap-2 rounded-t-xl bg-primary/10 px-4 py-3 border border-b-0 border-gray-200 -mx-4 sm:-mx-6 sm:rounded-t-2xl">
+        <div className="flex items-center gap-2 rounded-t-xl bg-[#FFE398] px-4 py-3 border border-b-0 border-[#FFF4D9] -mx-4 sm:-mx-6 sm:rounded-t-2xl">
           <HomeIcon />
           <h3 className="text-sm font-bold text-gray-900">Address Details</h3>
         </div>
 
-        <div className=" border-t-0 border-gray-200 rounded-b-xl -mx-4 sm:-mx-6 px-4 sm:px-6 py-4 space-y-4">
-          <div>
-            <label htmlFor="addressLine1" className="text-sm font-medium text-gray-700 mb-1 block">
-              Address Line 1 *
-            </label>
-            <ValidatedTextInput
-              id="addressLine1"
-              placeholder="House / Flat no., Street"
-              value={addressLine1}
-              policy="address"
-              maxLength={500}
-              onValueChange={(value) => {
-                setAddressLine1(value);
-                setErrors((prev) => ({ ...prev, addressLine1: undefined }));
-              }}
-              className={`${inputBase} ${errors.addressLine1 ? inputError : inputNormal}`}
-              aria-invalid={!!errors.addressLine1}
-              aria-describedby={errors.addressLine1 ? "addressLine1-error" : undefined}
-            />
-            {errors.addressLine1 && (
-              <p id="addressLine1-error" className="text-sm text-red-600 mt-1" role="alert">
-                {errors.addressLine1}
-              </p>
-            )}
-          </div>
+        <div className="border-t-0 border-gray-200 rounded-b-xl -mx-4 sm:-mx-6 px-4 sm:px-6 py-4 space-y-4">
+          <AppTextField
+            id="addressLine1"
+            label="Address Line 1 *"
+            placeholder="House / Flat no., Street"
+            value={addressLine1}
+            maxLength={ADDRESS_MAX_LENGTH}
+            error={errors.addressLine1}
+            onChange={(e) => {
+              const value = sanitizeTextInput(e.target.value, "address").slice(0, ADDRESS_MAX_LENGTH);
+              setAddressLine1(value);
+              setErrors((prev) => ({ ...prev, addressLine1: undefined }));
+            }}
+          />
 
-          <div>
-            <label htmlFor="addressLine2" className="text-sm font-medium text-gray-700 mb-1 block">
-              Address Line 2 *
-            </label>
-            <ValidatedTextInput
-              id="addressLine2"
-              placeholder="Area, Landmark"
-              value={addressLine2}
-              policy="address"
-              maxLength={500}
-              onValueChange={(value) => {
-                setAddressLine2(value);
-                setErrors((prev) => ({ ...prev, addressLine2: undefined }));
-              }}
-              className={`${inputBase} ${errors.addressLine2 ? inputError : inputNormal}`}
-              aria-invalid={!!errors.addressLine2}
-              aria-describedby={errors.addressLine2 ? "addressLine2-error" : undefined}
-            />
-            {errors.addressLine2 && (
-              <p id="addressLine2-error" className="text-sm text-red-600 mt-1" role="alert">
-                {errors.addressLine2}
-              </p>
-            )}
-          </div>
+          <AppTextField
+            id="addressLine2"
+            label="Address Line 2 *"
+            placeholder="Area, Landmark"
+            value={addressLine2}
+            maxLength={ADDRESS_MAX_LENGTH}
+            error={errors.addressLine2}
+            onChange={(e) => {
+              const value = sanitizeTextInput(e.target.value, "address").slice(0, ADDRESS_MAX_LENGTH);
+              setAddressLine2(value);
+              setErrors((prev) => ({ ...prev, addressLine2: undefined }));
+            }}
+          />
 
-          <div>
-            <label htmlFor="pinCode" className="text-sm font-medium text-gray-700 mb-1 block">
-              Pincode *
-            </label>
-            <div
-              className={`flex rounded-xl border overflow-hidden focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary ${
-                errors.pinCode ? inputError : inputNormal
-              }`}
-            >
-              <input
-                id="pinCode"
-                type="tel"
-                inputMode="numeric"
-                placeholder="6-digit pincode"
-                value={pinCode}
-                onChange={(e) => {
-                  setPinCode(e.target.value.replace(/\D/g, "").slice(0, 6));
-                  setErrors((prev) => ({ ...prev, pinCode: undefined }));
-                }}
-                className="flex-1 px-4 py-3 min-h-[48px] focus:outline-none"
-                aria-invalid={!!errors.pinCode}
-                aria-describedby={errors.pinCode ? "pinCode-error" : lookupMessage ? "pinCode-lookup" : undefined}
-              />
-              {lookupLoading && (
-                <span className="flex items-center px-3" aria-hidden="true">
-                  <Spinner />
-                </span>
-              )}
-            </div>
-            {errors.pinCode && (
-              <p id="pinCode-error" className="text-sm text-red-600 mt-1" role="alert">
-                {errors.pinCode}
-              </p>
-            )}
-            {!errors.pinCode && lookupMessage && (
-              <p id="pinCode-lookup" className="text-sm text-amber-600 mt-1">
-                {lookupMessage}
-              </p>
-            )}
+          <div className="relative flex flex-col gap-2">
+            <AppTextField
+              id="pinCode"
+              label="Pincode *"
+              type="tel"
+              inputMode="numeric"
+              placeholder="6-digit pincode"
+              value={pinCode}
+              error={errors.pinCode}
+              inputClassName={lookupLoading ? "pr-10" : undefined}
+              onChange={(e) => {
+                setPinCode(e.target.value.replace(/\D/g, "").slice(0, 6));
+                setErrors((prev) => ({ ...prev, pinCode: undefined }));
+              }}
+            />
+            {lookupSpinner}
+            {pinCodeLookupContent}
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label htmlFor="city" className="text-sm font-medium text-gray-700 mb-1 block">
-                City *
-              </label>
-              <input
-                id="city"
-                type="text"
-                placeholder="Auto-filled from pincode"
-                value={city}
-                readOnly
-                className={`${inputBase} ${readOnlyInput} ${errors.city ? inputError : inputNormal}`}
-                aria-invalid={!!errors.city}
-                aria-describedby={errors.city ? "city-error" : undefined}
-              />
-              {errors.city && (
-                <p id="city-error" className="text-sm text-red-600 mt-1" role="alert">
-                  {errors.city}
-                </p>
-              )}
-            </div>
-            <div>
-              <label htmlFor="state" className="text-sm font-medium text-gray-700 mb-1 block">
-                State *
-              </label>
-              <input
-                id="state"
-                type="text"
-                placeholder="Auto-filled from pincode"
-                value={state}
-                readOnly
-                className={`${inputBase} ${readOnlyInput} ${errors.state ? inputError : inputNormal}`}
-                aria-invalid={!!errors.state}
-                aria-describedby={errors.state ? "state-error" : undefined}
-              />
-              {errors.state && (
-                <p id="state-error" className="text-sm text-red-600 mt-1" role="alert">
-                  {errors.state}
-                </p>
-              )}
-            </div>
+            <AppTextField
+              id="city"
+              label="City *"
+              type="text"
+              placeholder="Auto-filled from pincode"
+              value={city}
+              readOnly
+              error={errors.city}
+              inputClassName="bg-gray-50 text-gray-700"
+            />
+            <AppTextField
+              id="state"
+              label="State *"
+              type="text"
+              placeholder="Auto-filled from pincode"
+              value={state}
+              readOnly
+              error={errors.state}
+              inputClassName="bg-gray-50 text-gray-700"
+            />
           </div>
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="w-full mt-6 py-3.5 rounded-xl bg-primary text-white font-semibold hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 min-h-[48px] disabled:opacity-60 disabled:cursor-not-allowed"
-        >
-          {isSubmitting ? "Saving..." : "Continue"}
-        </button>
-        </div>
 
+          <AppButton type="submit" fullWidth disabled={isSubmitting} className="mt-6">
+            {submitLabel}
+          </AppButton>
+        </div>
       </form>
 
       <NeedContactSupport />

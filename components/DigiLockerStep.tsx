@@ -18,10 +18,11 @@ import {
 import { CALLBACK_FLOWS } from "@/lib/callback-opener-messages";
 import { useExternalFlowConsentLock } from "@/hooks/useExternalFlowConsentLock";
 import { openCenteredExternalFlowPopup } from "@/lib/open-external-flow-popup";
+import AppButton from "@/components/app-button";
 
 const DIGILOCKER_STATUS_QUERY_KEY = ["digilocker-status"] as const;
 
-function CheckIcon({ className = "text-secondary" }: { className?: string }) {
+function CheckIcon({ className = "text-[#FECA42]" }: { className?: string }) {
   return (
     <svg
       width="20"
@@ -186,14 +187,14 @@ export default function DigiLockerStep({ onContinue }: Props) {
         </li>
       </ul>
 
-      <button
+      <AppButton
         type="button"
+        fullWidth
         onClick={handleGoToDigiLocker}
         disabled={ctaDisabled}
-        className="w-full py-3.5 rounded-xl bg-primary text-white font-semibold hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 min-h-[48px] disabled:opacity-70 disabled:cursor-not-allowed"
       >
         {ctaLabel}
-      </button>
+      </AppButton>
 
         {consentLocked && (
           <p className="text-center text-xs text-gray-500 mt-3">

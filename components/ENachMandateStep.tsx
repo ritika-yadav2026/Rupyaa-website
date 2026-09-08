@@ -19,6 +19,7 @@ import { openCenteredExternalFlowPopup } from "@/lib/open-external-flow-popup";
 import { useGeoStore } from "@/store/useGeoStore";
 import { resolveCashfreeEnachMode } from "@/lib/cashfree-enach-config";
 import { REACT_QUERY_KEYS } from "@/utils/app-constants";
+import AppButton from "@/components/app-button";
 
 const ENACH_OPENER_LOG = "[EnachOpener]";
 
@@ -35,7 +36,7 @@ function CalendarIcon() {
       fill="none"
       stroke="currentColor"
       strokeWidth="2"
-      className="shrink-0 text-primary"
+      className="shrink-0 text-black"
     >
       <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
       <line x1="16" y1="2" x2="16" y2="6" />
@@ -54,7 +55,7 @@ function ClockIcon() {
       fill="none"
       stroke="currentColor"
       strokeWidth="2"
-      className="shrink-0 text-primary"
+      className="shrink-0 text-black"
     >
       <circle cx="12" cy="12" r="10" />
       <polyline points="12 6 12 12 16 14" />
@@ -71,7 +72,7 @@ function RefreshIcon() {
       fill="none"
       stroke="currentColor"
       strokeWidth="2"
-      className="shrink-0 text-primary"
+      className="shrink-0 text-black"
     >
       <polyline points="23 4 23 10 17 10" />
       <polyline points="1 20 1 14 7 14" />
@@ -87,7 +88,7 @@ function StarIcon() {
       height="28"
       viewBox="0 0 24 24"
       fill="currentColor"
-      className="shrink-0 text-purple-500"
+      className="shrink-0 text-black"
     >
       <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
     </svg>
@@ -217,18 +218,19 @@ export default function ENachMandateStep() {
   return (
     <>
     <div className="bg-white rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.06)] p-4 sm:p-6 md:p-8 max-w-2xl mx-auto w-full">
+      
+    <div className="flex justify-center mb-6 sm:mb-8">
+        <div className="w-40 h-40 sm:w-48 sm:h-48 rounded-2xl  flex items-center justify-center">
+          <Image src={enachIcon} alt="" />
+        </div>
+      </div>
+      
       <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-2 text-center">
         Set Up Auto-Payment for Your Loan
       </h2>
       <p className="text-sm text-gray-600 text-center mb-6">
         Authorize secure auto-debits for your loan. No sensitive bank details are stored — 100% safe process.
       </p>
-
-      <div className="flex justify-center mb-6 sm:mb-8">
-        <div className="w-40 h-40 sm:w-48 sm:h-48 rounded-2xl  flex items-center justify-center">
-          <Image src={enachIcon} alt="" />
-        </div>
-      </div>
 
       <h3 className="text-sm font-semibold text-gray-800 mb-4 text-center">
         Why Set Up eNACH?
@@ -258,14 +260,14 @@ export default function ENachMandateStep() {
         </p>
       )}
 
-      <button
+      <AppButton
         type="button"
+        fullWidth
         onClick={() => void handleProceed()}
         disabled={loading || consentLocked}
-        className="w-full py-3.5 rounded-xl bg-primary text-white font-semibold hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 min-h-[48px] disabled:opacity-60 disabled:cursor-not-allowed"
       >
         {loading ? "Opening secure checkout..." : "Set Up Auto-Payment"}
-      </button>
+      </AppButton>
     </div>
 
     <ConsentWindowOverlay

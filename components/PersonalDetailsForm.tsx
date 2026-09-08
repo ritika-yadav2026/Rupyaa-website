@@ -24,6 +24,7 @@ import LocationPermissionModal from "@/components/LocationPermissionModal";
 import { useRequireLocationPermission } from "@/hooks/useRequireLocationPermission";
 import { REACT_QUERY_KEYS } from "@/utils/app-constants";
 import EmploymentModeForm from "@/components/EmploymentModeForm";
+import Progress from "@/components/Progress";
 import { submitPersonalEmploymentDetails } from "@/services/user/submit-personal-employment-details";
 import { useFlowStore } from "@/store/useFlowStore";
 
@@ -126,6 +127,8 @@ export default function PersonalDetailsForm() {
   const [state, dispatch] = useReducer(formReducer, INITIAL_STATE);
   const { panNumber, dob, income, pincode, gender, employmentMode, organization, declaredSalaryDay, errors } = state;
   const setFlowFromUserStage = useFlowStore((flowState) => flowState.setFlowFromUserStage);
+  const steps = useFlowStore((flowState) => flowState.steps);
+  const phaseIndex = useFlowStore((flowState) => flowState.phaseIndex);
   const {
     isBlocked,
     isRequesting,
@@ -284,6 +287,11 @@ export default function PersonalDetailsForm() {
       <div className={formShellClassName} aria-hidden={isBlocked}>
         <div className="flex flex-col lg:flex-row">
           <div className="flex-1 p-6 sm:p-8 lg:p-10">
+            <Progress
+              steps={steps}
+              currentStep={phaseIndex}
+              className="mb-6 px-0 py-0"
+            />
             <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-1">Personal &amp; Employment Details</h2>
             <p className="text-sm text-gray-600 mb-6">
               Please provide your personal and employment details to start the application.
