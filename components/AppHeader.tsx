@@ -97,7 +97,7 @@ export default function AppHeader() {
             );
           })}
         </div>
-        <div className="flex items-center gap-1.5 sm:gap-2">
+        <div className="flex items-center gap-2 sm:gap-3">
           {!isLoggedIn && (
             <>
               <a
@@ -105,14 +105,14 @@ export default function AppHeader() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="GET IT ON Google Play"
-                className="flex size-8 shrink-0 items-center mt-1 justify-center"
+                className="flex size-9 shrink-0 items-center justify-center"
               >
                 <Image
                   src="/images/google-play-store-icon.webp"
                   alt="Google Play"
-                  width={22}
-                  height={22}
-                  className="size-[23px] shrink-0 object-contain"
+                  width={24}
+                  height={24}
+                  className="size-6 shrink-0 object-contain"
                 />
               </a>
               <a
@@ -120,14 +120,14 @@ export default function AppHeader() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Download on the App Store"
-                className="flex size-8 shrink-0 items-center justify-center"
+                className="flex size-9 shrink-0 items-center justify-center"
               >
                 <Image
                   src="/images/apple.png"
                   alt="App Store"
-                  width={30}
-                  height={30}
-                  className="size-[28px] shrink-0 object-contain filter invert"
+                  width={28}
+                  height={28}
+                  className="size-7 shrink-0 object-contain"
                 />
               </a>
             </>
@@ -137,7 +137,7 @@ export default function AppHeader() {
             type="button"
             variant="ghost"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg !text-gray-700 bg-button hover:bg-button/90 hover:no-underline"
+            className="p-2 rounded-lg !text-gray-700 hover:bg-gray-100 hover:no-underline md:hidden"
             aria-label="Menu"
           >
             <MenuIcon />
@@ -147,13 +147,13 @@ export default function AppHeader() {
               <button
                 type="button"
                 onClick={() => setAccountMenuOpen(!accountMenuOpen)}
-                className="flex items-center justify-center w-7 h-7 rounded-full border-2 border-primary text-primary hover:bg-primary/5 transition-colors"
+                className="flex h-7 w-7 items-center justify-center rounded-full border-2 border-button text-gray-900 hover:bg-button/10 transition-colors"
                 aria-label="My Account"
               >
                 <UserIcon />
               </button>
               {accountMenuOpen && (
-                <div className="absolute right-0 top-full mt-2 py-2 w-52 sm:w-56 rounded-xl bg-white border border-gray-200 shadow-lg z-50 max-h-[85vh] overflow-y-auto">
+                <div className="absolute right-0 top-full z-50 mt-2 max-h-[85vh] w-52 overflow-y-auto rounded-xl border border-gray-200 bg-white py-2 shadow-lg sm:w-56">
                   <Link
                     href="/profile"
                     onClick={() => setAccountMenuOpen(false)}
@@ -186,12 +186,13 @@ export default function AppHeader() {
               )}
             </div>
           ) : (
-            <Link
-              href={authHref}
-              className="hidden md:inline-flex items-center justify-center px-6 py-2.5 rounded-xl bg-button text-gray-900 text-sm sm:text-base font-bold hover:bg-button/90 active:scale-[0.98] transition-all min-h-[44px] min-w-[96px]"
+            <AppButton
+              type="button"
+              className="hidden min-h-[44px] min-w-[96px] px-6 py-2.5 text-sm font-bold sm:text-base md:inline-flex"
+              onClick={() => router.push(authHref)}
             >
               Login
-            </Link>
+            </AppButton>
           )}
         </div>
       </nav>
@@ -245,13 +246,17 @@ export default function AppHeader() {
               </button>
             </>
           ) : (
-            <Link
-              href={authHref}
-              onClick={() => setMobileMenuOpen(false)}
-              className="mt-2 inline-flex items-center justify-center w-full py-3 rounded-xl bg-button text-gray-900 font-bold shadow-md shadow-button/25 hover:bg-button/90 transition-colors min-h-[48px]"
+            <AppButton
+              type="button"
+              fullWidth
+              className="mt-2 font-bold"
+              onClick={() => {
+                setMobileMenuOpen(false);
+                router.push(authHref);
+              }}
             >
               Login
-            </Link>
+            </AppButton>
           )}
         </div>
       )}

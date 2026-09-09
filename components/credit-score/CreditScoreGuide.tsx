@@ -30,7 +30,7 @@ function Callout({
       "rounded-r-[10px] border-l-[3px] border-red-700 bg-[#fdf3f2] px-5 py-4 text-[#7a1c16]";
   } else {
     className =
-      "rounded-r-[10px] border-l-[3px] border-primary bg-[#eef4ef] px-5 py-4 text-[#25332b]";
+      "rounded-r-[10px] border-l-[3px] border-[#FECA42] bg-[#eef4ef] px-5 py-4 text-[#25332b]";
   }
   return <div className={className}>{children}</div>;
 }
@@ -187,7 +187,7 @@ export default function CreditScoreGuide() {
         <div className="mb-5 overflow-x-auto">
           <table className="w-full min-w-[440px] border-collapse text-[15px]">
             <thead>
-              <tr className="bg-primary text-left text-white">
+              <tr className="bg-[#FECA42] text-left text-white">
                 <th className="rounded-tl-[10px] px-4 py-3 font-bold">Reference date</th>
                 <th className="rounded-tr-[10px] px-4 py-3 font-bold">What gets reported</th>
               </tr>
@@ -252,7 +252,7 @@ export default function CreditScoreGuide() {
         </h2>
         <div className="mb-5 space-y-4">
           <ContentCard>
-            <h3 className="mb-2 text-lg font-extrabold text-primary">Option 1 — Free, on this page</h3>
+            <h3 className="mb-2 text-lg font-extrabold text-[#FECA42]">Option 1 — Free, on this page</h3>
             <p className="mb-3 text-base leading-relaxed text-[#33423a]">
               Enter your name as it appears on your PAN, your PAN number, date of birth, mobile
               number and email. Tick the authorisation box. You will get your score and full report
@@ -265,7 +265,7 @@ export default function CreditScoreGuide() {
             </p>
           </ContentCard>
           <ContentCard>
-            <h3 className="mb-2 text-lg font-extrabold text-primary">
+            <h3 className="mb-2 text-lg font-extrabold text-[#FECA42]">
               Option 2 — Directly from a bureau
             </h3>
             <p className="m-0 text-base leading-relaxed text-[#33423a]">
@@ -276,7 +276,7 @@ export default function CreditScoreGuide() {
             </p>
           </ContentCard>
           <ContentCard>
-            <h3 className="mb-2 text-lg font-extrabold text-primary">
+            <h3 className="mb-2 text-lg font-extrabold text-[#FECA42]">
               Option 3 — Your bank or card app
             </h3>
             <p className="m-0 text-base leading-relaxed text-[#33423a]">
@@ -300,7 +300,7 @@ export default function CreditScoreGuide() {
         <div className="mb-5 overflow-x-auto">
           <table className="w-full min-w-[560px] border-collapse text-[15px]">
             <thead>
-              <tr className="bg-primary text-left text-white">
+              <tr className="bg-[#FECA42] text-left text-white">
                 <th className="rounded-tl-[10px] px-4 py-3 font-bold">Range</th>
                 <th className="px-4 py-3 font-bold">Band</th>
                 <th className="rounded-tr-[10px] px-4 py-3 font-bold">
@@ -419,7 +419,7 @@ export default function CreditScoreGuide() {
         <div className="space-y-4">
           {IMPROVE_SCORE_PHASES.map((phase) => (
             <ContentCard key={phase.title}>
-              <h3 className="mb-3 text-[17px] font-extrabold text-primary">{phase.title}</h3>
+              <h3 className="mb-3 text-[17px] font-extrabold text-[#FECA42]">{phase.title}</h3>
               <ul className="list-disc space-y-2 pl-5 text-base leading-relaxed text-[#33423a]">
                 {phase.items.map((item) => (
                   <li key={item}>{item}</li>
@@ -443,7 +443,7 @@ export default function CreditScoreGuide() {
         </p>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div className="rounded-[14px] bg-[#eef4ef] p-5 sm:p-6">
-            <h3 className="mb-2 text-[17px] font-extrabold text-primary">Soft enquiry</h3>
+            <h3 className="mb-2 text-[17px] font-extrabold text-[#FECA42]">Soft enquiry</h3>
             <p className="m-0 text-[15px] leading-relaxed text-[#33423a]">
               You check your own score, or a lender runs a pre-approval check in the background.
               Visible only to you. <strong>No effect on your score.</strong> Checking on this page is

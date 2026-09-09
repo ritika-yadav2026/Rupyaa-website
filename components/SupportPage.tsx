@@ -1,7 +1,6 @@
 "use client";
 
 import SupportIssueDropdown from "@/components/SupportIssueDropdown";
-import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import type { ChangeEvent, DragEvent, FormEvent, ReactNode } from "react";
 import { Suspense, useId, useRef, useState } from "react";
@@ -17,6 +16,8 @@ import { appShellContainerClassName } from "@/lib/app-shell-layout";
 import { createCustomerSupportTicket } from "@/lib/support-ticket-api";
 import { useAuthStore } from "@/store/useAuthStore";
 import DownloadAppSection from "./home/DownloadAppSection";
+import AppButton from "@/components/app-button";
+import AppTextField from "@/components/app-text-field";
 
 const MAX_ATTACHMENT_SIZE_BYTES = 10 * 1024 * 1024;
 const ACCEPTED_ATTACHMENT_TYPES = [
@@ -47,7 +48,7 @@ function PhoneIcon(): React.ReactNode {
       fill="none"
       stroke="currentColor"
       strokeWidth="2.2"
-      className="text-primary"
+      className="text-black"
     >
       <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
     </svg>
@@ -63,7 +64,7 @@ function MailIcon(): React.ReactNode {
       fill="none"
       stroke="currentColor"
       strokeWidth="2.2"
-      className="text-primary"
+      className="text-black"
     >
       <rect x="3" y="5" width="18" height="14" rx="2" />
       <path d="M3 7l9 6 9-6" />
@@ -80,7 +81,7 @@ function MapPinIcon(): React.ReactNode {
       fill="none"
       stroke="currentColor"
       strokeWidth="2.2"
-      className="text-primary"
+      className="text-black"
     >
       <path d="M12 21s7-4.76 7-11a7 7 0 0 0-14 0c0 6.24 7 11 7 11z" />
       <circle cx="12" cy="10" r="2.5" />
@@ -132,18 +133,18 @@ function ContactCard({
   const contentNode = href ? (
     <a
       href={href}
-      className="text-base font-semibold text-primary hover:underline"
+      className="text-base font-semibold text-[#000000B2] hover:underline"
     >
       {content}
     </a>
   ) : (
-    <p className="max-w-md text-base font-semibold leading-relaxed text-primary">
+    <p className="max-w-md text-base font-semibold leading-relaxed text-[#000000B2]">
       {content}
     </p>
   );
   return (
-    <section className="flex min-h-[120px] items-center gap-5 rounded-xl border border-slate-100 bg-white p-5 shadow-[0_14px_32px_rgba(15,23,42,0.05)]">
-      <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-primary/10">
+    <section className="flex min-h-[120px] items-center gap-5 rounded-xl border border-[#FECA42] bg-[#FFFCF4] p-5 shadow-[0_14px_32px_rgba(15,23,42,0.05)]">
+      <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-[#FFE398]">
         {icon}
       </div>
       <div>
@@ -363,12 +364,15 @@ function SupportContent(): React.ReactNode {
           <p className="mt-3 text-sm leading-relaxed text-slate-600">
             Support requests are available for registered ZapCash users.
           </p>
-          <Link
-            href={supportAuthHref}
-            className="mt-6 inline-flex min-h-12 items-center justify-center rounded-xl bg-primary px-8 text-sm font-bold text-white transition hover:bg-primary/90"
+          <AppButton
+            type="button"
+            className="mt-6 px-8"
+            onClick={() => {
+              window.location.href = supportAuthHref;
+            }}
           >
             Login
-          </Link>
+          </AppButton>
         </section>
       );
     }
@@ -403,33 +407,27 @@ function SupportContent(): React.ReactNode {
       >
         <div className="space-y-4">
           <div className="grid gap-4 sm:grid-cols-2">
-            <label className="block">
-              <span className="mb-2 block text-[11px] font-bold uppercase tracking-wider text-slate-600">
-                Enter your application number
-              </span>
-              <input
-                type="text"
-                inputMode="text"
-                value={formState.applicantReference}
-                onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                  updateFormField("applicantReference", event.target.value)
-                }
-                placeholder="e.g., A7J1Q8S"
-                className="min-h-14 w-full rounded-lg border border-slate-300 px-4 text-sm uppercase text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-primary focus:ring-2 focus:ring-primary/15"
-              />
-            </label>
-            <label className="block">
-              <span className="mb-2 block text-[11px] font-bold uppercase tracking-wider text-slate-600">
-                Registered phone number
-              </span>
-              <input
-                type="tel"
-                value={displayPhoneNumber}
-                readOnly
-                placeholder="Phone number from your account"
-                className="min-h-14 w-full rounded-lg border border-slate-300 bg-slate-50 px-4 text-sm text-slate-700 outline-none placeholder:text-slate-400"
-              />
-            </label>
+            <AppTextField
+              id="support-application-number"
+              label="Enter your application number"
+              type="text"
+              inputMode="text"
+              value={formState.applicantReference}
+              onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                updateFormField("applicantReference", event.target.value)
+              }
+              placeholder="e.g., A7J1Q8S"
+              inputClassName="uppercase"
+            />
+            <AppTextField
+              id="support-registered-phone"
+              label="Registered phone number"
+              type="tel"
+              value={displayPhoneNumber}
+              readOnly
+              placeholder="Phone number from your account"
+              inputClassName="bg-slate-50 text-slate-700"
+            />
           </div>
           <SupportIssueDropdown
             label="Issue"
@@ -487,15 +485,15 @@ function SupportContent(): React.ReactNode {
               className="sr-only"
             />
           </div>
-          <button
+          <AppButton
             type="submit"
+            fullWidth
             disabled={
               isSubmitting || isFilterOptionsPending || isFilterOptionsError
             }
-            className="min-h-14 w-full rounded-xl bg-primary px-6 text-base font-bold text-white shadow-lg shadow-primary/20 transition hover:bg-primary/90 active:scale-[0.99] disabled:cursor-not-allowed disabled:bg-primary/60"
           >
             {submitLabel}
-          </button>
+          </AppButton>
         </div>
       </form>
     );
@@ -516,9 +514,9 @@ function SupportContent(): React.ReactNode {
           <div className="mx-auto ">
             <div className="mb-8 text-center">
               <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl">
-                Welcome to <span className="text-primary">ZapCash Support</span>
+                Welcome to <span className="text-[#FECA42]">Rupyaa Support</span>
               </h1>
-              <p className="mt-4 text-base font-semibold text-primary">
+              <p className="mt-4 text-base font-semibold text-[#FECA42]">
                 How can we help you today?
               </p>
             </div>

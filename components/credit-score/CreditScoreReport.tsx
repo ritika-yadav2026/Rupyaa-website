@@ -90,29 +90,29 @@ export default function CreditScoreReport({
           </p>
         </div>
 
-        <div className="relative overflow-hidden rounded-2xl bg-primary p-6 text-white sm:p-8">
-          <div className="pointer-events-none absolute -right-10 top-1/2 h-52 w-52 -translate-y-1/2 rounded-full bg-white/10" />
-          <span className="relative inline-flex rounded-full bg-white/15 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide">
+        <div className="relative overflow-hidden rounded-2xl bg-[#FECA42] p-6 text-gray-900 sm:p-8">
+          <div className="pointer-events-none absolute -right-10 top-1/2 h-52 w-52 -translate-y-1/2 rounded-full bg-[#FFE899]/70" />
+          <span className="relative inline-flex rounded-full bg-black/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-gray-900">
             Pre-approved for you
           </span>
-          <p className="relative mt-4 text-sm text-white/85 sm:text-base">
+          <p className="relative mt-4 text-sm text-gray-800 sm:text-base">
             Your score qualifies you for a Personal Loan up to
           </p>
           <p className="relative mt-1 text-4xl font-bold sm:text-5xl">
             {formatCurrency(preApprovedAmount)}
           </p>
-          <p className="relative mt-2 text-xs text-white/75 sm:text-sm">
+          <p className="relative mt-2 text-xs text-gray-700 sm:text-sm">
             Interest from 10.49% p.a. · Disbursal in 24 hrs · No collateral
           </p>
           <div className="relative mt-6 flex flex-wrap items-center gap-4">
             <a
               href="/personal-loan"
-              className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl bg-white px-6 py-3 text-sm font-semibold text-primary transition hover:bg-white/90"
+              className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl bg-white px-6 py-3 text-sm font-semibold text-gray-900 transition hover:bg-white/90"
             >
               Apply now
               <ArrowRightIcon />
             </a>
-            <span className="text-xs text-white/70">No impact on your score</span>
+            <span className="text-xs text-gray-700">No impact on your score</span>
           </div>
         </div>
       </div>
@@ -199,7 +199,7 @@ export default function CreditScoreReport({
           <ul className="space-y-2.5">
             {IMPROVEMENT_TIPS.map((tip) => (
               <li key={tip} className="flex gap-2 text-sm text-gray-600">
-                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#FECA42]" />
                 {tip}
               </li>
             ))}
@@ -207,7 +207,7 @@ export default function CreditScoreReport({
           <button
             type="button"
             onClick={onUnlockReport}
-            className="mt-4 inline-flex min-h-[44px] w-full items-center justify-center rounded-xl bg-primary/10 px-4 py-2.5 text-sm font-semibold text-primary transition hover:bg-primary/15"
+            className="mt-4 inline-flex min-h-[44px] w-full items-center justify-center rounded-xl bg-[#9c1c2e]/10 px-4 py-2.5 text-sm font-semibold text-[#9c1c2e] transition hover:bg-[#9c1c2e]/15"
           >
             Get full report
           </button>

@@ -17,6 +17,9 @@ import {
   getLoanIdFromActiveLoanResponse,
   useGetExistingActiveLoan,
 } from "@/services/loans";
+import { formatCurrency } from "@/lib/format-utils";
+import { formatLoanTenureDisplay } from "@/lib/loan-detail-formatters";
+import AppButton from "@/components/app-button";
 
 export default function LoanSanctionedStep() {
   const router = useRouter();
@@ -36,6 +39,19 @@ export default function LoanSanctionedStep() {
   // gated by `canCancel` from GET /loans/active (fail closed when missing).
   const shouldShowCancellationNotice = cancellationLoanId != null;
   const canCancelLoanNow = getCanCancelFromActiveLoanResponse(activeLoanData);
+
+  const loanAmountLabel = useMemo(() => {
+    const amount = activeLoanData?.loan?.amount;
+    if (amount == null || !Number.isFinite(amount)) return "—";
+    return formatCurrency(amount);
+  }, [activeLoanData?.loan?.amount]);
+
+  const tenureLabel = useMemo(() => {
+    const tenure = activeLoanData?.loan?.tenure;
+    if (!tenure?.trim()) return "—";
+    const formatted = formatLoanTenureDisplay(tenure);
+    return formatted.replace(/\bdays\b/i, "Days");
+  }, [activeLoanData?.loan?.tenure]);
 
   const handleGoToDashboard = () => {
     router.push("/");
@@ -63,18 +79,21 @@ export default function LoanSanctionedStep() {
 
       <h2
         id="loan-sanctioned-title"
-        className="text-base sm:text-xl font-semibold text-gray-900 mb-2 text-left"
+        className="text-2xl sm:text-xl font-semibold text-gray-900 mb-2 text-center"
       >
-        Great news! 🎉
+        {/* Great news! 🎉 */}
+        Almost there !
       </h2>
       <p className="text-base sm:text-3xl font-semibold text-gray-800 mb-2 text-left">
-        Your application is under final Disbursement Review
+        {/* Your application is under final Disbursement Review */}
+        
       </p>
       <p className="text-sm text-gray-600 mb-4 text-left">
-        Post successful review, funds will be transferred in your account within 24 hours.
+        {/* Post successful review, funds will be transferred in your account within 24 hours. */}
+        After a successful review, the funds will be transferred to your account within 24 hours.
       </p>
 
-      <SupportTeamQuerySection />
+      <SupportTeamQuerySection totalLoanAmount={loanAmountLabel} tenure={tenureLabel} />
 
       {shouldShowCancellationNotice ? (
         <InlineLinkNoticeBox
@@ -88,13 +107,9 @@ export default function LoanSanctionedStep() {
         />
       ) : null}
 
-      <button
-        type="button"
-        onClick={handleGoToDashboard}
-        className="w-full py-3.5 rounded-xl bg-primary text-white font-semibold hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 min-h-[48px]"
-      >
+      <AppButton type="button" fullWidth onClick={handleGoToDashboard}>
         Go to Home
-      </button>
+      </AppButton>
 
       {cancellationLoanId != null ? (
         <LoanCancellationModal

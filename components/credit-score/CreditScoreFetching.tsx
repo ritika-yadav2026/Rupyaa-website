@@ -28,7 +28,7 @@ function CheckIcon() {
 function SpinnerRing({ className = "" }: { readonly className?: string }) {
   return (
     <span
-      className={`inline-block animate-spin rounded-full border-2 border-primary/25 border-t-primary ${className}`}
+      className={`inline-block animate-spin rounded-full border-2 border-[#FECA42]/30 border-t-[#FECA42] ${className}`}
     />
   );
 }
@@ -70,8 +70,8 @@ export default function CreditScoreFetching({ isPending, onComplete }: CreditSco
   if (phase === "steps") {
     card = (
       <>
-        <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full border-2 border-primary">
-          <span className="text-xs font-bold tracking-wide text-primary">EQUIFAX</span>
+        <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full border-2 border-[#FECA42]">
+          <span className="text-xs font-bold tracking-wide text-gray-900">EQUIFAX</span>
         </div>
         <h2 className="mt-6 text-center text-xl font-bold text-gray-900 sm:text-2xl">
           Fetching your credit score…
@@ -86,7 +86,7 @@ export default function CreditScoreFetching({ isPending, onComplete }: CreditSco
             let labelClass = "text-sm text-gray-400";
             if (isDone) {
               indicator = (
-                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-primary">
+                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-900">
                   <CheckIcon />
                 </span>
               );
@@ -119,7 +119,7 @@ export default function CreditScoreFetching({ isPending, onComplete }: CreditSco
   }
   return (
     <div className="flex min-h-[70vh] w-full items-center justify-center bg-white px-4 py-16">
-      <div className="w-full max-w-md rounded-2xl border border-gray-100 bg-white p-6 shadow-[0_12px_40px_rgba(0,0,0,0.08)] sm:p-8">
+      <div className="w-full max-w-md rounded-2xl border border-[#FECA42] bg-white p-6 shadow-[0_12px_40px_rgba(0,0,0,0.08)] sm:p-8">
         {card}
       </div>
     </div>

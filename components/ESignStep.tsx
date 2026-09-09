@@ -23,6 +23,7 @@ import { useExternalFlowConsentLock } from "@/hooks/useExternalFlowConsentLock";
 import { type GoogleAuthResult, useGoogleAuth } from "@/hooks/useGoogleAuth";
 import { openCenteredExternalFlowPopup } from "@/lib/open-external-flow-popup";
 import { useGeoStore } from "@/store/useGeoStore";
+import AppButton from "@/components/app-button";
 
 type EsignScreen = "bootstrapping" | "ready" | "polling" | "pending" | "failed";
 
@@ -338,7 +339,7 @@ function ESignStepCore({ onContinue, promptAsync }: ESignStepCoreProps) {
     <>
     <div className="bg-white rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.06)] p-4 sm:p-6 md:p-8 max-w-2xl mx-auto w-full">
       <div className="flex justify-center mb-6 sm:mb-8">
-        <Image src={eSignIcon} alt="e-sign" width={300} height={300} />
+        <Image src={eSignIcon} alt="e-sign" width={140} height={140} />
       </div>
 
       <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-2 text-center">
@@ -374,13 +375,9 @@ function ESignStepCore({ onContinue, promptAsync }: ESignStepCoreProps) {
             We could not confirm e-sign automatically. If you finished signing in the popup, try continuing from the
             loan steps again. Otherwise retry opening the e-sign window.
           </p>
-          <button
-            type="button"
-            onClick={handleRetryFromPending}
-            className="w-full py-3.5 rounded-xl bg-primary text-white font-semibold hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 min-h-[48px]"
-          >
+          <AppButton type="button" fullWidth onClick={handleRetryFromPending}>
             Retry E-Sign
-          </button>
+          </AppButton>
         </div>
       )}
 
@@ -389,13 +386,9 @@ function ESignStepCore({ onContinue, promptAsync }: ESignStepCoreProps) {
           <p className="text-sm text-red-700 bg-red-50 border border-red-100 rounded-xl px-4 py-3 text-center">
             {failedMessage}
           </p>
-          <button
-            type="button"
-            onClick={handleDismissFailed}
-            className="w-full py-3.5 rounded-xl border border-gray-200 text-gray-900 font-semibold hover:bg-gray-50 min-h-[48px]"
-          >
+          <AppButton type="button" fullWidth variant="secondary" onClick={handleDismissFailed}>
             Try again
-          </button>
+          </AppButton>
         </div>
       )}
 
@@ -414,14 +407,14 @@ function ESignStepCore({ onContinue, promptAsync }: ESignStepCoreProps) {
             </p>
           )}
 
-          <button
+          <AppButton
             type="button"
+            fullWidth
             onClick={handlePrimaryContinue}
             disabled={disablePrimary || (!promptAsync && personalDetails?.isOauthDone !== true)}
-            className="w-full py-3.5 rounded-xl bg-primary text-white font-semibold hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 min-h-[48px] disabled:opacity-70 disabled:cursor-not-allowed"
           >
             {isInitiating ? "Opening e-sign…" : primaryLabel}
-          </button>
+          </AppButton>
         </>
       )}
     </div>
@@ -448,7 +441,7 @@ function ESignBootstrappingShell() {
   return (
     <div className="bg-white rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.06)] p-4 sm:p-6 md:p-8 max-w-2xl mx-auto w-full">
       <div className="flex justify-center mb-6 sm:mb-8">
-        <Image src={eSignIcon} alt="e-sign" width={300} height={300} />
+        {/* <Image src={eSignIcon} alt="e-sign" width={300} height={300} /> */}
       </div>
       <div className="flex flex-col items-center gap-3 py-8">
         <div className="h-9 w-9 animate-spin rounded-full border-2 border-primary border-t-transparent" />
