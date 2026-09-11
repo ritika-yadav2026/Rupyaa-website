@@ -187,9 +187,11 @@ function ChevronIcon({ open }: { open: boolean }) {
 
 type FAQSectionProps = {
   startBatch?: number;
+  /** centered = default stacked FAQ; split = title/CTA left, accordion right */
+  layout?: "centered" | "split";
 };
 
-export default function FAQSection({ startBatch = 0 }: FAQSectionProps) {
+export default function FAQSection({ startBatch = 0, layout = "centered" }: FAQSectionProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
   const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE);
 
@@ -206,74 +208,106 @@ export default function FAQSection({ startBatch = 0 }: FAQSectionProps) {
   const visibleItems = orderedItems.slice(0, visibleCount);
   const hasMore = visibleCount < orderedItems.length;
 
+  let viewMore: ReactNode = null;
+  if (hasMore) {
+    viewMore = (
+      <div className="flex justify-center pt-2">
+        <button
+          type="button"
+          onClick={handleViewMore}
+          className="inline-flex items-center gap-2 rounded-full border border-button/60 bg-white px-6 py-2.5 text-sm font-semibold text-gray-900 transition hover:bg-button"
+        >
+          View More
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M6 9l6 6 6-6" />
+          </svg>
+        </button>
+      </div>
+    );
+  }
+
+  const accordion = (
+    <div className="space-y-3">
+      {visibleItems.map((item, index) => {
+        const { question } = item;
+        const isOpen = openIndex === index;
+        const answerContent = renderFaqAnswerContent(item);
+        let itemClassName = "overflow-hidden rounded-2xl border border-[#FECA42]/55 bg-[#FFFCF4]";
+        if (layout === "centered") {
+          itemClassName = "overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm";
+        }
+        return (
+          <div key={question} className={itemClassName}>
+            <button
+              type="button"
+              onClick={() => toggleItem(index)}
+              className="flex w-full items-center justify-between gap-3 p-4 text-left transition-colors hover:bg-black/[0.02] sm:gap-4 sm:p-5"
+              aria-expanded={isOpen}
+              aria-controls={`faq-answer-${index}`}
+              id={`faq-question-${index}`}
+            >
+              <span className="pr-4 text-sm font-semibold text-gray-900 sm:text-base md:text-lg">
+                {question}
+              </span>
+              <span className="flex-shrink-0 text-gray-600">
+                <ChevronIcon open={isOpen} />
+              </span>
+            </button>
+            <div
+              id={`faq-answer-${index}`}
+              role="region"
+              aria-labelledby={`faq-question-${index}`}
+              className={`overflow-hidden transition-all duration-200 ease-in-out ${
+                isOpen ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"
+              }`}
+            >
+              <div className="space-y-3 px-4 pb-4 pt-0 sm:px-5 sm:pb-5">{answerContent}</div>
+            </div>
+          </div>
+        );
+      })}
+      {viewMore}
+    </div>
+  );
+
+  if (layout === "split") {
+    return (
+      <section id="faq" className="bg-white">
+        <div className={`${appShellContainerClassName} ${homeSectionSpacingClassName}`}>
+          <div className="mt-8 grid gap-8 sm:mt-10 lg:mt-12 lg:grid-cols-[0.85fr_1.15fr] lg:items-center lg:gap-12">
+            <div className="flex flex-col justify-center">
+              <h2 className="text-2xl font-semibold tracking-[-0.03em] text-gray-900 sm:text-3xl lg:text-4xl">
+                Frequently
+                <br />
+                Asked Questions
+              </h2>
+              <p className="mt-3 max-w-sm text-sm leading-6 text-slate-600 sm:text-base">
+                Need help with eligibility, your application, repayments or loan documents? Contact
+                the Rupyaa support team.
+              </p>
+              <div className="mt-6">
+                <a
+                  href="/support"
+                  className="inline-flex min-h-[48px] items-center justify-center rounded-xl bg-button px-7 text-sm font-semibold text-gray-900 transition hover:bg-button/90"
+                >
+                  Quick Support
+                </a>
+              </div>
+            </div>
+            <div>{accordion}</div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section id="faq" className="bg-white">
       <div className={`${appShellContainerClassName} ${homeSectionSpacingClassName}`}>
-        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-gray-900 text-center mb-10 sm:mb-12">
+        <h2 className="mb-10 text-center text-2xl font-semibold text-gray-900 sm:mb-12 sm:text-3xl lg:text-4xl">
           Frequently Asked Questions
         </h2>
-        <div className="max-w-3xl mx-auto space-y-4">
-          {visibleItems.map((item, index) => {
-            const { question } = item;
-            const isOpen = openIndex === index;
-            const answerContent = renderFaqAnswerContent(item);
-            return (
-              <div
-                key={question}
-                className="rounded-2xl border border-gray-200 bg-white shadow-sm overflow-hidden"
-              >
-                <button
-                  type="button"
-                  onClick={() => toggleItem(index)}
-                  className="w-full flex items-center justify-between gap-3 sm:gap-4 p-4 sm:p-5 md:p-6 text-left hover:bg-gray-50/50 transition-colors"
-                  aria-expanded={isOpen}
-                  aria-controls={`faq-answer-${index}`}
-                  id={`faq-question-${index}`}
-                >
-                  <span className="font-bold text-gray-900 text-sm sm:text-base md:text-lg pr-4">
-                    {question}
-                  </span>
-                  <span className="flex-shrink-0 text-gray-600">
-                    <ChevronIcon open={isOpen} />
-                  </span>
-                </button>
-                <div
-                  id={`faq-answer-${index}`}
-                  role="region"
-                  aria-labelledby={`faq-question-${index}`}
-                  className={`overflow-hidden transition-all duration-200 ease-in-out ${isOpen ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"
-                    }`}
-                >
-                  <div className="px-5 sm:px-6 pb-5 sm:pb-6 pt-0 space-y-3">
-                    {answerContent}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        {hasMore && (
-          <div className="mt-8 flex justify-center">
-            <button
-              type="button"
-              onClick={handleViewMore}
-              className="inline-flex items-center gap-2 rounded-full border border-primary/60 bg-white px-6 py-2.5 text-sm font-semibold text-primary transition hover:bg-primary hover:text-white"
-            >
-              View More
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <path d="M6 9l6 6 6-6" />
-              </svg>
-            </button>
-          </div>
-        )}
+        <div className="mx-auto max-w-3xl">{accordion}</div>
       </div>
     </section>
   );

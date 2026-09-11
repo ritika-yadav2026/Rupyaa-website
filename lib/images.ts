@@ -9,6 +9,7 @@ export const HOME_IMAGES = {
   logo: "/images/logo.png",
   phoneMockup1: "/images/White and Black Minimalist Phone Mockup Instagram Story (1) 1.png",
   phoneMockup2: "/images/White and Black Minimalist Phone Mockup Instagram Story (1) 2.png",
+  mockDevice: "/images/mock-device.png",
 } as const;
 
 

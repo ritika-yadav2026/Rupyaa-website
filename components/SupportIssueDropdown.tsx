@@ -66,7 +66,7 @@ function SelectedCheckIcon(): ReactNode {
       fill="none"
       stroke="currentColor"
       strokeWidth="2.5"
-      className="shrink-0 text-primary"
+      className="shrink-0 text-input-border"
       aria-hidden
     >
       <path d="M5 13l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
@@ -186,10 +186,10 @@ export default function SupportIssueDropdown({
     triggerLabelClass = "text-slate-900";
   }
   let triggerBorderClass =
-    "border-gray-200 hover:border-primary/40 focus:border-primary focus:ring-2 focus:ring-primary/15";
+    "border-gray-200 hover:border-input-border/50 focus:border-input-border focus:bg-input-bg focus:ring-2 focus:ring-input-border/20";
   if (isOpen) {
     triggerBorderClass =
-      "border-primary ring-2 ring-primary/15 hover:border-primary";
+      "border-input-border bg-input-bg ring-2 ring-input-border/20 hover:border-input-border";
   }
   if (disabled) {
     triggerBorderClass = "border-gray-200 bg-slate-50 text-slate-400";
@@ -205,10 +205,10 @@ export default function SupportIssueDropdown({
       optionNodes = filteredOptions.map((option) => {
         const isSelected = option.value === value;
         let optionClass =
-          "flex w-full items-center justify-between gap-3 px-4 py-3 text-left text-sm text-slate-800 transition hover:bg-primary/10";
+          "flex w-full items-center justify-between gap-3 px-4 py-3 text-left text-sm text-slate-800 transition hover:bg-input-bg";
         if (isSelected) {
           optionClass =
-            "flex w-full items-center justify-between gap-3 bg-primary/10 px-4 py-3 text-left text-sm font-semibold text-primary";
+            "flex w-full items-center justify-between gap-3 bg-input-bg px-4 py-3 text-left text-sm font-semibold text-gray-900";
         }
         let selectedIcon: ReactNode = null;
         if (isSelected) {
@@ -234,7 +234,7 @@ export default function SupportIssueDropdown({
           <label htmlFor={searchInputId} className="sr-only">
             Search issues
           </label>
-          <div className="flex min-h-10 items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3">
+          <div className="flex min-h-10 items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 focus-within:border-input-border focus-within:bg-input-bg focus-within:ring-2 focus-within:ring-input-border/20">
             <SearchIcon />
             <input
               ref={searchInputRef}
@@ -264,7 +264,7 @@ export default function SupportIssueDropdown({
   }
   return (
     <div ref={rootRef} className="relative block">
-      <span className="mb-2 block text-[11px] font-bold uppercase tracking-wider text-slate-600">
+      <span className="mb-2 block text-sm font-semibold text-gray-800">
         {label}
       </span>
       <button
@@ -274,7 +274,7 @@ export default function SupportIssueDropdown({
         aria-expanded={isOpen}
         aria-controls={listboxId}
         onClick={handleToggle}
-        className={`flex w-full min-h-[48px] items-center justify-between gap-3 rounded-xl border bg-white px-3 py-2.5 text-left text-base outline-none transition sm:px-4 sm:py-3 ${triggerBorderClass} ${triggerCursorClass}`}
+        className={`flex w-full min-h-[52px] items-center justify-between gap-3 rounded-xl border bg-white px-4 py-3.5 text-left text-base outline-none transition ${triggerBorderClass} ${triggerCursorClass}`}
       >
         <span className={`min-w-0 flex-1 truncate ${triggerLabelClass}`}>
           {triggerLabel}

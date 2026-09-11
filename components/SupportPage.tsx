@@ -441,7 +441,7 @@ function SupportContent(): React.ReactNode {
             }
           />
           <label className="block">
-            <span className="mb-2 block text-[11px] font-bold uppercase tracking-wider text-slate-600">
+            <span className="mb-2 block text-sm font-semibold text-gray-800">
               Describe your issue or feedback
             </span>
             <textarea
@@ -451,27 +451,27 @@ function SupportContent(): React.ReactNode {
               }
               placeholder="Please provide details..."
               rows={6}
-              className="w-full resize-none rounded-lg border border-slate-300 px-4 py-5 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-primary focus:ring-2 focus:ring-primary/15"
+              className="w-full resize-none rounded-xl border border-gray-200 bg-white px-4 py-3.5 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-input-border focus:bg-input-bg focus:ring-2 focus:ring-input-border/20"
             />
           </label>
           <div>
-            <span className="mb-2 block text-[11px] font-bold uppercase tracking-wider text-slate-600">
+            <span className="mb-2 block text-sm font-semibold text-gray-800">
               Attach relevant files
             </span>
             <label
               htmlFor={fileInputId}
               onDragOver={handleAttachmentDragOver}
               onDrop={handleAttachmentDrop}
-              className="flex min-h-40 cursor-pointer flex-col items-center justify-center rounded-lg border border-dashed border-primary/30 bg-primary/10 px-4 text-center transition hover:bg-primary/15"
+              className="flex min-h-40 cursor-pointer flex-col items-center justify-center rounded-xl border border-dashed border-input-border/60 bg-input-bg px-4 text-center transition hover:border-input-border hover:bg-[#FFF4D9]"
             >
               <UploadIcon />
-              <span className="mt-3 text-sm font-bold text-primary">
+              <span className="mt-3 text-sm font-bold text-gray-900">
                 Upload a file{" "}
-                <span className="font-medium text-slate-600">
+                <span className="font-medium text-gray-600">
                   or drag and drop
                 </span>
               </span>
-              <span className="mt-1 text-xs text-slate-500">
+              <span className="mt-1 text-xs text-gray-500">
                 PNG, JPG, PDF up to 25MB
               </span>
               {attachmentName}

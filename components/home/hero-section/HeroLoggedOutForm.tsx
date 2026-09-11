@@ -56,7 +56,7 @@ export function HeroLoggedOutForm({
         />
         <button
           type="submit"
-          className="w-full sm:w-auto px-6 py-3.5 md:px-6 rounded-xl bg-primary text-white font-bold hover:bg-primary/90 active:scale-[0.98] transition-all shrink-0 min-h-[48px]"
+          className="w-full sm:w-auto px-6 py-3.5 md:px-6 rounded-xl bg-button text-gray-900 font-bold hover:bg-button/90 active:scale-[0.98] transition-all shrink-0 min-h-[48px]"
         >
           Get Loan
         </button>

@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --brand-color: #006625;
+  --brand-color: #FECA42;
 }
 
 @theme inline {
@@ -13,7 +13,7 @@
   --color-brand-surface: color-mix(in srgb, var(--brand-color) 2%, white);
   --color-brand-border: color-mix(in srgb, var(--brand-color) 14%, white);
   --color-brand-hover: color-mix(in srgb, var(--brand-color) 88%, black);
-  --color-brand-panel-start: color-mix(in srgb, var(--brand-color) 88%, #00b84a);
+  --color-brand-panel-start: color-mix(in srgb, var(--brand-color) 88%, #FFE899);
   --color-brand-panel-end: color-mix(in srgb, var(--brand-color) 88%, black);
   --color-input-bg: #FFFCF4;
   --color-input-border: #FECA42;
@@ -100,8 +100,8 @@ input[type="range"]::-moz-range-track {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: #2E7D32;
-  border: 2px solid white;
+  background: var(--brand-color);
+  border: 2px solid #111827;
   box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   cursor: pointer;
 }
@@ -109,8 +109,8 @@ input[type="range"]::-moz-range-track {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: #2E7D32;
-  border: 2px solid white;
+  background: var(--brand-color);
+  border: 2px solid #111827;
   box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   cursor: pointer;
 }

@@ -466,7 +466,7 @@ export default function CreditScoreGuide() {
       </section>
 
       <section className="mb-5">
-        <h2 className="mb-5 text-[26px] font-extrabold tracking-tight text-[#14202a] sm:text-[30px]">
+        <h2 className="mb-5 MT-4 text-[26px] font-semibold tracking-tight text-[#14202a] sm:text-[30px]">
           Frequently asked questions
         </h2>
         <div className="space-y-3">
