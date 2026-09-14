@@ -3,7 +3,6 @@
 import { useCallback, useEffect, useRef, type ReactNode } from "react";
 import { formatCurrency } from "@/lib/format-utils";
 import { useFlowStore, DEFAULT_OFFER_AMOUNT } from "@/store/useFlowStore";
-import BasicInfoSidebar from "./BasicInfoSidebar";
 import { useEnableFullWebJourney } from "@/hooks/useEnableFullWebJourney";
 import { useApprovedOfferStep } from "@/hooks/useApprovedOfferStep";
 import { ensureCurrentOfferForApprovedStep } from "@/lib/fetch-current-offer";
@@ -76,8 +75,8 @@ function RegisterLoanOfferMarketing({
         <p className="text-base text-gray-700">Your loan journey begins here.</p>
       </div>
 
-      <div className="bg-white rounded-3xl shadow-lg overflow-hidden flex flex-col lg:flex-row">
-        <div className="flex-1 p-6 sm:p-8 lg:p-10 flex flex-col gap-4 justify-between">
+      <div className="bg-white rounded-3xl shadow-lg overflow-hidden">
+        <div className="flex flex-col gap-4 justify-between p-6 sm:p-8 lg:p-10">
           <div>
             <span className="item-center inline-flex gap-1.5 w-fit px-3 py-1.5 rounded-full bg-[#e8f5e9] border border-primary text-primary text-xs font-bold uppercase tracking-wide mb-4">
               <CheckIcon />
@@ -106,9 +105,6 @@ function RegisterLoanOfferMarketing({
               </AppButton>
             </div>
           </div>
-        </div>
-        <div className="lg:w-[320px] xl:w-[380px] shrink-0 border-t lg:border-t-0 lg:border-l border-gray-100">
-          <BasicInfoSidebar />
         </div>
       </div>
     </div>
@@ -258,14 +254,19 @@ function ApprovedOfferReview({ onContinue }: { onContinue?: () => void }) {
       <button
         type="button"
         onClick={improveOfferByUsingBsa}
-        className="w-full text-left rounded-2xl border border-button bg-[#FFFCF4]/40 p-4 mb-4 hover:bg-[#e8f5e9]/70 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+        className="mb-4 flex w-full items-center gap-3 rounded-2xl border border-button bg-[#FFFCF4]/40 p-4 text-left transition-colors hover:bg-[#FFF8E6] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
       >
-        <p className="text-sm font-semibold text-gray-900 mb-1">
-          {OFFER_COPY.HIGHER_LOAN_TITLE}
-        </p>
-        <p className="text-sm text-gray-600">
-          {OFFER_COPY.HIGHER_LOAN_SUBTEXT}
-        </p>
+        <span className="min-w-0 flex-1">
+          <p className="mb-1 text-sm font-semibold text-gray-900">
+            {OFFER_COPY.HIGHER_LOAN_TITLE}
+          </p>
+          <p className="text-sm text-gray-600">
+            {OFFER_COPY.HIGHER_LOAN_SUBTEXT}
+          </p>
+        </span>
+        <span className="shrink-0 text-xl font-semibold text-gray-900" aria-hidden>
+          ›
+        </span>
       </button>
     );
   }
@@ -330,24 +331,22 @@ function ApprovedOfferReview({ onContinue }: { onContinue?: () => void }) {
   }
 
   return (
-    <div className="w-full max-w-lg mx-auto flex flex-col min-h-[360px] pb-28 sm:pb-32">
-      {offerContent}
+    <div className="mx-auto flex min-h-[calc(100dvh-7.5rem)] w-full max-w-lg flex-col">
+      <div className="flex-1">{offerContent}</div>
 
-      <div className="fixed bottom-0 left-0 right-0 z-20 border-t border-gray-200 bg-white/95 backdrop-blur-sm px-4 py-3 sm:py-4 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
-        <div className="mx-auto max-w-lg">
-          <AppButton
-            type="button"
-            fullWidth
-            onClick={buttonAction}
-            disabled={buttonDisabled}
-            className="gap-2"
-          >
-            {acceptingSpinner}
-            <span>
-              {isRefreshing ? OFFER_COPY.REFRESHING_BUTTON : buttonLabel}
-            </span>
-          </AppButton>
-        </div>
+      <div className="sticky bottom-0 z-20 mt-auto border-t border-gray-200 bg-white/95 py-3 backdrop-blur-sm sm:py-4 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+        <AppButton
+          type="button"
+          fullWidth
+          onClick={buttonAction}
+          disabled={buttonDisabled}
+          className="gap-2"
+        >
+          {acceptingSpinner}
+          <span>
+            {isRefreshing ? OFFER_COPY.REFRESHING_BUTTON : buttonLabel}
+          </span>
+        </AppButton>
       </div>
     </div>
   );

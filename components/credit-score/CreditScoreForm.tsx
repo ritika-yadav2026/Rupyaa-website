@@ -14,6 +14,7 @@ import {
 import type { CreditScoreFormValues } from "@/lib/credit-score-api";
 import AppButton from "@/components/app-button";
 import AppTextField from "@/components/app-text-field";
+import styles from "./CreditScoreForm.module.css";
 
 interface CreditScoreFormProps {
   readonly onSubmit: (values: CreditScoreFormValues) => void;
@@ -25,32 +26,21 @@ interface CreditScoreFormProps {
 
 type FieldErrors = Partial<Record<keyof CreditScoreFormValues, string>>;
 
-const HIGHLIGHTS = [
-  "100% Free, always",
-  "Won't affect your score",
-  "Instant, secure results",
-] as const;
-
-function CheckIcon() {
+function CreditScoreGauge() {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <circle cx="12" cy="12" r="12" fill="#FFE899" />
-      <path
-        d="M7 12.5l3.2 3.2L17 9"
-        stroke="#111111"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function LockIcon() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-      <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-      <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+    <svg viewBox="0 0 200 130" className="w-32 shrink-0 sm:w-44" aria-hidden="true">
+      <path d="M30 110 A70 70 0 0 1 50.5 60.5" fill="none" stroke="#ff2424" strokeWidth="22" />
+      <path d="M53 58 A70 70 0 0 1 98 40" fill="none" stroke="#ff681c" strokeWidth="22" />
+      <path d="M102 40 A70 70 0 0 1 147 58" fill="none" stroke="#ffcc24" strokeWidth="22" />
+      <path d="M150 61 A70 70 0 0 1 170 110" fill="none" stroke="#20c520" strokeWidth="22" />
+      <text x="17" y="87" fill="#ff2424" fontSize="10" transform="rotate(-65 17 87)">POOR</text>
+      <text x="53" y="35" fill="#ff681c" fontSize="10" transform="rotate(-30 53 35)">FAIR</text>
+      <text x="119" y="29" fill="#e9ad00" fontSize="10" transform="rotate(22 119 29)">GOOD</text>
+      <text x="171" y="53" fill="#20a920" fontSize="9" transform="rotate(65 171 53)">EXCELLENT</text>
+      <circle cx="100" cy="104" r="20" fill="#ff681c" />
+      <path d="M100 84 A20 20 0 0 1 100 124Z" fill="#20c520" />
+      <path d="M94 105 L126 43 L105 110Z" fill="#303030" />
+      <circle cx="100" cy="104" r="6" fill="#ffcc24" />
     </svg>
   );
 }
@@ -191,37 +181,24 @@ export default function CreditScoreForm({
   }
 
   return (
-    <div className="overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-[0_12px_40px_rgba(0,0,0,0.08)]">
-      <div className="flex flex-col lg:flex-row">
-        <div className="relative flex flex-col justify-center overflow-hidden bg-[#FECA42] p-6 text-gray-900 sm:p-8 lg:w-[40%] lg:p-10">
-          <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-[#FFE899]/70" />
-          <h1 className="relative text-4xl font-bold leading-tight sm:text-5xl">
-            Check your
+    <div className={styles.root}>
+      <div className="flex min-h-[140px] items-center justify-between gap-3 rounded-xl border border-[#FECA42] bg-[#FFFCF4] px-4 py-4 sm:px-5">
+        <div>
+          <h1 className="text-2xl font-semibold leading-tight sm:text-[28px]">
+            <span className="bg-gradient-to-r from-[#ff4b18] via-[#ffb900] to-[#68c817] bg-clip-text text-transparent">Check Your Credit</span>
             <br />
-            Credit Score
+            <span className="text-[#ff7818]">Score, Free</span>
           </h1>
-          <p className="relative mt-3 text-sm text-gray-800 sm:text-base">
-            Get your EQUIFAX score &amp; full report in under a minute.
-          </p>
-          <ul className="relative mt-6 space-y-3">
-            {HIGHLIGHTS.map((item) => (
-              <li key={item} className="flex items-center gap-3 text-sm sm:text-base">
-                <span className="shrink-0">
-                  <CheckIcon />
-                </span>
-                {item}
-              </li>
-            ))}
-          </ul>
-          <p className="relative mt-8 flex items-center gap-2 text-xs text-gray-800">
-            <LockIcon />
-            256-bit encrypted · Powered by Equifax
+          <p className="mt-1 max-w-[270px] text-xs leading-relaxed text-gray-600 sm:text-sm">
+            Know your score, accounts, EMIs, enquiries &amp; payment history.
           </p>
         </div>
+        <CreditScoreGauge />
+      </div>
 
-        <form onSubmit={handleSubmit} className="flex-1 p-6 sm:p-8 lg:p-10" noValidate>
-          <h3 className="text-2xl font-bold text-gray-900">Tell us about you</h3>
-          <p className="mt-1 text-sm text-gray-500">All fields are required.</p>
+      <form onSubmit={handleSubmit} className="mt-7" noValidate>
+        <h2 className="text-2xl font-bold text-[#383838] sm:text-[26px]">Let’s check your credit score</h2>
+        <p className="mt-2 text-base text-gray-600">Enter your details to get your personalised credit report.</p>
 
           <div className="mt-6 space-y-4">
             <AppTextField
@@ -252,7 +229,7 @@ export default function CreditScoreForm({
             <div className={dobMobileGridClassName}>
               <AppTextField
                 id="cs-dob"
-                label="Date of birth"
+                label="Date of Birth (as per PAN)"
                 type="date"
                 value={values.dob}
                 onChange={(event) => updateValue("dob", event.target.value)}
@@ -272,7 +249,6 @@ export default function CreditScoreForm({
                 value={values.monthlyIncome}
                 onChange={handleIncomeChange}
                 placeholder="50,000"
-                prefix="₹"
                 disabled={isSubmitting}
                 error={errors.monthlyIncome}
               />
@@ -313,12 +289,11 @@ export default function CreditScoreForm({
               {consentError}
             </div>
 
-            <AppButton type="submit" fullWidth disabled={isSubmitting} className="mt-2">
+            <AppButton type="submit" fullWidth disabled={isSubmitting} className="mt-2 min-h-[42px] rounded-md bg-[#FECA42] py-2.5 text-sm">
               {submitLabel}
             </AppButton>
           </div>
         </form>
-      </div>
     </div>
   );
 }

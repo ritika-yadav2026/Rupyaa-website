@@ -1,0 +1,32 @@
+.root label {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.root input:not([type="checkbox"]) {
+  min-width: 0;
+  min-height: 40px;
+  border-radius: 5px;
+  padding: 10px;
+  background-color: #fffcf4;
+  font-size: 12px;
+}
+
+.root input:not([type="checkbox"]):not([aria-invalid="true"]) {
+  border-color: #feca42;
+}
+
+.root div:has(> input#cs-mobile) {
+  min-height: 40px;
+  border-radius: 5px;
+  border-color: #feca42;
+  background-color: #fffcf4;
+}
+
+.root div:has(> input#cs-mobile[aria-invalid="true"]) {
+  border-color: #ef4444;
+}
+
+.root input[type="checkbox"] {
+  accent-color: #feca42;
+}

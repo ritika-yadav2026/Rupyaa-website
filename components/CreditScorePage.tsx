@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import Link from "next/link";
+import BasicInfoSidebar from "@/components/BasicInfoSidebar";
 import { appShellContainerClassName } from "@/lib/app-shell-layout";
 import { useAuthPersistHydrated } from "@/hooks/useAuthPersistHydrated";
 import { useCreditScoreFlow } from "@/hooks/useCreditScoreFlow";
@@ -12,6 +12,17 @@ import CreditScoreReport from "@/components/credit-score/CreditScoreReport";
 import CreditScoreGuide from "@/components/credit-score/CreditScoreGuide";
 import EquifaxFullReport from "@/components/credit-score/EquifaxFullReport";
 import type { CreditScoreFormValues } from "@/lib/credit-score-api";
+
+function CreditScoreSection({ children }: { readonly children: ReactNode }) {
+  return (
+    <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-12 xl:grid-cols-[minmax(0,1fr)_380px] xl:gap-20">
+      <div className="min-w-0">{children}</div>
+      <div className="hidden h-[660px] lg:block">
+        <BasicInfoSidebar />
+      </div>
+    </div>
+  );
+}
 
 /**
  * Normalizes stored auth phone values to a 10-digit Indian mobile number.
@@ -45,11 +56,13 @@ export default function CreditScorePage() {
   let content: ReactNode;
   if (flow.step === "report" && flow.result) {
     content = (
-      <CreditScoreReport
-        data={flow.result.data}
-        onStartOver={flow.startOver}
-        onUnlockReport={flow.unlockReport}
-      />
+      <CreditScoreSection>
+        <CreditScoreReport
+          data={flow.result.data}
+          onStartOver={flow.startOver}
+          onUnlockReport={flow.unlockReport}
+        />
+      </CreditScoreSection>
     );
   } else if (flow.step === "fullReport" && flow.result) {
     content = (
@@ -68,20 +81,26 @@ export default function CreditScorePage() {
     }
     content = (
       <>
-        <div id="widget">
-          <CreditScoreForm
-            onSubmit={flow.submitForm}
-            isSubmitting={flow.isPending}
-            initialValues={initialValues}
-            isMobileLocked={isMobileLocked}
-          />
+        <CreditScoreSection>
+          <div id="widget">
+            <CreditScoreForm
+              onSubmit={flow.submitForm}
+              isSubmitting={flow.isPending}
+              initialValues={initialValues}
+              isMobileLocked={isMobileLocked}
+            />
+          </div>
+        </CreditScoreSection>
+        <div className="mt-10 sm:mt-14">
+          <CreditScoreSection>
+            <CreditScoreGuide />
+          </CreditScoreSection>
         </div>
-        <CreditScoreGuide />
       </>
     );
   }
   return (
-    <div className="-mt-0 min-h-full bg-[#f4f7f4]">
+    <div className="-mt-0 min-h-full bg-white">
       <div className={`${appShellContainerClassName} py-8 sm:py-10 lg:py-12`}>{content}</div>
     </div>
   );

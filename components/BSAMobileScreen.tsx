@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo } from "react";
 import { useFlowStore } from "@/store/useFlowStore";
-import BasicInfoSidebar from "@/components/BasicInfoSidebar";
 import BasicInfoFooter from "@/components/BasicInfoFooter";
 import BankStatementVerification from "@/components/BankStatementVerification";
 import BankConnectFetchingContent from "@/components/home/BankConnectFetchingContent";
@@ -132,8 +131,7 @@ export default function BSAMobileScreen({ onContinue }: Props) {
   return (
     <>
       <div className="w-full max-w-full sm:max-w-[95vw] md:max-w-[90vw] lg:max-w-[80vw] min-w-0 mx-auto bg-white rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.06)] overflow-hidden">
-        <div className="flex flex-col lg:flex-row">
-          <div className="flex-1 p-6 sm:p-8 lg:p-10">
+        <div className="p-6 sm:p-8 lg:p-10">
             <div className="mb-6">
               <h2 className="text-xl sm:text-2xl font-bold text-gray-900">{BSA_AA_TITLE}</h2>
               <p className="mt-1 text-sm text-gray-600">{BSA_AA_SUBTITLE}</p>
@@ -223,11 +221,6 @@ export default function BSAMobileScreen({ onContinue }: Props) {
             </form>
 
             <p className="mt-4 text-xs text-gray-500">{BSA_REDIRECT_FOOTNOTE}</p>
-          </div>
-
-          <div className="lg:w-[320px] xl:w-[380px] shrink-0 border-t lg:border-t-0 lg:border-l border-gray-100">
-            <BasicInfoSidebar />
-          </div>
         </div>
 
         <BasicInfoFooter />

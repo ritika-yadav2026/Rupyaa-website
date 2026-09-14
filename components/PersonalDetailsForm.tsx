@@ -18,7 +18,6 @@ import {
 import AppButton from "@/components/app-button";
 import AppTextField from "@/components/app-text-field";
 import AppSelectField from "@/components/app-select-field";
-import BasicInfoSidebar from "@/components/BasicInfoSidebar";
 import BasicInfoFooter from "@/components/BasicInfoFooter";
 import LocationPermissionModal from "@/components/LocationPermissionModal";
 import { useRequireLocationPermission } from "@/hooks/useRequireLocationPermission";
@@ -285,8 +284,7 @@ export default function PersonalDetailsForm() {
         onAllow={requestPermission}
       />
       <div className={formShellClassName} aria-hidden={isBlocked}>
-        <div className="flex flex-col lg:flex-row">
-          <div className="flex-1 p-6 sm:p-8 lg:p-10">
+        <div className="p-6 sm:p-8 lg:p-10">
             <Progress
               steps={steps}
               currentStep={phaseIndex}
@@ -388,11 +386,6 @@ export default function PersonalDetailsForm() {
                 {submitLabel}
               </AppButton>
             </form>
-          </div>
-
-          <div className="lg:w-[320px] xl:w-[380px] shrink-0 border-t lg:border-t-0 lg:border-l border-gray-100">
-            <BasicInfoSidebar />
-          </div>
         </div>
 
         <BasicInfoFooter />

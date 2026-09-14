@@ -5,7 +5,6 @@ import toast from "react-hot-toast";
 import { getUserEligibilityExperian, getCurrentOffer, getOfferLoanSubStatus } from "@/lib/eligibility-api";
 import { trackBureauPolicyResponseApp } from "@/lib/gtm";
 import { useFlowStore } from "@/store/useFlowStore";
-import BasicInfoSidebar from "@/components/BasicInfoSidebar";
 import BasicInfoFooter from "@/components/BasicInfoFooter";
 
 type Props = { onContinue?: () => void };
@@ -128,44 +127,39 @@ export default function SoftPullScreen({ onContinue }: Props) {
   if (status === "rejected") {
     return (
       <div className="w-full max-w-full sm:max-w-[95vw] md:max-w-[90vw] lg:max-w-[80vw] min-w-0 mx-auto bg-white rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.06)] overflow-hidden">
-        <div className="flex flex-col lg:flex-row">
-          <div className="flex-1 p-6 sm:p-8 lg:p-10">
-            <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center shrink-0">
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  className="text-red-600"
-                >
-                  <circle cx="12" cy="12" r="10" />
-                  <line x1="15" y1="9" x2="9" y2="15" />
-                  <line x1="9" y1="9" x2="15" y2="15" />
-                </svg>
-              </div>
-              <div>
-                <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
-                  Eligibility Check Unsuccessful
-                </h2>
-                <p className="text-sm text-gray-500 mb-4">
-                  We couldn&apos;t approve your application at this time. Please try again later or
-                  contact support if you have questions.
-                </p>
-                <button
-                  type="button"
-                  onClick={handleRetry}
-                  className="px-5 py-2.5 rounded-xl border-2 border-primary text-primary font-medium hover:bg-primary/5 transition-colors"
-                >
-                  Try Again
-                </button>
-              </div>
+        <div className="p-6 sm:p-8 lg:p-10">
+          <div className="flex items-start gap-4">
+            <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center shrink-0">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                className="text-red-600"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <line x1="15" y1="9" x2="9" y2="15" />
+                <line x1="9" y1="9" x2="15" y2="15" />
+              </svg>
             </div>
-          </div>
-          <div className="lg:w-[320px] xl:w-[380px] shrink-0 border-t lg:border-t-0 lg:border-l border-gray-100">
-            <BasicInfoSidebar />
+            <div>
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
+                Eligibility Check Unsuccessful
+              </h2>
+              <p className="text-sm text-gray-500 mb-4">
+                We couldn&apos;t approve your application at this time. Please try again later or
+                contact support if you have questions.
+              </p>
+              <button
+                type="button"
+                onClick={handleRetry}
+                className="px-5 py-2.5 rounded-xl border-2 border-primary text-primary font-medium hover:bg-primary/5 transition-colors"
+              >
+                Try Again
+              </button>
+            </div>
           </div>
         </div>
         <BasicInfoFooter />
@@ -175,23 +169,18 @@ export default function SoftPullScreen({ onContinue }: Props) {
 
   return (
     <div className="w-full max-w-full sm:max-w-[95vw] md:max-w-[90vw] lg:max-w-[80vw] min-w-0 mx-auto bg-white rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.06)] overflow-hidden">
-      <div className="flex flex-col lg:flex-row">
-        <div className="flex-1 p-6 sm:p-8 lg:p-10 flex flex-col items-center justify-center gap-6 min-h-[280px]">
-          <div className="w-16 h-16 rounded-full bg-[#e8f5e9] flex items-center justify-center">
-            <SpinnerIcon className="text-primary" />
-          </div>
-          <div className="text-center">
-            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
-              Checking eligibility...
-            </h2>
-            <p className="text-gray-600">
-              We&apos;re verifying your details with our credit bureau. This usually takes a few
-              seconds.
-            </p>
-          </div>
+      <div className="flex flex-col items-center justify-center gap-6 min-h-[280px] p-6 sm:p-8 lg:p-10">
+        <div className="w-16 h-16 rounded-full bg-[#e8f5e9] flex items-center justify-center">
+          <SpinnerIcon className="text-primary" />
         </div>
-        <div className="lg:w-[320px] xl:w-[380px] shrink-0 border-t lg:border-t-0 lg:border-l border-gray-100">
-          <BasicInfoSidebar />
+        <div className="text-center">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
+            Checking eligibility...
+          </h2>
+          <p className="text-gray-600">
+            We&apos;re verifying your details with our credit bureau. This usually takes a few
+            seconds.
+          </p>
         </div>
       </div>
       <BasicInfoFooter />

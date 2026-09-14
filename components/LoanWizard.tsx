@@ -1,14 +1,13 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useCallback, useState } from "react";
+import { useCallback, useState, type ReactElement, type ReactNode } from "react";
 import Progress from "@/components/Progress";
 import KYCCompletedModal from "@/components/KYCCompletedModal";
 import ApplicationRejectedView from "@/components/ApplicationRejectedView";
 import DownloadAppView from "@/components/DownloadAppView";
 import ComingSoonView from "@/components/ComingSoonView";
 import StageCtaCardSection from "@/components/StageCtaCardSection";
-import { appShellContainerClassName } from "@/lib/app-shell-layout";
 import { useFlowStore } from "@/store/useFlowStore";
 import { FLOW_PHASES, getSubstepByIndex, type FlowPhase } from "@/config/flowConfig";
 import { STEP_COMPONENTS } from "@/config/stepComponents";
@@ -26,6 +25,36 @@ import {
 import { useGetExistingActiveLoan } from "@/services/loans/useGetExistingActiveLoan";
 import UnderReviewCard from "@/components/UnderReviewCard";
 import ZapcashLoading from "@/components/ZapcashLoading";
+
+type WizardContentProps = {
+  readonly children: ReactNode;
+  readonly showProgress?: boolean;
+  readonly steps: readonly string[];
+  readonly completedUpTo: number;
+  readonly currentStep: number;
+  readonly contentClassName?: string;
+};
+
+/**
+ * Progress + step body. Sidebar + column scroll live in PersonalLoanPageClient.
+ */
+function WizardContent({
+  children,
+  showProgress = true,
+  steps,
+  completedUpTo,
+  currentStep,
+  contentClassName = "",
+}: WizardContentProps): ReactElement {
+  return (
+    <div className="flex w-full min-w-0 flex-col gap-5">
+      {showProgress ? (
+        <Progress steps={steps} completedUpTo={completedUpTo} currentStep={currentStep} />
+      ) : null}
+      <div className={contentClassName.trim() || undefined}>{children}</div>
+    </div>
+  );
+}
 
 export default function LoanWizard() {
   const {
@@ -120,10 +149,16 @@ export default function LoanWizard() {
     />
   );
 
+  const shellProgressProps = {
+    steps,
+    completedUpTo,
+    currentStep: progressCurrentStep,
+  } as const;
+
   if (applicationRejected) {
     return (
       <>
-        <main className={`min-h-[60vh] ${appShellContainerClassName}`}>
+        <main className="min-h-[60vh]">
           <ApplicationRejectedView />
         </main>
         {gateModal}
@@ -134,12 +169,9 @@ export default function LoanWizard() {
   if (showDownloadApp) {
     return (
       <>
-        <div className={appShellContainerClassName}>
-          <Progress steps={steps} completedUpTo={completedUpTo} currentStep={progressCurrentStep} />
-          <div className="flex flex-col gap-5 py-4 sm:py-6 overflow-x-hidden">
-            <DownloadAppView />
-          </div>
-        </div>
+        <WizardContent {...shellProgressProps}>
+          <DownloadAppView />
+        </WizardContent>
         {gateModal}
       </>
     );
@@ -148,16 +180,13 @@ export default function LoanWizard() {
   if (showUnderReviewCard) {
     return (
       <>
-        <div className={appShellContainerClassName}>
-          <Progress steps={steps} completedUpTo={completedUpTo} currentStep={progressCurrentStep} />
-          <div className="flex flex-col gap-5 py-4 sm:py-6 overflow-x-hidden">
-            <UnderReviewCard
-              applicationNumber={activeLoanQuery.data?.loan?.applicationNumber}
-              onRefresh={() => void handleRefreshUnderReview()}
-              isRefreshing={activeLoanQuery.isFetching}
-            />
-          </div>
-        </div>
+        <WizardContent {...shellProgressProps}>
+          <UnderReviewCard
+            applicationNumber={activeLoanQuery.data?.loan?.applicationNumber}
+            onRefresh={() => void handleRefreshUnderReview()}
+            isRefreshing={activeLoanQuery.isFetching}
+          />
+        </WizardContent>
         {gateModal}
       </>
     );
@@ -166,12 +195,12 @@ export default function LoanWizard() {
   if (!userStageResponse?.stage) {
     return (
       <>
-        <div className={appShellContainerClassName}>
-          <Progress steps={steps} completedUpTo={completedUpTo} currentStep={progressCurrentStep} />
-          <div className="flex flex-col items-center justify-center min-h-[60vh] gap-5 py-4 sm:py-6 overflow-x-hidden">
-            <ZapcashLoading />
-          </div>
-        </div>
+        <WizardContent
+          {...shellProgressProps}
+          contentClassName="flex min-h-[60vh] flex-col items-center justify-center"
+        >
+          <ZapcashLoading />
+        </WizardContent>
         {gateModal}
       </>
     );
@@ -180,12 +209,12 @@ export default function LoanWizard() {
   if (!isFullWebJourneyResolved) {
     return (
       <>
-        <div className={appShellContainerClassName}>
-          <Progress steps={steps} completedUpTo={completedUpTo} currentStep={progressCurrentStep} />
-          <div className="flex min-h-[60vh] flex-col items-center justify-center gap-5 overflow-x-hidden py-4 sm:py-6">
-            <ZapcashLoading />
-          </div>
-        </div>
+        <WizardContent
+          {...shellProgressProps}
+          contentClassName="flex min-h-[60vh] flex-col items-center justify-center"
+        >
+          <ZapcashLoading />
+        </WizardContent>
         {gateModal}
       </>
     );
@@ -247,15 +276,12 @@ export default function LoanWizard() {
   const isPersonalDetailsStep = currentSubstep.component === "PersonalDetailsForm";
 
   return (
-    <div className={appShellContainerClassName}>
-      {!isPersonalDetailsStep && (
-        <Progress steps={steps} completedUpTo={completedUpTo} currentStep={progressCurrentStep} />
-      )}
-      <div className="flex flex-col gap-5 py-4 sm:py-6 overflow-x-hidden">
+    <>
+      <WizardContent {...shellProgressProps} showProgress={!isPersonalDetailsStep}>
         <StepComponent {...stepBaseProps} />
-      </div>
+      </WizardContent>
       {gateModal}
       <KYCCompletedModal isOpen={showKycCompletedModal} onClose={handleKycCompletedModalClose} />
-    </div>
+    </>
   );
 }

@@ -14,7 +14,6 @@ import { useFlowStore } from "@/store/useFlowStore";
 import AppTextField from "@/components/app-text-field";
 import AppSelectField from "@/components/app-select-field";
 import AppSelectableField from "@/components/app-selectable-field";
-import BasicInfoSidebar from "@/components/BasicInfoSidebar";
 import BasicInfoFooter from "@/components/BasicInfoFooter";
 
 export type EmploymentMode = "salaried" | "self-employed";
@@ -225,26 +224,23 @@ function StandaloneEmploymentModeForm({ onContinue }: StandaloneProps) {
 
   return (
     <div className="mx-auto w-full min-w-0 max-w-full overflow-hidden rounded-2xl bg-white shadow-[0_4px_20px_rgba(0,0,0,0.06)] sm:max-w-[95vw] md:max-w-[90vw] lg:max-w-[80vw]">
-      <div className="flex flex-col lg:flex-row">
-        <div className="flex-1 p-6 sm:p-8 lg:p-10">
-          <h2 className="mb-1 text-xl font-bold text-gray-900 sm:text-2xl">Tell Us About Your Employment Type</h2>
-          <p className="mb-6 text-sm text-gray-600">We need to understand your work situation to offer the best loan options.</p>
-          <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
-            <EmploymentModeFields
-              mode={mode}
-              organizationName={organizationName}
-              declaredSalaryDay={declaredSalaryDay}
-              errors={errors}
-              onModeChange={(value) => { setMode(value); setErrors({}); }}
-              onOrganizationNameChange={(value) => { setOrganizationName(value); setErrors((current) => ({ ...current, organization: undefined })); }}
-              onDeclaredSalaryDayChange={(value) => { setDeclaredSalaryDay(value); setErrors((current) => ({ ...current, declaredSalaryDay: undefined })); }}
-            />
-            <button type="submit" disabled={submitMutation.isPending} className="mt-2 min-h-[48px] w-full rounded-xl bg-primary py-3.5 font-semibold text-white transition-colors hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60">
-              {submitMutation.isPending ? "Fetching your offer..." : "View Offers"}
-            </button>
-          </form>
-        </div>
-        <div className="shrink-0 border-t border-gray-100 lg:w-[320px] lg:border-l lg:border-t-0 xl:w-[380px]"><BasicInfoSidebar /></div>
+      <div className="p-6 sm:p-8 lg:p-10">
+        <h2 className="mb-1 text-xl font-bold text-gray-900 sm:text-2xl">Tell Us About Your Employment Type</h2>
+        <p className="mb-6 text-sm text-gray-600">We need to understand your work situation to offer the best loan options.</p>
+        <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
+          <EmploymentModeFields
+            mode={mode}
+            organizationName={organizationName}
+            declaredSalaryDay={declaredSalaryDay}
+            errors={errors}
+            onModeChange={(value) => { setMode(value); setErrors({}); }}
+            onOrganizationNameChange={(value) => { setOrganizationName(value); setErrors((current) => ({ ...current, organization: undefined })); }}
+            onDeclaredSalaryDayChange={(value) => { setDeclaredSalaryDay(value); setErrors((current) => ({ ...current, declaredSalaryDay: undefined })); }}
+          />
+          <button type="submit" disabled={submitMutation.isPending} className="mt-2 min-h-[48px] w-full rounded-xl bg-primary py-3.5 font-semibold text-white transition-colors hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60">
+            {submitMutation.isPending ? "Fetching your offer..." : "View Offers"}
+          </button>
+        </form>
       </div>
       <BasicInfoFooter />
     </div>

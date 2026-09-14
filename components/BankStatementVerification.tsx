@@ -13,7 +13,6 @@ import {
   normalizeBankStatementStatus,
   shouldContinueBankStatementPolling,
 } from "@/lib/bank-connect";
-import BasicInfoSidebar from "@/components/BasicInfoSidebar";
 import BasicInfoFooter from "@/components/BasicInfoFooter";
 import BankConnectFetchingContent from "@/components/home/BankConnectFetchingContent";
 import {
@@ -244,8 +243,7 @@ export default function BankStatementVerification({
             : BANK_CONNECT_FETCHING_SUBTEXT
         }
       />
-      <div className="flex flex-col lg:flex-row">
-        <div className="flex-1 p-6 sm:p-8 lg:p-10">
+      <div className="p-6 sm:p-8 lg:p-10">
           <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-1">
             Upload <span className="text-primary">Salary-Account</span> bank statement
           </h2>
@@ -391,11 +389,6 @@ export default function BankStatementVerification({
           <p className="text-sm text-gray-500 mt-6">
             Need help? <a href="/support" className="text-primary font-medium hover:underline">Contact Support</a>
           </p>
-        </div>
-
-        <div className="lg:w-[320px] xl:w-[380px] shrink-0 border-t lg:border-t-0 lg:border-l border-gray-100">
-          <BasicInfoSidebar />
-        </div>
       </div>
 
       <BasicInfoFooter />

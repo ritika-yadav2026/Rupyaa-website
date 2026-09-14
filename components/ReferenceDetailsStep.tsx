@@ -122,7 +122,7 @@ export default function ReferenceDetailsStep({ onContinue }: Props) {
         </div>
 
         <div className="border-gray-200 rounded-b-xl -mx-4 sm:-mx-6 px-4 sm:px-6 py-4 space-y-0">
-          <div className="flex items-center gap-2 rounded-lg bg-gray-100 px-3 py-2 mb-4">
+          <div className="flex items-center gap-2 rounded-lg bg-[#FECA42] px-3 py-2 mb-4">
             <PersonIcon />
             <span className="text-sm font-semibold text-gray-800">Reference Details 1</span>
           </div>
@@ -156,7 +156,7 @@ export default function ReferenceDetailsStep({ onContinue }: Props) {
             />
           </div>
 
-          <div className="flex items-center gap-2 rounded-lg bg-gray-100 px-3 py-2 mb-4">
+          <div className="flex items-center gap-2 rounded-lg bg-[#FECA42] px-3 py-2 mb-4">
             <PersonIcon />
             <span className="text-sm font-semibold text-gray-800">Reference Details 2</span>
           </div>

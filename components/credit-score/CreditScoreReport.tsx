@@ -60,76 +60,86 @@ export default function CreditScoreReport({
   const preApprovedAmount = resolvePreApprovedAmount(score);
   const summary = data.creditSummary;
   return (
-    <div className="rounded-3xl border border-gray-100 bg-gray-50/60 p-4 sm:p-6 lg:p-8">
-      <div className="mb-6 flex flex-wrap items-start justify-between gap-3">
+    <div className="w-full">
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900 sm:text-3xl">Your Credit Report</h2>
-          <p className="mt-1 text-sm text-gray-500">Hi {firstName}, here&apos;s your latest score.</p>
+          <h1 className="text-xl font-medium text-[#333333]">Hello, {firstName}</h1>
+          <p className="mt-1 w-fit bg-gradient-to-r from-[#ff551c] via-[#f8ac00] to-[#20c520] bg-clip-text text-xl font-semibold text-transparent">Here&apos;s your credit, clearly.</p>
         </div>
         <button
           type="button"
           onClick={onStartOver}
-          className="inline-flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-600 transition hover:bg-gray-50"
+          className="inline-flex items-center gap-1.5 rounded-md border border-gray-400 bg-white px-3 py-2 text-xs font-medium text-gray-600 transition hover:bg-gray-50"
         >
           <RefreshIcon />
           Start over
         </button>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,340px)_1fr]">
-        <div className="flex flex-col items-center rounded-2xl border border-gray-100 bg-white p-6">
-          <div className="mb-2 flex items-center gap-2 self-start">
-            <span className="h-2.5 w-2.5 rounded-full bg-red-500" />
-            <span className="text-xs font-semibold uppercase tracking-wider text-gray-500">
-              Equifax Score
-            </span>
-          </div>
-          <CreditScoreGauge score={score} />
-          <p className="mt-4 text-sm text-gray-500">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
+        <div className="flex flex-col items-center rounded-xl border border-gray-100 bg-white p-4">
+          <CreditScoreGauge score={score} showRange={false} className="w-full max-w-[170px]" />
+          <p className="text-[9px] uppercase tracking-widest text-gray-500">Equifax score</p>
+          <p className="mt-2 text-[10px] text-gray-500">
             Range 300–900 · <span className={`font-semibold ${band.textClassName}`}>{band.label}</span>
           </p>
         </div>
 
-        <div className="relative overflow-hidden rounded-2xl bg-[#FECA42] p-6 text-gray-900 sm:p-8">
-          <div className="pointer-events-none absolute -right-10 top-1/2 h-52 w-52 -translate-y-1/2 rounded-full bg-[#FFE899]/70" />
-          <span className="relative inline-flex rounded-full bg-black/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-gray-900">
-            Pre-approved for you
-          </span>
-          <p className="relative mt-4 text-sm text-gray-800 sm:text-base">
-            Your score qualifies you for a Personal Loan up to
-          </p>
-          <p className="relative mt-1 text-4xl font-bold sm:text-5xl">
-            {formatCurrency(preApprovedAmount)}
-          </p>
-          <p className="relative mt-2 text-xs text-gray-700 sm:text-sm">
-            Interest from 10.49% p.a. · Disbursal in 24 hrs · No collateral
-          </p>
-          <div className="relative mt-6 flex flex-wrap items-center gap-4">
-            <a
-              href="/personal-loan"
-              className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl bg-white px-6 py-3 text-sm font-semibold text-gray-900 transition hover:bg-white/90"
-            >
-              Apply now
-              <ArrowRightIcon />
-            </a>
-            <span className="text-xs text-gray-700">No impact on your score</span>
-          </div>
+        <div className="rounded-xl border border-gray-100 bg-white p-4">
+          <h3 className="mb-4 text-xs font-semibold text-gray-900">Your credit summary</h3>
+          <dl className="space-y-3.5">
+            <div className="flex items-center justify-between">
+              <dt className="text-xs text-gray-500">Active accounts</dt>
+              <dd className="text-xs font-semibold text-gray-900">{summary.activeAccounts ?? "—"}</dd>
+            </div>
+            <div className="flex items-center justify-between">
+              <dt className="text-xs text-gray-500">On-time payments</dt>
+              <dd className="text-xs font-semibold text-green-600">
+                {summary.onTimePaymentsPercentage != null
+                  ? `${summary.onTimePaymentsPercentage}%`
+                  : "—"}
+              </dd>
+            </div>
+            <div className="flex items-center justify-between">
+              <dt className="text-xs text-gray-500">Total enquiries</dt>
+              <dd className="text-xs font-semibold text-gray-900">{summary.totalEnquiries ?? "—"}</dd>
+            </div>
+            <div className="flex items-center justify-between">
+              <dt className="text-xs text-gray-500">Total credit limit</dt>
+              <dd className="text-xs font-semibold text-gray-900">{formatCompactInr(summary.totalCreditLimit)}</dd>
+            </div>
+          </dl>
         </div>
+
       </div>
 
-      <div className="mt-4 flex flex-col gap-4 rounded-2xl border border-gray-100 bg-white p-5 sm:flex-row sm:items-center sm:justify-between">
+      <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-xl bg-[#FECA42] px-4 py-3">
+        <div>
+          <div className="flex flex-wrap items-center gap-2">
+            <p className="text-xs font-medium text-gray-900">Your score qualifies you for a Personal Loan up to</p>
+            <span className="text-[9px] font-semibold uppercase tracking-wide text-[#695000]">• Pre-approved for you</span>
+          </div>
+          <p className="mt-1 text-3xl font-bold text-gray-950">{formatCurrency(preApprovedAmount)}</p>
+        </div>
+        <a href="/personal-loan" className="inline-flex min-h-10 items-center justify-center gap-2 rounded-md bg-[#302400] px-5 py-2 text-xs font-semibold text-[#FECA42] transition hover:bg-black">
+          Apply now
+          <ArrowRightIcon />
+        </a>
+      </div>
+
+      <div className="mt-4 flex flex-col gap-4 rounded-xl border border-gray-100 bg-white p-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-start gap-3">
           <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-[#9c1c2e] text-[10px] font-bold text-white">
             EQUIFAX
           </span>
           <div>
             <div className="flex flex-wrap items-center gap-2">
-              <p className="font-bold text-gray-900">Get your full credit report for Free</p>
+              <p className="text-sm font-bold text-gray-900">Get your full credit report for Free</p>
               <span className="rounded bg-red-50 px-2 py-0.5 text-[10px] font-semibold uppercase text-[#9c1c2e]">
                 Equifax Official
               </span>
             </div>
-            <p className="mt-1 text-sm text-gray-500">
+            <p className="mt-1 text-[10px] leading-relaxed text-gray-500">
               Complete report — account-level details, full payment history, every enquiry &amp;
               address on record. Download as PDF instantly.
             </p>
@@ -138,26 +148,26 @@ export default function CreditScoreReport({
         <button
           type="button"
           onClick={onUnlockReport}
-          className="inline-flex min-h-[48px] shrink-0 items-center justify-center gap-2 rounded-xl bg-[#9c1c2e] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#82101f]"
+          className="inline-flex min-h-[40px] shrink-0 items-center justify-center gap-2 rounded-md bg-[#9c1c2e] px-4 py-2 text-xs font-semibold text-white transition hover:bg-[#82101f]"
         >
           Unlock report
           <ArrowRightIcon />
         </button>
       </div>
 
-      <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-3">
-        <div className="rounded-2xl border border-gray-100 bg-white p-5">
-          <h3 className="mb-4 font-bold text-gray-900">What&apos;s affecting your score</h3>
+      <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div className="rounded-xl border border-gray-100 bg-white p-4">
+          <h3 className="mb-4 text-xs font-semibold text-gray-900">What&apos;s affecting your score</h3>
           <ul className="space-y-4">
             {factors.map((factor) => (
               <li key={factor.label}>
                 <div className="mb-1.5 flex items-center justify-between">
-                  <span className="text-sm text-gray-600">{factor.label}</span>
-                  <span className={`text-sm font-semibold ${factor.ratingClassName}`}>
+                  <span className="text-xs text-gray-600">{factor.label}</span>
+                  <span className={`text-xs font-semibold ${factor.ratingClassName}`}>
                     {factor.rating}
                   </span>
                 </div>
-                <div className="h-1.5 w-full overflow-hidden rounded-full bg-gray-100">
+                <div className="h-1 w-full overflow-hidden rounded-full bg-gray-100">
                   <div
                     className={`h-full rounded-full ${factor.barClassName}`}
                     style={{ width: `${Math.round(factor.healthFraction * 100)}%` }}
@@ -168,38 +178,12 @@ export default function CreditScoreReport({
           </ul>
         </div>
 
-        <div className="rounded-2xl border border-gray-100 bg-white p-5">
-          <h3 className="mb-4 font-bold text-gray-900">Your credit summary</h3>
-          <dl className="space-y-3.5">
-            <div className="flex items-center justify-between">
-              <dt className="text-sm text-gray-500">Active accounts</dt>
-              <dd className="font-bold text-gray-900">{summary.activeAccounts ?? "—"}</dd>
-            </div>
-            <div className="flex items-center justify-between">
-              <dt className="text-sm text-gray-500">On-time payments</dt>
-              <dd className="font-bold text-green-600">
-                {summary.onTimePaymentsPercentage != null
-                  ? `${summary.onTimePaymentsPercentage}%`
-                  : "—"}
-              </dd>
-            </div>
-            <div className="flex items-center justify-between">
-              <dt className="text-sm text-gray-500">Total enquiries</dt>
-              <dd className="font-bold text-gray-900">{summary.totalEnquiries ?? "—"}</dd>
-            </div>
-            <div className="flex items-center justify-between">
-              <dt className="text-sm text-gray-500">Total credit limit</dt>
-              <dd className="font-bold text-gray-900">{formatCompactInr(summary.totalCreditLimit)}</dd>
-            </div>
-          </dl>
-        </div>
-
-        <div className="rounded-2xl border border-gray-100 bg-white p-5">
-          <h3 className="mb-4 font-bold text-gray-900">Tips to improve</h3>
+        <div className="rounded-xl border border-gray-100 bg-white p-4">
+          <h3 className="mb-4 text-xs font-semibold text-gray-900">Tips to improve</h3>
           <ul className="space-y-2.5">
             {IMPROVEMENT_TIPS.map((tip) => (
-              <li key={tip} className="flex gap-2 text-sm text-gray-600">
-                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#FECA42]" />
+              <li key={tip} className="flex gap-2 text-xs text-gray-600">
+                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-blue-500" />
                 {tip}
               </li>
             ))}
@@ -207,7 +191,7 @@ export default function CreditScoreReport({
           <button
             type="button"
             onClick={onUnlockReport}
-            className="mt-4 inline-flex min-h-[44px] w-full items-center justify-center rounded-xl bg-[#9c1c2e]/10 px-4 py-2.5 text-sm font-semibold text-[#9c1c2e] transition hover:bg-[#9c1c2e]/15"
+            className="mt-4 inline-flex min-h-[44px] w-full items-center justify-center rounded-xl bg-[#9c1c2e]/10 px-4 py-2.5 text-xs font-semibold text-[#9c1c2e] transition hover:bg-[#9c1c2e]/15"
           >
             Get full report
           </button>

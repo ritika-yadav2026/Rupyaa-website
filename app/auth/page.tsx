@@ -394,7 +394,7 @@ function AuthPageContent() {
           <div className="flex flex-1 flex-col rounded-2xl border border-gray-100 bg-white p-5 shadow-[0_8px_30px_rgba(0,0,0,0.06)] sm:p-6 md:min-w-0 md:p-8 lg:min-w-[420px]">
             {formContent}
           </div>
-          <div className="w-full shrink-0 md:w-[340px] lg:w-[380px] xl:w-[400px]">
+          <div className="flex min-h-[520px] w-full shrink-0 md:w-[340px] lg:w-[380px] xl:w-[400px]">
             <BasicInfoSidebar />
           </div>
         </div>
