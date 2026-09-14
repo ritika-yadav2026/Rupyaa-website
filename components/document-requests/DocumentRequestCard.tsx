@@ -1,18 +1,19 @@
 'use client';
 
-import { useState, useRef } from "react";
+import { useState, useRef, type ReactElement, type ReactNode } from "react";
 import toast from "react-hot-toast";
 import type { DocumentRequest, DocumentRequestDocument } from "@/lib/document-requests-api";
 import PdfPasswordRequiredModal from "@/components/PdfPasswordRequiredModal";
+import AppButton from "@/components/app-button";
 
 const SUPPORTED_TYPES = [".pdf", ".jpg", ".jpeg", ".png", ".doc", ".docx"];
 const ACCEPT_STRING = ".pdf,.jpg,.jpeg,.png,.doc,.docx,application/pdf,image/jpeg,image/png,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document";
 const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024;
 const MAX_FILES = 10;
 
-function DocumentIcon({ className = "" }: { className?: string }) {
+function DocumentIcon({ className = "" }: { className?: string }): ReactElement {
   return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
       <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
       <polyline points="14 2 14 8 20 8" />
       <line x1="16" y1="13" x2="8" y2="13" />
@@ -22,7 +23,7 @@ function DocumentIcon({ className = "" }: { className?: string }) {
   );
 }
 
-function LockIcon({ className = "" }: { className?: string }) {
+function LockIcon({ className = "" }: { className?: string }): ReactElement {
   return (
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
       <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
@@ -31,9 +32,9 @@ function LockIcon({ className = "" }: { className?: string }) {
   );
 }
 
-function CloudUploadIcon({ className = "" }: { className?: string }) {
+function CloudUploadIcon({ className = "" }: { className?: string }): ReactElement {
   return (
-    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
       <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
       <polyline points="17 8 12 3 7 8" />
       <line x1="12" y1="3" x2="12" y2="15" />
@@ -63,19 +64,13 @@ function formatDate(dateStr: string): string {
 type StatusConfig = {
   label: string;
   className: string;
-  icon?: React.ReactNode;
+  icon?: ReactNode;
 };
 
 const STATUS_CONFIG: Record<string, StatusConfig> = {
   pending: {
-    label: "Pending Upload",
-    className: "bg-amber-100 text-amber-800 border-amber-200",
-    icon: (
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <circle cx="12" cy="12" r="10" />
-        <polyline points="12 6 12 12 16 14" />
-      </svg>
-    ),
+    label: "Pending",
+    className: "bg-[#FFF8E6] text-amber-800 border-[#FECA42]/50",
   },
   uploaded: {
     label: "Under Review",
@@ -92,7 +87,7 @@ const STATUS_CONFIG: Record<string, StatusConfig> = {
     ),
   },
   rejected: {
-    label: "Rejected",
+    label: "Action Required",
     className: "bg-red-100 text-red-800 border-red-200",
   },
   closed: {
@@ -260,160 +255,222 @@ export default function DocumentRequestCard({ request, onUploadSuccess }: Props)
     setPasswordModal({ open: false, fileName: "", fileIndex: 0, errorMessage: null });
   };
 
+  let dropZoneClassName =
+    "flex flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-gray-300 bg-white px-4 py-8 min-h-[140px] cursor-pointer transition-colors hover:border-gray-400";
+  if (isDragging || selectedFiles.length > 0) {
+    dropZoneClassName =
+      "flex flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-[#FECA42] bg-[#FFFCF4] px-4 py-8 min-h-[140px] cursor-pointer transition-colors";
+  }
+
+  let dropZoneLabel = "Click to select documents or drag and drop files here";
+  if (selectedFiles.length > 0) {
+    dropZoneLabel = "Add More Documents or drag and drop files here";
+  }
+
+  let uploadButtonLabel = "Upload Documents";
+  if (isUploading) {
+    uploadButtonLabel = "Uploading…";
+  }
+
+  let descriptionBlock: ReactNode = null;
+  if (request.description) {
+    descriptionBlock = <p className="mt-0.5 text-sm text-gray-500">{request.description}</p>;
+  }
+
+  let approvedBlock: ReactNode = null;
+  if (request.status === "approved") {
+    approvedBlock = (
+      <div className="mt-4 rounded-xl border border-green-200 bg-green-50 p-4">
+        <p className="font-medium text-green-800">Documents Approved</p>
+        <p className="mt-1 text-sm text-green-700">Your documents have been approved successfully.</p>
+      </div>
+    );
+  }
+
+  let alreadyUploadedBlock: ReactNode = null;
+  if (request.documents.length > 0) {
+    alreadyUploadedBlock = (
+      <div className="mt-4">
+        <p className="text-sm font-medium text-gray-700">
+          Already Uploaded ({request.documents.length}):
+        </p>
+        <ul className="mt-2 space-y-1">
+          {request.documents.map((doc: DocumentRequestDocument) => {
+            let lockIcon: ReactNode = null;
+            if (doc.password) {
+              lockIcon = <LockIcon className="shrink-0 text-amber-600" />;
+            }
+            return (
+              <li key={doc.fileName} className="flex items-center gap-2 text-sm">
+                <span className="break-all text-gray-700">{doc.originalName || doc.fileName}</span>
+                {lockIcon}
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    );
+  }
+
+  let rejectedBlock: ReactNode = null;
+  if (
+    request.status === "rejected" &&
+    request.rejectionReason &&
+    request.rejectionReason !== "na"
+  ) {
+    rejectedBlock = (
+      <div className="mt-4 rounded-xl border border-red-200 bg-red-50 p-4">
+        <p className="font-medium text-red-800">Documents Rejected</p>
+        <p className="mt-1 text-sm text-red-700">Reason: {request.rejectionReason}</p>
+        <p className="mt-1 text-sm text-red-600">
+          Please resubmit the documents with the required corrections.
+        </p>
+      </div>
+    );
+  }
+
+  let uploadSuccessBlock: ReactNode = null;
+  if (uploadSuccess) {
+    const docsToShow =
+      lastUploadedDocuments.length > 0 ? lastUploadedDocuments : request.documents;
+    let uploadedFilesBlock: ReactNode = null;
+    if (docsToShow.length > 0) {
+      uploadedFilesBlock = (
+        <div className="mt-2">
+          <p className="text-xs font-medium text-blue-700">Uploaded Files:</p>
+          {docsToShow.map((doc: DocumentRequestDocument) => {
+            let lockIcon: ReactNode = null;
+            if (doc.password) {
+              lockIcon = <LockIcon className="shrink-0 text-amber-600" />;
+            }
+            let uploadedAtText: string | null = null;
+            if (doc.uploadedAt) {
+              uploadedAtText = ` (Uploaded: ${formatDate(doc.uploadedAt)})`;
+            }
+            return (
+              <p
+                key={doc.fileName}
+                className="mt-0.5 flex items-center gap-1 text-xs text-blue-600"
+              >
+                {doc.originalName || doc.fileName}
+                {lockIcon}
+                {uploadedAtText}
+              </p>
+            );
+          })}
+        </div>
+      );
+    }
+    uploadSuccessBlock = (
+      <div className="mt-4 rounded-xl border border-blue-200 bg-blue-50 p-4">
+        <p className="font-medium text-blue-800">Documents Uploaded Successfully</p>
+        <p className="mt-1 text-sm text-blue-700">
+          Your documents are under review. We will update the status soon.
+        </p>
+        {uploadedFilesBlock}
+      </div>
+    );
+  }
+
+  let selectedFilesBlock: ReactNode = null;
+  if (selectedFiles.length > 0) {
+    selectedFilesBlock = (
+      <div className="mt-2">
+        <p className="text-xs font-medium text-gray-600">Selected Files:</p>
+        {selectedFiles.map((file, index) => {
+          let pdfHint: ReactNode = null;
+          if (file.type === "application/pdf") {
+            pdfHint = (
+              <span className="text-amber-600" title="May require password">
+                <LockIcon />
+              </span>
+            );
+          }
+          return (
+            <p key={`${file.name}-${index}`} className="flex items-center gap-1 text-xs text-gray-500">
+              {file.name} ({formatFileSize(file.size)})
+              {pdfHint}
+            </p>
+          );
+        })}
+      </div>
+    );
+  }
+
+  let fileErrorBlock: ReactNode = null;
+  if (fileError) {
+    fileErrorBlock = <p className="mt-2 text-sm text-red-600">{fileError}</p>;
+  }
+
+  let uploadAreaBlock: ReactNode = null;
+  if (showUploadArea) {
+    uploadAreaBlock = (
+      <div className="mt-4">
+        <div
+          onDrop={handleDrop}
+          onDragOver={(e) => {
+            e.preventDefault();
+            setIsDragging(true);
+          }}
+          onDragLeave={() => setIsDragging(false)}
+          onClick={() => inputRef.current?.click()}
+          className={dropZoneClassName}
+        >
+          <p className="text-center text-sm text-gray-700">{dropZoneLabel}</p>
+          <p className="text-xs text-gray-500">Supported formats: PDF, JPG, PNG. Max: 10MB per file</p>
+          {selectedFilesBlock}
+          <input
+            ref={inputRef}
+            type="file"
+            accept={ACCEPT_STRING}
+            multiple
+            className="hidden"
+            onChange={(e) => handleFileSelect(e.target.files)}
+          />
+        </div>
+        {fileErrorBlock}
+        <AppButton
+          type="button"
+          fullWidth
+          className="mt-4 gap-2"
+          disabled={selectedFiles.length === 0 || isUploading}
+          onClick={(e) => {
+            e.stopPropagation();
+            void handleUploadClick();
+          }}
+        >
+          <CloudUploadIcon />
+          {uploadButtonLabel}
+        </AppButton>
+      </div>
+    );
+  }
+
   return (
     <>
-      <div className="bg-white rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.06)] p-4 sm:p-6 w-full">
-        <div className="flex flex-col sm:flex-row sm:items-start gap-2">
-          <div className="flex items-start gap-2 flex-1 min-w-0">
-            <DocumentIcon className="text-gray-500 shrink-0 mt-0.5" />
+      <div className="w-full rounded-2xl border border-dashed border-[#E8D9A8] bg-[#FFFCF4] p-4 sm:p-5">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+          <div className="flex min-w-0 items-start gap-3">
+            <span className="mt-0.5 flex size-10 shrink-0 items-center justify-center rounded-xl bg-[#FFF8E6] text-gray-700">
+              <DocumentIcon />
+            </span>
             <div className="min-w-0">
               <h3 className="font-semibold text-gray-900">{request.documentName}</h3>
-              {request.description && (
-                <p className="text-sm text-gray-600 mt-0.5">{request.description}</p>
-              )}
+              {descriptionBlock}
             </div>
           </div>
           <span
-            className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium border shrink-0 ${statusConfig.className}`}
+            className={`inline-flex shrink-0 items-center gap-1.5 rounded-lg border px-3 py-1 text-xs font-semibold ${statusConfig.className}`}
           >
             {statusConfig.icon}
             {statusConfig.label}
           </span>
         </div>
-
-        {request.status === "approved" && (
-          <div className="mt-4 p-4 rounded-xl bg-green-50 border border-green-200">
-            <div className="flex items-center gap-2 text-green-800 font-medium">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
-                <polyline points="22 4 12 14.01 9 11.01" />
-              </svg>
-              Documents Approved
-            </div>
-            <p className="text-sm text-green-700 mt-1">Your documents have been approved successfully.</p>
-          </div>
-        )}
-
-        {request.documents.length > 0 && (
-          <div className="mt-4">
-            <p className="text-sm font-medium text-gray-700">Already Uploaded ({request.documents.length}):</p>
-            <ul className="mt-2 space-y-1">
-              {request.documents.map((doc: DocumentRequestDocument) => (
-                <li key={doc.fileName} className="flex items-center gap-2 text-sm">
-                  <a
-                    href="#"
-                    className="text-primary hover:underline break-all"
-                    onClick={(e) => e.preventDefault()}
-                  >
-                    {doc.originalName || doc.fileName}
-                  </a>
-                  {doc.password && <LockIcon className="text-amber-600 shrink-0" />}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-
-        {request.status === "rejected" && request.rejectionReason && request.rejectionReason !== "na" && (
-          <div className="mt-4 p-4 rounded-xl bg-red-50 border border-red-200">
-            <div className="flex items-center gap-2 text-red-800 font-medium">Documents Rejected</div>
-            <p className="text-sm text-red-700 mt-1">Reason: {request.rejectionReason}</p>
-            <p className="text-sm text-red-600 mt-1">Please resubmit the documents with the required corrections.</p>
-          </div>
-        )}
-
-        {uploadSuccess && (
-          <div className="mt-4 p-4 rounded-xl bg-blue-50 border border-blue-200">
-            <div className="flex items-center gap-2 text-blue-800 font-medium">
-              <CloudUploadIcon className="w-5 h-5" />
-              Documents Uploaded Successfully
-            </div>
-            <p className="text-sm text-blue-700 mt-1">Your documents are under review. We will update the status soon.</p>
-            {(lastUploadedDocuments.length > 0 || request.documents.length > 0) && (
-              <div className="mt-2">
-                <p className="text-xs font-medium text-blue-700">Uploaded Files:</p>
-                {(lastUploadedDocuments.length > 0 ? lastUploadedDocuments : request.documents).map((doc: DocumentRequestDocument) => (
-                  <p key={doc.fileName} className="text-xs text-blue-600 flex items-center gap-1 mt-0.5">
-                    {doc.originalName || doc.fileName}
-                    {doc.password && <LockIcon className="text-amber-600 shrink-0" />}
-                    {doc.uploadedAt && ` (Uploaded: ${formatDate(doc.uploadedAt)})`}
-                  </p>
-                ))}
-              </div>
-            )}
-          </div>
-        )}
-
-        {showUploadArea && (
-          <div className="mt-4">
-            <div
-              onDrop={handleDrop}
-              onDragOver={(e) => {
-                e.preventDefault();
-                setIsDragging(true);
-              }}
-              onDragLeave={() => setIsDragging(false)}
-              onClick={() => inputRef.current?.click()}
-              className={`flex flex-col items-center justify-center gap-2 py-8 px-4 rounded-xl border-2 border-dashed transition-colors min-h-[140px] cursor-pointer ${
-                isDragging || selectedFiles.length > 0
-                  ? "border-primary bg-primary/5"
-                  : "border-gray-300 bg-gray-50 hover:border-gray-400 hover:bg-gray-100"
-              }`}
-            >
-              <CloudUploadIcon className="text-gray-500" />
-              <p className="text-sm text-gray-700 text-center">
-                {selectedFiles.length > 0
-                  ? "Add More Documents or drag and drop files here"
-                  : "Click to select documents or drag and drop files here"}
-              </p>
-              <p className="text-xs text-gray-500">Supported formats: PDF, JPG, PNG, DOC, DOCX</p>
-              <p className="text-xs text-gray-500">Max 10MB per file • You can select multiple files at once</p>
-              {selectedFiles.length > 0 && (
-                <div className="mt-2">
-                  <p className="text-xs font-medium text-gray-600">Selected Files:</p>
-                  {selectedFiles.map((f, i) => (
-                    <p key={i} className="text-xs text-gray-500 flex items-center gap-1">
-                      {f.name} ({formatFileSize(f.size)})
-                      {f.type === "application/pdf" && (
-                        <span className="text-amber-600" title="May require password">
-                          <LockIcon />
-                        </span>
-                      )}
-                    </p>
-                  ))}
-                </div>
-              )}
-              <input
-                ref={inputRef}
-                type="file"
-                accept={ACCEPT_STRING}
-                multiple
-                className="hidden"
-                onChange={(e) => handleFileSelect(e.target.files)}
-              />
-            </div>
-            <p className="text-xs text-gray-500 mt-2">
-              If any PDF files are password-protected, you will be prompted to enter the password during upload.
-            </p>
-            {fileError && <p className="text-sm text-red-600 mt-2">{fileError}</p>}
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleUploadClick();
-              }}
-              disabled={selectedFiles.length === 0 || isUploading}
-              className={`mt-4 w-full flex items-center justify-center gap-2 py-3 rounded-xl font-medium min-h-[48px] ${
-                selectedFiles.length > 0 && !isUploading
-                  ? "bg-gray-800 text-white hover:bg-gray-700"
-                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
-              }`}
-            >
-              <CloudUploadIcon className="w-5 h-5" />
-              {isUploading ? "Uploading…" : "Upload Documents"}
-            </button>
-          </div>
-        )}
+        {approvedBlock}
+        {alreadyUploadedBlock}
+        {rejectedBlock}
+        {uploadSuccessBlock}
+        {uploadAreaBlock}
       </div>
 
       <PdfPasswordRequiredModal

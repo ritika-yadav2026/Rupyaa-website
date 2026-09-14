@@ -1,11 +1,9 @@
-import AppHeader from "@/components/AppHeader";
-import Footer from "@/components/home/Footer";
+import SiteChrome from "@/components/SiteChrome";
 import LendingPartnersSection from "@/components/lending-partners/lending-partners-section";
 import { lendersPageSchema } from "@/lib/SEO-JSON-schema";
 import { getSeoMetadata } from "@/lib/seo-metadata";
 
 export const generateMetadata = () => getSeoMetadata("lenders");
-
 
 export default async function LendingPartnersPage({
   searchParams,
@@ -24,7 +22,10 @@ export default async function LendingPartnersPage({
           __html: JSON.stringify(lendersPageSchema).replace(/</g, "\\u003c"),
         }}
       />
-      <div className="min-h-screen overflow-x-hidden">
+      <SiteChrome
+        hideChrome={isMobileSource}
+        className="relative min-h-screen overflow-x-hidden bg-white"
+      >
         <div
           className="absolute inset-0 -z-10"
           style={{
@@ -39,12 +40,8 @@ export default async function LendingPartnersPage({
               "radial-gradient(circle at 20% 20%, rgba(0,101,37,0.04) 0%, transparent 48%), radial-gradient(circle at 80% 80%, rgba(34,197,94,0.03) 0%, transparent 50%)",
           }}
         />
-        {!isMobileSource && <AppHeader />}
-        <main className={isMobileSource ? "" : "pt-16"}>
-          <LendingPartnersSection />
-        </main>
-        {!isMobileSource && <Footer />}
-      </div>
+        <LendingPartnersSection />
+      </SiteChrome>
     </>
   );
 }

@@ -2,8 +2,7 @@
 
 import { Suspense, useState, useCallback, useEffect, useMemo, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import AppHeader from "@/components/AppHeader";
-import Footer from "@/components/home/Footer";
+import SiteChrome from "@/components/SiteChrome";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { validateIndianMobile, validateOtpDigits } from "@/lib/validation";
@@ -383,45 +382,40 @@ function AuthPageContent() {
   }
 
   return (
-    <div className="flex min-h-screen min-h-[100dvh] flex-col bg-white">
-      <AppHeader />
-      <main
-        id="main-content"
-        tabIndex={-1}
-        className="flex flex-1 flex-col items-center justify-center px-4 pb-10 pt-20 outline-none sm:pb-14 sm:pt-24"
-      >
-        <div className="flex w-full max-w-5xl flex-col gap-5 md:flex-row md:items-stretch md:gap-6 lg:gap-8">
-          <div className="flex flex-1 flex-col rounded-2xl border border-gray-100 bg-white p-5 shadow-[0_8px_30px_rgba(0,0,0,0.06)] sm:p-6 md:min-w-0 md:p-8 lg:min-w-[420px]">
-            {formContent}
-          </div>
-          <div className="flex min-h-[520px] w-full shrink-0 md:w-[340px] lg:w-[380px] xl:w-[400px]">
-            <BasicInfoSidebar />
-          </div>
+    <SiteChrome
+      className="flex min-h-screen min-h-[100dvh] flex-col bg-white"
+      mainClassName="flex flex-1 flex-col items-center justify-center px-4 pb-10 pt-4 outline-none sm:pb-14 sm:pt-8"
+    >
+      <div className="flex w-full max-w-5xl flex-col gap-5 md:flex-row md:items-stretch md:gap-6 lg:gap-8">
+        <div className="flex flex-1 flex-col rounded-2xl border border-gray-100 bg-white p-5 shadow-[0_8px_30px_rgba(0,0,0,0.06)] sm:p-6 md:min-w-0 md:p-8 lg:min-w-[420px]">
+          {formContent}
         </div>
+        <div className="flex min-h-[520px] w-full shrink-0 md:w-[340px] lg:w-[380px] xl:w-[400px]">
+          <BasicInfoSidebar />
+        </div>
+      </div>
 
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-6 text-gray-400 sm:mt-10 sm:gap-10">
-          <div className="flex flex-col items-center gap-1.5">
-            <ClockIcon />
-            <span className="text-[10px] font-medium uppercase tracking-wider sm:text-xs">
-              Instant Disbursal
-            </span>
-          </div>
-          <div className="flex flex-col items-center gap-1.5">
-            <ShieldIcon />
-            <span className="text-[10px] font-medium uppercase tracking-wider sm:text-xs">
-              Secure Transaction
-            </span>
-          </div>
-          <div className="flex flex-col items-center gap-1.5">
-            <DocumentIcon />
-            <span className="text-[10px] font-medium uppercase tracking-wider sm:text-xs">
-              Transparent Terms
-            </span>
-          </div>
+      <div className="mt-8 flex flex-wrap items-center justify-center gap-6 text-gray-400 sm:mt-10 sm:gap-10">
+        <div className="flex flex-col items-center gap-1.5">
+          <ClockIcon />
+          <span className="text-[10px] font-medium uppercase tracking-wider sm:text-xs">
+            Instant Disbursal
+          </span>
         </div>
-      </main>
-      <Footer />
-    </div>
+        <div className="flex flex-col items-center gap-1.5">
+          <ShieldIcon />
+          <span className="text-[10px] font-medium uppercase tracking-wider sm:text-xs">
+            Secure Transaction
+          </span>
+        </div>
+        <div className="flex flex-col items-center gap-1.5">
+          <DocumentIcon />
+          <span className="text-[10px] font-medium uppercase tracking-wider sm:text-xs">
+            Transparent Terms
+          </span>
+        </div>
+      </div>
+    </SiteChrome>
   );
 }
 

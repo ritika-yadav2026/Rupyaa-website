@@ -1,3 +1,9 @@
+/**
+ * DEPRECATED — do not use. Prefer AppHeader via SiteChrome / AppShell.
+ * Original component kept commented for reference (not deleted).
+ */
+
+/*
 'use client';
 
 import { useState, useRef, useEffect } from "react";
@@ -89,3 +95,4 @@ export default function Header() {
     </header>
   );
 }
+*/

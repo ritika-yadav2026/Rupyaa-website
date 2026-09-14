@@ -3,9 +3,9 @@
 import type { ReactNode } from "react";
 import { ErrorContainer } from "@/components/loans/ErrorContainer";
 import { LoanListScreen } from "@/components/loans/LoanListScreen";
+import BasicInfoSidebar from "@/components/BasicInfoSidebar";
 import { appShellContainerClassName } from "@/lib/app-shell-layout";
 import { useAllUserLoans } from "@/services/loans";
-import { MyLoanEmptyCard } from "@/components/loans/MyLoanEmptyCard";
 import ZapcashLoading from "@/components/ZapcashLoading";
 
 export default function LoanApplicationsPage() {
@@ -34,7 +34,11 @@ export default function LoanApplicationsPage() {
     case "error":
       content = (
         <ErrorContainer
-          message={loanErr instanceof Error ? loanErr.message : "Failed to load your loans. Please try again."}
+          message={
+            loanErr instanceof Error
+              ? loanErr.message
+              : "Failed to load your loans. Please try again."
+          }
         />
       );
       break;
@@ -45,12 +49,11 @@ export default function LoanApplicationsPage() {
             <ZapcashLoading />
             <span className="text-sm font-medium">Loading your loans…</span>
           </div>
-
         </div>
       );
       break;
     case "empty":
-      content = <MyLoanEmptyCard />;
+      content = <LoanListScreen loans={[]} />;
       break;
     case "success":
       content = <LoanListScreen loans={loans} />;
@@ -58,16 +61,22 @@ export default function LoanApplicationsPage() {
   }
 
   return (
-    <div className="flex flex-col min-h-full">
-      <div className={`flex flex-col py-8 sm:py-12 flex-1 ${appShellContainerClassName}`}>
-        <div className="mb-6">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">My Loans</h1>
-          <p className="text-gray-600 text-sm sm:text-base mt-1">
-            Track your ongoing repayments and view your past loan history.
-          </p>
+    <div className={`${appShellContainerClassName} box-border py-8 sm:py-10`}>
+      <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:gap-8">
+        <div className="min-w-0 flex-1">
+          <div className="mb-6">
+            <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">My Loans</h1>
+            <p className="mt-1 text-sm text-gray-600 sm:text-base">
+              Track your ongoing repayments and view your past loan history.
+            </p>
+          </div>
+          {content}
         </div>
-
-        {content}
+        <div className="hidden w-[300px] shrink-0 self-stretch lg:flex xl:w-[340px]">
+          <div className="sticky top-24 h-[calc(100dvh-7rem)] w-full">
+            <BasicInfoSidebar />
+          </div>
+        </div>
       </div>
     </div>
   );

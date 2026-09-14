@@ -2,6 +2,8 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
+import LoanHeroIntro from "@/components/LoanHeroIntro";
+import styles from "./EMICalculatorSection.module.css";
 import { formatCurrency } from "@/lib/format-utils";
 import { appShellContainerClassName } from "@/lib/app-shell-layout";
 
@@ -104,36 +106,14 @@ export default function EMICalculatorSection() {
   const tenureMax = tenureUnit === "months" ? 24 : TENURE_MAX_YEARS;
 
   return (
-    <section id="emi-calculator" className="relative bg-white overflow-hidden pt-12 sm:pt-16 lg:pt-20 pb-20 sm:pb-24 lg:pb-32">
-      <div
-        className="absolute inset-0 pointer-events-none"
-
-      />
-      <div
-        className="absolute inset-0 opacity-[0.15] pointer-events-none"
-        style={{
-          backgroundImage:
-            "linear-gradient(to right, rgba(0,0,0,0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,0,0,0.06) 1px, transparent 1px)",
-          backgroundSize: "24px 24px",
-        }}
-      />
-      <div className={`relative z-10 ${appShellContainerClassName}`}>
-        <div className="text-center mb-8 sm:mb-10">
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-2">
-            Personal Loan{" "}
-            <span className="text-primary">EMI Calculator</span>
-          </h2>
-          <p className="text-primary font-medium text-base sm:text-lg mb-2">
-            Calculate your Personal Loan EMI
-          </p>
-          <p className="text-gray-600 text-sm sm:text-base max-w-2xl mx-auto">
-            Plan your finances with precision. Adjust the sliders to see your monthly installments and total repayment details in real-time.
-          </p>
-        </div>
-        <div className="bg-white rounded-xl sm:rounded-2xl shadow-xl overflow-hidden max-w-5xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2">
+    <section id="emi-calculator" className={styles.hero}>
+      <div className={`${appShellContainerClassName} ${styles.layout}`}>
+        <div className={styles.intro}><LoanHeroIntro /></div>
+        <div className={styles.card}>
+          <h2 className={styles.title}>Personal Loan EMI Calculator</h2>
+          <div className={styles.controls}>
             {/* Left column - Inputs */}
-            <div className="p-4 sm:p-6 md:p-8 lg:p-10 space-y-5 sm:space-y-6 md:space-y-8">
+            <div className={styles.inputs}>
               {/* Loan Amount */}
               <div>
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-2">
@@ -147,6 +127,7 @@ export default function EMICalculatorSection() {
                 </div>
                 <input
                   type="range"
+                  aria-label="Loan amount"
                   min={LOAN_AMOUNT_MIN}
                   max={LOAN_AMOUNT_MAX}
                   step={1000}
@@ -154,7 +135,7 @@ export default function EMICalculatorSection() {
                   onChange={(e) => setLoanAmount(Number(e.target.value))}
                   className="emi-slider w-full"
                   style={{
-                    background: `linear-gradient(to right, #2E7D32 0%, #2E7D32 ${((loanAmount - LOAN_AMOUNT_MIN) / (LOAN_AMOUNT_MAX - LOAN_AMOUNT_MIN)) * 100}%, #e5e7eb ${((loanAmount - LOAN_AMOUNT_MIN) / (LOAN_AMOUNT_MAX - LOAN_AMOUNT_MIN)) * 100}%, #e5e7eb 100%)`,
+                    background: `linear-gradient(to right, var(--brand-color) 0%, var(--brand-color) ${((loanAmount - LOAN_AMOUNT_MIN) / (LOAN_AMOUNT_MAX - LOAN_AMOUNT_MIN)) * 100}%, #e5e7eb ${((loanAmount - LOAN_AMOUNT_MIN) / (LOAN_AMOUNT_MAX - LOAN_AMOUNT_MIN)) * 100}%, #e5e7eb 100%)`,
                   }}
                 />
                 <div className="flex justify-between text-xs text-gray-500 mt-1">
@@ -176,7 +157,7 @@ export default function EMICalculatorSection() {
                         onClick={() => handleTenureUnitChange("months")}
                         className={`px-3 py-2 text-xs font-semibold transition-colors ${
                           tenureUnit === "months"
-                            ? "bg-[#E8F5E9] text-primary"
+                            ? "bg-button text-gray-900"
                             : "bg-white text-gray-600 hover:bg-gray-50"
                         }`}
                       >
@@ -187,7 +168,7 @@ export default function EMICalculatorSection() {
                         onClick={() => handleTenureUnitChange("years")}
                         className={`px-3 py-2 text-xs font-semibold transition-colors ${
                           tenureUnit === "years"
-                            ? "bg-[#E8F5E9] text-primary"
+                            ? "bg-button text-gray-900"
                             : "bg-white text-gray-600 hover:bg-gray-50"
                         }`}
                       >
@@ -195,7 +176,7 @@ export default function EMICalculatorSection() {
                       </button>
                     </div>
                     <div className={`px-4 py-2.5 rounded-lg border text-gray-800 font-bold text-sm min-w-[60px] text-center ${
-                      tenureUnit === "months" ? "border-gray-200 bg-[#E8F5E9]" : "border-gray-200 bg-white"
+                      tenureUnit === "months" ? "border-gray-200 bg-[#FFFCF4]" : "border-gray-200 bg-white"
                     }`}>
                       {tenureValue}
                     </div>
@@ -203,6 +184,7 @@ export default function EMICalculatorSection() {
                 </div>
                 <input
                   type="range"
+                  aria-label="Loan tenure"
                   min={tenureMin}
                   max={tenureMax}
                   step={1}
@@ -210,7 +192,7 @@ export default function EMICalculatorSection() {
                   onChange={(e) => setTenureValue(Number(e.target.value))}
                   className="emi-slider w-full"
                   style={{
-                    background: `linear-gradient(to right, #2E7D32 0%, #2E7D32 ${((tenureValue - tenureMin) / (tenureMax - tenureMin)) * 100}%, #e5e7eb ${((tenureValue - tenureMin) / (tenureMax - tenureMin)) * 100}%, #e5e7eb 100%)`,
+                    background: `linear-gradient(to right, var(--brand-color) 0%, var(--brand-color) ${((tenureValue - tenureMin) / (tenureMax - tenureMin)) * 100}%, #e5e7eb ${((tenureValue - tenureMin) / (tenureMax - tenureMin)) * 100}%, #e5e7eb 100%)`,
                   }}
                 />
                 <div className="flex justify-between text-xs text-gray-500 mt-1">
@@ -231,6 +213,7 @@ export default function EMICalculatorSection() {
                 </div>
                 <input
                   type="range"
+                  aria-label="Interest rate"
                   min={INTEREST_MIN}
                   max={INTEREST_MAX}
                   step={0.1}
@@ -238,7 +221,7 @@ export default function EMICalculatorSection() {
                   onChange={(e) => setInterestRate(Number(e.target.value))}
                   className="emi-slider w-full"
                   style={{
-                    background: `linear-gradient(to right, #2E7D32 0%, #2E7D32 ${((interestRate - INTEREST_MIN) / (INTEREST_MAX - INTEREST_MIN)) * 100}%, #e5e7eb ${((interestRate - INTEREST_MIN) / (INTEREST_MAX - INTEREST_MIN)) * 100}%, #e5e7eb 100%)`,
+                    background: `linear-gradient(to right, var(--brand-color) 0%, var(--brand-color) ${((interestRate - INTEREST_MIN) / (INTEREST_MAX - INTEREST_MIN)) * 100}%, #e5e7eb ${((interestRate - INTEREST_MIN) / (INTEREST_MAX - INTEREST_MIN)) * 100}%, #e5e7eb 100%)`,
                   }}
                 />
                 <div className="flex justify-between text-xs text-gray-500 mt-1">
@@ -248,7 +231,7 @@ export default function EMICalculatorSection() {
               </div>
             </div>
             {/* Right column - Output */}
-            <div className="relative bg-primary p-5 sm:p-6 md:p-8 lg:p-10 flex flex-col justify-center order-first lg:order-last min-h-[280px] sm:min-h-[320px] lg:min-h-0">
+            <div className={styles.output}>
               <CalculatorIcon />
               <div className="relative z-10">
                 <p className="text-white/90 text-2xl font-semibold uppercase tracking-wider mb-2">
@@ -277,7 +260,7 @@ export default function EMICalculatorSection() {
                 </div>
                 <Link
                   href="/auth"
-                  className="inline-flex items-center justify-center gap-2 w-full py-3.5 rounded-xl bg-[#388E3C] hover:bg-[#2E7D32]/90 text-white font-semibold transition-colors"
+                  className="inline-flex items-center justify-center gap-2 w-full py-3.5 rounded-xl bg-button hover:bg-button/90 text-gray-900 font-semibold transition-colors"
                 >
                   Get Loan Now
                   <ArrowRightIcon />

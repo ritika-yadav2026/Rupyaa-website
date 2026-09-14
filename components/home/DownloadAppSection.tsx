@@ -49,8 +49,8 @@ export default function DownloadAppSection(): ReactElement {
               </div>
             </div>
           </div>
-          <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-[46%] items-end justify-end pr-2 lg:flex xl:pr-6">
-            <div className="relative h-[120%] w-full max-w-[300px] xl:max-w-[340px]">
+          <div className="pointer-events-none absolute inset-y-0 right-0 bottom-0 hidden w-[46%] items-end justify-end pb-0 pr-2 lg:flex xl:pr-6">
+            <div className="relative h-full w-full max-w-[300px] xl:max-w-[340px]">
               <Image
                 src={HOME_IMAGES.mockDevice}
                 alt="Rupyaa app on mobile"

@@ -25,7 +25,17 @@ export function LoanListScreen({
 
   let listContent: ReactNode;
   if (activeLoans.length === 0) {
-    listContent = <MyLoanEmptyCard />;
+    if (activeTab === "history") {
+      listContent = (
+        <MyLoanEmptyCard
+          title="No loan history yet"
+          description="Your completed and closed loans will appear here."
+          showApplyCta={false}
+        />
+      );
+    } else {
+      listContent = <MyLoanEmptyCard />;
+    }
   } else {
     listContent = (
       <div className="flex flex-col gap-4">

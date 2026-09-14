@@ -1,6 +1,5 @@
-import AppHeader from "@/components/AppHeader";
+import SiteChrome from "@/components/SiteChrome";
 import HeroSection from "@/components/home/hero-section/HeroSection";
-
 import WhyChooseUsSection from "@/components/home/WhyChooseUsSection";
 import EligibilitySection from "@/components/home/EligibilitySection";
 import LoanStepsSection from "@/components/home/LoanStepsSection";
@@ -9,7 +8,6 @@ import CreditScoreBannerSection from "@/components/home/CreditScoreBannerSection
 import BlogsSection from "@/components/home/BlogsSection";
 import FAQSection from "@/components/home/FAQSection";
 import DownloadAppSection from "@/components/home/DownloadAppSection";
-import Footer from "@/components/home/Footer";
 import StatsSection from "@/components/home/StatsSection";
 import HeroGridPulse from "@/components/home/HeroGridPulse";
 import { ExternalAppConfigInit } from "@/components/ExternalAppConfigInit";
@@ -21,17 +19,18 @@ export const generateMetadata = () => getSeoMetadata("home");
 export default function HomeLandingPage() {
   return (
     <>
-    <script
+      <script
         id="zapcash-homepage-schema"
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(homepageSchema).replace(/</g, "\\u003c"),
         }}
       />
-    <div className="min-h-screen overflow-x-hidden">
       <ExternalAppConfigInit />
-      <AppHeader />
-      <main id="main-content" tabIndex={-1} className="flex flex-col pt-16 outline-none">
+      <SiteChrome
+        className="min-h-screen overflow-x-hidden bg-white"
+        mainClassName="flex flex-col"
+      >
         <div
           className="relative isolate"
           style={{
@@ -74,9 +73,7 @@ export default function HomeLandingPage() {
         <BlogsSection />
         <FAQSection startBatch={0} />
         <DownloadAppSection />
-        <Footer />
-      </main>
-    </div>
+      </SiteChrome>
     </>
   );
 }

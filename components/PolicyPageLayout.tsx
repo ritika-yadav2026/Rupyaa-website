@@ -1,9 +1,7 @@
 "use client";
 
 import { ReactNode, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
-import AppHeader from "@/components/AppHeader";
-import Footer from "@/components/home/Footer";
+import SiteChrome from "@/components/SiteChrome";
 import { appShellContainerClassName } from "@/lib/app-shell-layout";
 
 function FileIcon() {
@@ -35,43 +33,36 @@ function PolicyShell({
   effectiveDate?: string;
   children: ReactNode;
 }) {
-  const searchParams = useSearchParams();
-  const isMobileSource = searchParams.get("source") === "mobile";
-
   return (
-    <div className="min-h-screen bg-gray-50">
-      {!isMobileSource && <AppHeader />}
-      <main className={`overflow-x-hidden ${isMobileSource ? "" : "pt-16"}`}>
-        <div className={`${appShellContainerClassName} py-5 sm:py-12`}>
-          <div className="bg-white rounded-xl sm:rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-            <div className="bg-gradient-to-br from-primary/5 to-primary/10 px-4 sm:px-10 py-6 sm:py-10 border-b border-gray-100">
-              <div className="flex flex-col sm:flex-row items-start gap-3 sm:gap-4">
-                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-lg sm:rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
-                  <FileIcon />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 leading-tight">
-                    {title}
-                  </h1>
-                  {effectiveDate && (
-                    <p className="text-xs sm:text-sm text-gray-600 mt-1 sm:mt-2">
-                      Effective Date: {effectiveDate}
-                    </p>
-                  )}
-                </div>
+    <SiteChrome className="min-h-screen bg-gray-50" mainClassName="overflow-x-hidden">
+      <div className={`${appShellContainerClassName} py-5 sm:py-12`}>
+        <div className="bg-white rounded-xl sm:rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+          <div className="bg-gradient-to-br from-primary/5 to-primary/10 px-4 sm:px-10 py-6 sm:py-10 border-b border-gray-100">
+            <div className="flex flex-col sm:flex-row items-start gap-3 sm:gap-4">
+              <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-lg sm:rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+                <FileIcon />
               </div>
-            </div>
-
-            <div className="px-4 sm:px-10 py-5 sm:py-10">
-              <div className="prose prose-gray max-w-none text-sm sm:text-base text-gray-700 leading-relaxed sm:leading-loose space-y-5 sm:space-y-6 hyphens-auto break-words">
-                {children}
+              <div className="min-w-0 flex-1">
+                <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 leading-tight">
+                  {title}
+                </h1>
+                {effectiveDate ? (
+                  <p className="text-xs sm:text-sm text-gray-600 mt-1 sm:mt-2">
+                    Effective Date: {effectiveDate}
+                  </p>
+                ) : null}
               </div>
             </div>
           </div>
+
+          <div className="px-4 sm:px-10 py-5 sm:py-10">
+            <div className="prose prose-gray max-w-none text-sm sm:text-base text-gray-700 leading-relaxed sm:leading-loose space-y-5 sm:space-y-6 hyphens-auto break-words">
+              {children}
+            </div>
+          </div>
         </div>
-      </main>
-      {!isMobileSource && <Footer />}
-    </div>
+      </div>
+    </SiteChrome>
   );
 }
 
@@ -109,15 +100,11 @@ export default function PolicyPageLayout({
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-gray-50">
-          <AppHeader />
-          <main className="overflow-x-hidden animate-pulse">
-            <div className={`${appShellContainerClassName} py-5 sm:py-12`}>
-              <div className="h-96 bg-gray-200 rounded-xl" />
-            </div>
-          </main>
-          <Footer />
-        </div>
+        <SiteChrome className="min-h-screen bg-gray-50" mainClassName="overflow-x-hidden animate-pulse">
+          <div className={`${appShellContainerClassName} py-5 sm:py-12`}>
+            <div className="h-96 bg-gray-200 rounded-xl" />
+          </div>
+        </SiteChrome>
       }
     >
       <PolicyShell title={title} effectiveDate={effectiveDate}>

@@ -1,0 +1,64 @@
+.hero {
+  background: linear-gradient(180deg, #fff 0%, #fffdf7 20%, #fff0c2 57%, #ffd44f 100%);
+  padding: 32px 0 44px;
+  color: #191919;
+}
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 370px;
+  align-items: center;
+  gap: clamp(48px, 9vw, 130px);
+  max-width: 1080px;
+  padding-inline: 32px;
+}
+.intro { min-width: 0; }
+.intro h1 { font-size: clamp(34px, 3.7vw, 48px); font-weight: 600; line-height: 1.12; letter-spacing: -.025em; color: #080808; }
+.intro p { font-size: 16px; line-height: 1.6; color: #505050; max-width: 510px; margin-top: 24px; }
+.intro a { min-width: 240px; border-radius: 9px; }
+.intro ul { gap: 20px; flex-wrap: nowrap; margin-top: 36px; }
+.intro li { font-size: 14px; font-weight: 400; gap: 8px; }
+.intro li > span { width: 30px; height: 30px; box-shadow: none; }
+.card { min-width: 0; background: white; border: 1px solid #FECA42; border-radius: 14px; padding: 24px; box-shadow: 0 12px 20px -12px #6b501c66; }
+.title { font-size: 15px; font-weight: 600; margin-bottom: 24px; letter-spacing: -.02em; }
+.controls { display: flex; flex-direction: column; gap: 20px; }
+.inputs { display: flex; flex-direction: column; gap: 22px; }
+.inputs > div > div:first-child { display: flex; flex-direction: row; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; }
+.inputs label { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: .025em; }
+.inputs svg { display: none; }
+.inputs > div > div:first-child > div:last-child { padding: 0; min-width: 0; border: 0; font-size: 13px; background: transparent; }
+.inputs > div > div:first-child > div:last-child > div:last-child { padding: 5px 8px; min-width: 30px; font-size: 12px; }
+.inputs button { padding: 6px 8px; font-size: 9px; }
+.inputs > div > div:last-child { font-size: 10px; color: #777; margin-top: 9px; }
+.inputs input[type="range"] { height: 5px; display: block; border-radius: 999px; }
+.inputs input[type="range"]::-webkit-slider-runnable-track { height: 5px; background: transparent; }
+.inputs input[type="range"]::-webkit-slider-thumb { width: 16px; height: 16px; margin-top: -5.5px; }
+.inputs input[type="range"]::-moz-range-track { height: 5px; background: transparent; }
+.inputs input[type="range"]::-moz-range-thumb { width: 13px; height: 13px; }
+.inputs input[type="range"]:focus-visible { outline: 2px solid #252525; outline-offset: 5px; }
+.output { min-width: 0; }
+.output > svg { display: none; }
+.output > div { display: grid; grid-template-columns: 1fr auto; background: #f8f9fa; border-radius: 10px; padding: 12px; align-items: center; }
+.output > div > p { color: #303030; font-size: 10px; font-weight: 500; letter-spacing: .02em; margin: 0; line-height: 1.5; }
+.output > div > p:nth-child(2) { text-align: right; font-size: 13px; font-weight: 600; }
+.output > div > div { display: grid; grid-template-columns: 1fr; gap: 6px; grid-column: 1 / -1; margin: 6px 0 0; }
+.output > div > div > div { display: flex; align-items: center; justify-content: space-between; gap: 10px; background: none; padding: 0; border-radius: 0; }
+.output > div > div p { font-size: 10px; font-weight: 500; color: #303030; letter-spacing: .02em; margin: 0; }
+.output > div > div p:last-child { font-size: 13px; font-weight: 600; }
+.output a { grid-column: 1 / -1; margin: 18px -12px -12px; width: calc(100% + 24px); min-height: 44px; padding: 12px; border-radius: 10px; font-size: 13px; box-shadow: 0 -18px 0 0 white; }
+@media (min-width: 1600px) { .hero { padding-block: 54px 64px; } }
+@media (max-width: 1023px) {
+  .layout { grid-template-columns: minmax(0, 1fr) 330px; gap: 36px; padding-inline: 24px; }
+  .intro h1 { font-size: 36px; }
+  .intro p { font-size: 14px; }
+  .intro ul { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .card { padding: 20px; }
+}
+@media (max-width: 700px) {
+  .hero { padding-block: 36px; }
+  .layout { grid-template-columns: minmax(0, 1fr); gap: 32px; padding-inline: 20px; }
+  .intro h1 { font-size: clamp(32px, 8vw, 42px); }
+  .intro a { min-width: 220px; }
+  .intro ul { flex-direction: row; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+  .intro li { font-size: 12px; }
+  .card { width: 100%; max-width: 430px; justify-self: center; }
+}

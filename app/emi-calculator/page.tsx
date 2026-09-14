@@ -1,13 +1,13 @@
-import AppHeader from "@/components/AppHeader";
-import Footer from "@/components/home/Footer";
+import "./emi-calculator.css";
+import SiteChrome from "@/components/SiteChrome";
 import EMICalculatorSection from "@/components/home/EMICalculatorSection";
-import EMICalculatorInfoSection from "@/components/home/EMICalculatorInfoSection";
+import LoanHighlightsSection from "@/components/home/LoanHighlightsSection";
 import FAQSection from "@/components/home/FAQSection";
+import DownloadAppSection from "@/components/home/DownloadAppSection";
 import { getSeoMetadata } from "@/lib/seo-metadata";
 import { emiCalculatorSchema } from "@/lib/SEO-JSON-schema";
 
 export const generateMetadata = () => getSeoMetadata("emiCalculator");
-
 
 export default function EMICalculatorPage() {
   return (
@@ -19,15 +19,12 @@ export default function EMICalculatorPage() {
           __html: JSON.stringify(emiCalculatorSchema).replace(/</g, "\\u003c"),
         }}
       />
-      <div className="min-h-screen bg-[#e8f5e9]">
-        <AppHeader />
-        <main className="pt-16">
-          <EMICalculatorSection />
-          <EMICalculatorInfoSection />
-          <FAQSection startBatch={1} />
-        </main>
-        <Footer />
-      </div>
+      <SiteChrome className="emi-calculator-page min-h-screen bg-white">
+        <EMICalculatorSection />
+        <LoanHighlightsSection />
+        <FAQSection startBatch={1} layout="split" />
+        <DownloadAppSection />
+      </SiteChrome>
     </>
   );
 }

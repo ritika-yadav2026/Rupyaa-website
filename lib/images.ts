@@ -3,6 +3,7 @@ import logo from "@/public/images/logo.png";
 import zapcashLogo from "@/public/images/brand_logo.png";
 import paymentSuccess from "@/public/images/payment_success.png";
 import noLoan from "@/public/images/no-loan.png";
+import noPendingDocuments from "@/public/images/no-pending-documents.png";
 
 /** Centralized image paths for home landing page */
 export const HOME_IMAGES = {
@@ -12,11 +13,11 @@ export const HOME_IMAGES = {
   mockDevice: "/images/mock-device.png",
 } as const;
 
-
 export const IMAGES = {
   icon: icon,
   logo: logo,
   zapcashLogo: zapcashLogo,
   paymentSuccess: paymentSuccess,
   noLoan: noLoan,
-}
+  noPendingDocuments: noPendingDocuments,
+};
