@@ -15,7 +15,7 @@ export default function CreditScoreBannerSection() {
   const router = useRouter();
   return (
     <section className="bg-white">
-      <div className={`${appShellContainerClassName} pt-2 ${homeSectionSpacingClassName}`}>
+      <div className={`${appShellContainerClassName} ${homeSectionSpacingClassName}`}>
         <CreditScorePromoBanner onStart={() => router.push("/credit-score")} />
       </div>
     </section>

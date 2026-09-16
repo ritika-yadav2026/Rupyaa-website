@@ -33,12 +33,12 @@ export default function EligibilitySection(): ReactElement {
       <div className={`${appShellContainerClassName} ${homeSectionSpacingClassName}`}>
         <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16">
           <div className="flex flex-col items-center justify-center text-center">
-            <h2 className="text-2xl font-bold leading-tight text-gray-900 sm:text-3xl lg:text-4xl">
+            <h2 className="text-4xl font-bold leading-tight text-gray-900 sm:text-3xl lg:text-4xl">
               Your Safety
               <br />
               comes first
             </h2>
-            <div className="relative mt-8 w-[200px] sm:mt-10 sm:w-[240px] lg:w-[280px]">
+            <div className="relative mt-8 hidden w-[200px] sm:mt-10 sm:block sm:w-[240px] lg:w-[280px]">
               <Image
                 src={HOME_IMAGES.safetyShield}
                 alt="Secure shield with lock"
@@ -52,7 +52,7 @@ export default function EligibilitySection(): ReactElement {
             </div>
           </div>
           <div className="w-full">
-            <p className="mb-6 text-sm leading-relaxed text-gray-600 sm:mb-8 sm:text-base lg:text-lg">
+            <p className="mb-6 hidden text-sm leading-relaxed text-gray-600 sm:mb-8 sm:block sm:text-base lg:text-lg">
               We use secure technology and responsible processes to help protect your personal and
               financial information.
             </p>
