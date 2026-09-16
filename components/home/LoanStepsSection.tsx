@@ -1,73 +1,123 @@
+import type { ReactElement, ReactNode } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import {
   appShellContainerClassName,
   homeSectionSpacingClassName,
 } from "@/lib/app-shell-layout";
+import { HOME_IMAGES } from "@/lib/images";
+
+type StepIconProps = {
+  readonly children: ReactNode;
+};
+
+function StepIcon({ children }: StepIconProps): ReactElement {
+  return (
+    <span className="relative z-10 flex size-11 shrink-0 items-center justify-center rounded-full border-2 border-[#FECA42] bg-[#FFFCF5] text-gray-900 sm:size-12">
+      {children}
+    </span>
+  );
+}
+
+function PhoneCheckIcon(): ReactElement {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden>
+      <rect x="7" y="2" width="10" height="20" rx="2" />
+      <path d="M10 17h4" strokeLinecap="round" />
+      <path d="M10 9l1.5 1.5L15 7" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function LaptopIcon(): ReactElement {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden>
+      <rect x="3" y="4" width="18" height="12" rx="2" />
+      <path d="M2 20h20" />
+    </svg>
+  );
+}
+
+function ShieldCheckIcon(): ReactElement {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden>
+      <path d="M12 3l8 3v6c0 5-3.5 8.5-8 9-4.5-.5-8-4-8-9V6l8-3z" strokeLinejoin="round" />
+      <path d="M9 12l2 2 4-4" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function BankIcon(): ReactElement {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden>
+      <path d="M3 10l9-6 9 6" strokeLinejoin="round" />
+      <path d="M5 10v8M9 10v8M15 10v8M19 10v8" />
+      <path d="M3 18h18M2 21h20" />
+    </svg>
+  );
+}
 
 const STEPS = [
-  "Download ZapCash and register",
-  "Complete digital KYC in minutes",
-  "Receive funds in your bank account",
+  {
+    title: "Apply Online",
+    description: "Fill in a few basic details to get started.",
+    icon: PhoneCheckIcon,
+  },
+  {
+    title: "Personalized Offer",
+    description: "View loan options and eligible amounts tailored for you.",
+    icon: LaptopIcon,
+  },
+  {
+    title: "Complete KYC",
+    description: "Securely verify identity with a quick digital KYC process.",
+    icon: ShieldCheckIcon,
+  },
+  {
+    title: "Receive Funds",
+    description: "Approved amount is transferred directly to your bank account.",
+    icon: BankIcon,
+  },
 ] as const;
 
-const STEPS_GRADIENT = "linear-gradient(to right, rgb(0 83 30), #009e39)";
-
-export default function LoanStepsSection() {
+export default function LoanStepsSection(): ReactElement {
   return (
     <section className="bg-white">
       <div className={`${appShellContainerClassName} ${homeSectionSpacingClassName}`}>
-        <div
-          className="relative rounded-2xl sm:rounded-3xl py-8  xl:py-10 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 overflow-hidden"
-          style={{ background: STEPS_GRADIENT }}
-        >
-          <div className="relative z-10 flex flex-col lg:flex-row items-center gap-6 sm:gap-8 md:gap-10 lg:gap-12 xl:gap-16">
-            <div className="flex-1 w-full order-2 lg:order-1  lg:text-left min-w-0">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-white leading-tight mb-4 sm:mb-6 md:mb-8">
-                Your Loan in Just 3 Simple Steps
-              </h2>
-              <ol className="space-y-4 sm:space-y-5 md:space-y-6 mb-6 sm:mb-8 md:mb-10 w-full max-w-md mx-auto lg:mx-0">
-                {STEPS.map((step, index) => (
-                  <li key={step} className="flex items-center gap-3 sm:gap-4">
-                    <span className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#009437] text-white font-bold shrink-0 text-base sm:text-lg">
-                      {index + 1}
-                    </span>
-                    <span className="text-white text-base sm:text-lg md:text-xl font-semibold">
-                      {step}
-                    </span>
-                  </li>
-                ))}
-              </ol>
-              <div className="flex justify-center lg:justify-start">
-                <Link
-                  href="/personal-loan"
-                  className="inline-flex bg-white text-primary items-center justify-center px-5 py-3 sm:px-6 sm:py-3.5 rounded-xl font-bold text-base sm:text-lg"
-                >
-                  Start Your Loan Journey
-                </Link>
-              </div>
-            </div>
-            <div className="flex-1 w-full order-1 lg:order-2 flex justify-center min-w-0">
-              <div className="relative w-full max-w-[300px] sm:max-w-[300px] md:max-w-[340px] lg:max-w-[380px] xl:max-w-[420px] mx-auto">
-                <img
-                  src="/images/Vector.png"
-                  alt="vector icon"
-                  className="absolute left-1/3 rotate-15 top-1/2  md:top-75 w-[250px] sm:w-[260px] md:w-[300px] lg:w-[360px] xl:w-[400px] h-full  pointer-events-none"
-                  style={{ transform: "translate(-50%, -50%) rotate(-12deg)" }}
-                  aria-hidden
-                />
-                <Image
-                  src="/images/sectionMobile.png"
-                  alt="ZapCash app - Get your loan in simple steps"
-                  width={420}
-                  height={735}
-                  className="relative z-10 object-contain w-full max-h-[320px] sm:max-h-[380px] md:max-h-[440px] lg:max-h-[500px] xl:max-h-[550px] drop-shadow-2xl"
-                  priority={false}
-                  sizes="(max-width: 640px) 280px, (max-width: 768px) 340px, (max-width: 1024px) 380px, 420px"
-                />
-              </div>
+        <h2 className="mb-6 text-center text-2xl font-bold text-gray-900 sm:mb-8 sm:text-left sm:text-3xl lg:text-4xl">
+          How It Works
+        </h2>
+        <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-12 xl:gap-16">
+          <div className="hidden items-end justify-center rounded-3xl bg-[linear-gradient(360deg,_#FECA42_0%,_rgba(254,202,66,0.45)_32%,_rgba(254,202,66,0.12)_58%,_#FFFFFF_82%)] px-6 pb-0 pt-10 sm:px-10 sm:pt-12 lg:flex">
+            <div className="relative w-full max-w-[240px] sm:max-w-[280px]">
+              <Image
+                src={HOME_IMAGES.mockDevice}
+                alt="Rupyaa app - loan offer eligibility"
+                width={420}
+                height={735}
+                className="h-auto w-full object-contain object-bottom drop-shadow-xl"
+                sizes="(max-width: 640px) 240px, 280px"
+              />
             </div>
           </div>
+          <ol className="relative space-y-8 sm:space-y-10">
+            <span
+              aria-hidden
+              className="absolute bottom-6 left-[21px] top-6 w-0.5 bg-[#FECA42] sm:left-[23px]"
+            />
+            {STEPS.map(({ title, description, icon: Icon }) => (
+              <li key={title} className="relative flex items-start gap-4">
+                <StepIcon>
+                  <Icon />
+                </StepIcon>
+                <div className="pt-1.5">
+                  <h3 className="text-base font-bold text-gray-900 sm:text-lg">{title}</h3>
+                  <p className="mt-1 text-sm leading-relaxed text-gray-600 sm:text-base">
+                    {description}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ol>
         </div>
       </div>
     </section>

@@ -11,6 +11,10 @@ export const HOME_IMAGES = {
   phoneMockup1: "/images/White and Black Minimalist Phone Mockup Instagram Story (1) 1.png",
   phoneMockup2: "/images/White and Black Minimalist Phone Mockup Instagram Story (1) 2.png",
   mockDevice: "/images/mock-device.png",
+  /** Drop your asset at `public/images/credit-score-promo.png` */
+  creditScorePromo: "/images/credit-score-promo.png",
+  safetyShield: "/images/safety-shield.png?v=4",
+  indiaDotMap: "/images/india-dot-map.png",
 } as const;
 
 export const IMAGES = {

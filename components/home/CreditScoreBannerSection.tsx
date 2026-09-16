@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import {
   appShellContainerClassName,
   homeSectionSpacingClassName,
-  homeSectionTopSpacingClassName,
 } from "@/lib/app-shell-layout";
 import CreditScorePromoBanner from "@/components/credit-score/CreditScorePromoBanner";
 
@@ -16,9 +15,7 @@ export default function CreditScoreBannerSection() {
   const router = useRouter();
   return (
     <section className="bg-white">
-      <div
-        className={`${appShellContainerClassName} ${homeSectionTopSpacingClassName} ${homeSectionSpacingClassName}`}
-      >
+      <div className={`${appShellContainerClassName} pt-2 ${homeSectionSpacingClassName}`}>
         <CreditScorePromoBanner onStart={() => router.push("/credit-score")} />
       </div>
     </section>

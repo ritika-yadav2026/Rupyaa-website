@@ -30,14 +30,14 @@ export default async function LendingPartnersPage({
           className="absolute inset-0 -z-10"
           style={{
             background:
-              "linear-gradient(180deg, #f3fbf5 0%, #f4fbf5 55%, #f8fcf8 100%)",
+              "linear-gradient(180deg, #FFFCF4 0%, #FFF9EB 55%, #FFFFFF 100%)",
           }}
         />
         <div
-          className="absolute inset-0 -z-10 opacity-[0.25]"
+          className="absolute inset-0 -z-10 opacity-[0.35]"
           style={{
             backgroundImage:
-              "radial-gradient(circle at 20% 20%, rgba(0,101,37,0.04) 0%, transparent 48%), radial-gradient(circle at 80% 80%, rgba(34,197,94,0.03) 0%, transparent 50%)",
+              "radial-gradient(circle at 20% 20%, rgba(254,202,66,0.12) 0%, transparent 48%), radial-gradient(circle at 80% 80%, rgba(254,202,66,0.08) 0%, transparent 50%)",
           }}
         />
         <LendingPartnersSection />

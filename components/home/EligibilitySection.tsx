@@ -1,103 +1,75 @@
-import Link from "next/link";
+import type { ReactElement } from "react";
+import Image from "next/image";
 import {
   appShellContainerClassName,
   homeSectionSpacingClassName,
 } from "@/lib/app-shell-layout";
+import { HOME_IMAGES } from "@/lib/images";
 
-function IdCardIcon() {
-  return (
-    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-7 h-7 sm:w-8 sm:h-8">
-      <rect x="2" y="4" width="20" height="16" rx="2" />
-      <path d="M8 12h8" />
-      <path d="M8 16h4" />
-      <circle cx="14" cy="9" r="2" />
-    </svg>
-  );
-}
-
-function MoneyIcon() {
-  return (
-    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-7 h-7 sm:w-8 sm:h-8">
-      <rect x="4" y="2" width="16" height="20" rx="1" />
-      <path d="M4 7h16" />
-      <path d="M4 11h16" />
-      <path d="M4 15h16" />
-      <path d="M4 19h16" />
-    </svg>
-  );
-}
-
-function BankIcon() {
-  return (
-    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-7 h-7 sm:w-8 sm:h-8">
-      <path d="M3 21h18" />
-      <path d="M3 10h18" />
-      <path d="M5 6l7-3 7 3" />
-      <path d="M4 10v11" />
-      <path d="M20 10v11" />
-      <path d="M8 14v3" />
-      <path d="M12 14v3" />
-      <path d="M16 14v3" />
-    </svg>
-  );
-}
-
-function CalendarIcon() {
-  return (
-    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-7 h-7 sm:w-8 sm:h-8">
-      <rect x="3" y="4" width="18" height="18" rx="2" />
-      <path d="M16 2v4" />
-      <path d="M8 2v4" />
-      <path d="M3 10h18" />
-    </svg>
-  );
-}
-
-const CRITERIA = [
-  { icon: IdCardIcon, label: "Valid Government ID" },
-  { icon: MoneyIcon, label: "Proof of Income" },
-  { icon: BankIcon, label: "Active Bank Account" },
-  { icon: CalendarIcon, label: "Age 21+" },
+const SAFETY_POINTS = [
+  {
+    title: "Secure Data Handling",
+    description: "Your information is protected through secure systems.",
+  },
+  {
+    title: "Privacy First",
+    description: "Your data is handled responsibly and only for permitted purposes.",
+  },
+  {
+    title: "Trusted Partners",
+    description: "We work with regulated lending partners to provide loan options.",
+  },
 ] as const;
 
-export default function EligibilitySection() {
+const CARD_BACKGROUND =
+  "linear-gradient(90deg, rgba(254,202,66,0.22) 0%, rgba(254,202,66,0.1) 55%, rgba(254,202,66,0.03) 100%)";
+
+/**
+ * Homepage safety / trust section.
+ */
+export default function EligibilitySection(): ReactElement {
   return (
     <section className="bg-white">
       <div className={`${appShellContainerClassName} ${homeSectionSpacingClassName}`}>
-        <div className="flex flex-col-reverse md:flex-col lg:flex-row items-center gap-8 sm:gap-12 lg:gap-16">
-          <div className="flex-1 w-full order-2 lg:order-1">
-            <h2 className="text-xl sm:text-2xl pb-4 md:text-3xl lg:text-4xl font-bold text-gray-900 mb-3 md:mb-4 block md:hidden">
-              Simple Eligibility Requirements
+        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16">
+          <div className="flex flex-col items-center justify-center text-center">
+            <h2 className="text-2xl font-bold leading-tight text-gray-900 sm:text-3xl lg:text-4xl">
+              Your Safety
+              <br />
+              comes first
             </h2>
-            <div className="grid grid-cols-2 gap-3 sm:gap-4">
-              {CRITERIA.map(({ icon: Icon, label }) => (
-                <div
-                  key={label}
-                  className="flex flex-col items-center justify-center p-3 sm:p-6 rounded-xl sm:rounded-2xl bg-[#DEE7DE] shadow-sm text-center min-h-[100px] sm:min-h-[140px]"
-                >
-                  <span className="text-[#38761D] mb-2 sm:mb-3 flex items-center justify-center">
-                    <Icon />
-                  </span>
-                  <span className="text-gray-900 font-medium text-xs sm:text-base">{label}</span>
-                </div>
-              ))}
+            <div className="relative mt-8 w-[200px] sm:mt-10 sm:w-[240px] lg:w-[280px]">
+              <Image
+                src={HOME_IMAGES.safetyShield}
+                alt="Secure shield with lock"
+                width={720}
+                height={780}
+                className="h-auto w-full object-contain"
+                sizes="280px"
+                unoptimized
+                priority={false}
+              />
             </div>
           </div>
-          <div className="flex-1 w-full order-1 lg:order-2">
-            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-3 md:mb-4 hidden md:block">
-              Simple Eligibility Requirements
-            </h2>
-            <p className="text-gray-600 text-sm sm:text-base md:text-lg leading-relaxed mb-6 md:mb-8">
-              We believe in making financial access simple. To qualify for a ZapCash loan, you only
-              need to meet a few basic criteria. Check your eligibility in less than 60 seconds
-              without affecting your credit score.
+          <div className="w-full">
+            <p className="mb-6 text-sm leading-relaxed text-gray-600 sm:mb-8 sm:text-base lg:text-lg">
+              We use secure technology and responsible processes to help protect your personal and
+              financial information.
             </p>
-            <Link
-              href="/personal-loan"
-              className=" inline-flex items-center justify-center px-6 py-3 rounded-xl bg-primary text-white font-semibold hover:bg-[#2d5e16] transition-colors"
-            >
-              Check Eligibility
-            </Link>
+            <div className="flex flex-col gap-3 sm:gap-4">
+              {SAFETY_POINTS.map(({ title, description }) => (
+                <article
+                  key={title}
+                  className="rounded-2xl px-5 py-4 sm:px-6 sm:py-5"
+                  style={{ background: CARD_BACKGROUND }}
+                >
+                  <h3 className="text-base font-bold text-gray-900 sm:text-lg">{title}</h3>
+                  <p className="mt-1 text-sm leading-relaxed text-gray-600 sm:text-base">
+                    {description}
+                  </p>
+                </article>
+              ))}
+            </div>
           </div>
         </div>
       </div>
