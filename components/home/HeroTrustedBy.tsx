@@ -13,7 +13,7 @@ const AVATARS = [
  */
 export default function HeroTrustedBy(): ReactElement {
   return (
-    <div className="mb-5 flex items-center justify-center gap-3 sm:mb-7">
+    <div className="mb-5 flex items-center justify-center gap-3 sm:mb-5">
       <div className="flex -space-x-2.5">
         {AVATARS.map((src, index) => (
           <span

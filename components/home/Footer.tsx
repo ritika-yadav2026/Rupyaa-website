@@ -5,7 +5,9 @@ import Image from "next/image";
 import Link from "next/link";
 import AppStoreBadge from "@/components/AppStoreBadge";
 import GooglePlayBadge from "@/components/GooglePlayBadge";
+import HeroSkyline from "@/components/home/HeroSkyline";
 import { appShellContainerClassName } from "@/lib/app-shell-layout";
+import { PERSONAL_LOAN_PAGE_GRADIENT } from "@/lib/personal-loan-page-gradient";
 
 const PRODUCT_LINKS = [
   { href: "/personal-loan", label: "Personal loan" },
@@ -117,39 +119,63 @@ function FooterLinkColumn({
 }
 
 function LegalLinksRow(): ReactElement {
-  const items: ReactNode[] = [];
+  const desktopItems: ReactNode[] = [];
   LEGAL_LINKS.forEach(({ href, label }, index) => {
     if (index > 0) {
-      items.push(
-        <span key={`sep-${label}`} className="mx-2 text-gray-300" aria-hidden>
+      desktopItems.push(
+        <span key={`sep-${label}`} className="mx-2 text-gray-400" aria-hidden>
           |
         </span>
       );
     }
-    items.push(
+    desktopItems.push(
       <Link
         key={label}
         href={href}
-        className="text-sm text-gray-500 transition-colors hover:text-gray-700"
+        className="text-sm text-gray-700 transition-colors hover:text-gray-900"
       >
         {label}
       </Link>
     );
   });
   return (
-    <nav className="mb-4 flex flex-wrap items-center justify-center" aria-label="Legal">
-      {items}
-    </nav>
+    <>
+      <nav
+        className="mb-4 flex flex-col items-center gap-2 sm:hidden"
+        aria-label="Legal"
+      >
+        {LEGAL_LINKS.map(({ href, label }) => (
+          <Link
+            key={label}
+            href={href}
+            className="text-sm text-gray-700 transition-colors hover:text-gray-900"
+          >
+            {label}
+          </Link>
+        ))}
+      </nav>
+      <nav
+        className="mb-4 hidden flex-wrap items-center justify-center sm:flex"
+        aria-label="Legal"
+      >
+        {desktopItems}
+      </nav>
+    </>
   );
 }
 
 /**
  * Site-wide footer: brand + store badges, link columns, socials, and copyright.
+ * Uses the same Personal Loan gradient + skyline treatment as the home hero.
  */
 export default function Footer(): ReactElement {
   return (
-    <footer className="border-t border-gray-200 bg-white pt-10 sm:pt-12">
-      <div className={`${appShellContainerClassName} pb-10 sm:pb-12 lg:pb-14`}>
+    <footer
+      className="relative overflow-hidden bg-white pt-10 sm:pt-12"
+      style={{ background: PERSONAL_LOAN_PAGE_GRADIENT }}
+    >
+      <HeroSkyline />
+      <div className={`relative z-[2] ${appShellContainerClassName} pb-10 sm:pb-12 lg:pb-14`}>
         <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between lg:gap-16">
           <div className="flex shrink-0 flex-col gap-5">
             <Link href="/" className="inline-flex w-fit items-center">
@@ -161,20 +187,20 @@ export default function Footer(): ReactElement {
                 className="h-10 w-auto object-contain sm:h-12"
               />
             </Link>
-            <div className="flex flex-col items-start gap-2.5">
+            <div className="hidden flex-col items-start gap-2.5 sm:flex">
               <GooglePlayBadge />
               <AppStoreBadge />
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 sm:gap-12 lg:flex lg:flex-1 lg:justify-end lg:gap-16 xl:gap-24">
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-3 sm:gap-12 lg:flex lg:flex-1 lg:justify-end lg:gap-16 xl:gap-24">
             <FooterLinkColumn title="Product" links={PRODUCT_LINKS} />
             <FooterLinkColumn title="Quick Links" links={QUICK_LINKS} />
             <FooterLinkColumn title="Policies" links={POLICY_LINKS} />
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col items-center border-t border-gray-200 pt-8 text-center sm:mt-14 sm:pt-10">
+        <div className="mt-12 flex flex-col items-center border-t border-black/10 pt-8 text-center sm:mt-14 sm:pt-10">
           <div className="mb-5 flex items-center justify-center gap-5">
             {SOCIAL_LINKS.map(({ href, label, icon }) => (
               <a
@@ -190,7 +216,7 @@ export default function Footer(): ReactElement {
             ))}
           </div>
           <LegalLinksRow />
-          <p className="text-sm text-gray-500">© 2026 Rupyaa. All rights reserved.</p>
+          <p className="text-sm text-gray-700">© 2026 Rupyaa. All rights reserved.</p>
         </div>
       </div>
     </footer>

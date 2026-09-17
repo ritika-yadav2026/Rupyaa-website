@@ -5,7 +5,7 @@ import { ActiveLoanHeroCard } from "@/components/home/ActiveLoanHeroCard";
 import HeroCblRejectedCard from "@/components/home/HeroCblRejectedCard";
 import HeroJourneyProgress from "@/components/home/HeroJourneyProgress";
 import { PostOfferCard } from "@/components/home/PostOfferCard";
-import { PreOfferCard } from "@/components/home/PreOfferCard";
+import HeroLimitCard from "@/components/home/HeroLimitCard";
 import UnderReviewDownloadCard from "@/components/home/UnderReviewDownloadCard";
 import { logHeroLoggedInBranch } from "@/components/home/hero-logged-in-card/hero-logged-in-card-log";
 import { getJourneyRenderMeta } from "@/components/home/hero-logged-in-card/get-journey-render-meta";
@@ -28,8 +28,7 @@ export type HeroCardByResolvedProps = {
 };
 
 /**
- * Maps `getLoggedInHeroUiCase(resolved)` + `parsedStage` (from `lib/build-hero-home-card.ts`) to card UI.
- * Returns `null` when no branch matches so the parent can omit layout entirely.
+ * Maps `getLoggedInHeroUiCase(resolved)` to the matching logged-in hero status card.
  */
 export function resolveHeroCardNode({
   resolved,
@@ -78,13 +77,11 @@ export function resolveHeroCardNode({
       applicationNumber: resolved.applicationNumber,
     });
     return (
-      <>
-        <UnderReviewCard
-          applicationNumber={resolved.applicationNumber}
-          onRefresh={() => onRefreshStatus?.()}
-          isRefreshing={isRefreshingHeroData}
-        />
-      </>
+      <UnderReviewCard
+        applicationNumber={resolved.applicationNumber}
+        onRefresh={() => onRefreshStatus?.()}
+        isRefreshing={isRefreshingHeroData}
+      />
     );
   }
 
@@ -101,62 +98,31 @@ export function resolveHeroCardNode({
 
   if (heroUiCase === "cbl_rejected") {
     logHeroLoggedInBranch("cbl_rejected", {});
-    return (
-      <HeroCblRejectedCard title={copy.title} heading={copy.heading} description={copy.description} />
-    );
+    return <HeroCblRejectedCard />;
   }
 
-  /**
-   * Journey: `journey_pre_offer` vs `journey_post_offer` from `getLoggedInHeroUiCase` / `evaluateHeroHomeBranch`.
-   * Pre-offer — registration funnel + eligibility CTA. Post-offer — sanctioned summary + accept/continue.
-   * `HeroCardResponsiveLayout` handles placement only.
-   */
-  if (heroUiCase === "journey_pre_offer" || heroUiCase === "journey_post_offer") {
+  if (heroUiCase === "journey_pre_offer") {
+    logHeroLoggedInBranch("journey_pre_offer", {
+      actionLabel: "Apply for Loan",
+    });
+    return <HeroLimitCard actionLabel="Apply for Loan" actionHref="/personal-loan" />;
+  }
+
+  if (heroUiCase === "journey_post_offer") {
     const hideStepper = copy.hideProgressStepper === true;
-    const postOfferProgress = hideStepper ? null : (
-      <HeroJourneyProgress currentStepIndex={journeyProgress.currentStepIndex} />
-    );
-    const preOfferProgress = hideStepper ? null : (
-      <HeroJourneyProgress
-        currentStepIndex={journeyProgress.currentStepIndex}
-        accentColor="#2E5C32"
-        trackRemainColor="#E5E7EB"
-      />
-    );
-
-    if (journeyMeta.isPreOffer) {
-      logHeroLoggedInBranch("journey_pre_offer", {
-        hideProgressStepper: hideStepper,
-        actionLabel: journeyMeta.actionLabel,
-      });
-      return (
-        <PreOfferCard
-          title={copy.title}
-          heading={copy.heading}
-          description={copy.description}
-          statusPill={journeyMeta.statusPillLabel}
-          actionLabel={journeyMeta.actionLabel}
-          actionHref="/personal-loan"
-          footerMessage="No impact on credit score"
-        >
-          <div className="mt-6 flex flex-wrap gap-2 sm:gap-2.5">
-            <span className="inline-flex items-center rounded-full border border-[#A8C6B0]/70 bg-[#D4E7D7]/50 px-3 py-1.5 text-[11px] font-semibold text-[#2E5C32]">
-              Zero Foreclosure Charges
-            </span>
-            <span className="inline-flex items-center rounded-full border border-[#A8C6B0]/70 bg-[#D4E7D7]/50 px-3 py-1.5 text-[11px] font-semibold text-[#2E5C32]">
-              No Paperwork
-            </span>
-          </div>
-          <div className="mt-5 sm:mt-6">{preOfferProgress}</div>
-        </PreOfferCard>
-      );
-    }
-
     const loanForDisplay = resolved.loan as DisplayLoan | undefined;
     const tenureLabel =
       typeof loanForDisplay?.tenure === "string" && loanForDisplay.tenure.trim().length > 0
         ? loanForDisplay.tenure.trim()
         : undefined;
+    const isAcceptVariant = journeyMeta.shouldHandleOfferAccept === true;
+
+    let progress: ReactNode = null;
+    if (!hideStepper && !isAcceptVariant) {
+      progress = (
+        <HeroJourneyProgress currentStepIndex={journeyProgress.currentStepIndex} />
+      );
+    }
 
     logHeroLoggedInBranch("journey_post_offer", {
       hideProgressStepper: hideStepper,
@@ -164,6 +130,7 @@ export function resolveHeroCardNode({
       disablePostOfferAction: journeyMeta.disablePostOfferAction,
       applicationNumber: resolved.applicationNumber,
       remountKey: journeyCardRemountKey,
+      variant: isAcceptVariant ? "accept" : "journey",
     });
 
     return (
@@ -174,16 +141,19 @@ export function resolveHeroCardNode({
         amount={loanForDisplay?.amount}
         tenure={tenureLabel}
         totalPayable={loanForDisplay?.totalPayable}
-        actionLabel={journeyMeta.actionLabel}
+        actionLabel={isAcceptVariant ? "Accept Offer" : journeyMeta.actionLabel}
         hideAction={copy.hideAction === true}
         disableAction={journeyMeta.disablePostOfferAction}
+        onActionPress={isAcceptVariant ? onAcceptOffer : undefined}
         onRefreshPress={onRefreshStatus}
         isRefreshing={isRefreshingHeroData}
         showCancelLoanEntry={showCancelLoanEntry}
         canCancelLoan={canCancelLoan}
         onCancelLoanPress={onCancelLoanPress}
+        variant={isAcceptVariant ? "accept" : "journey"}
+        ctaHref="/personal-loan"
       >
-        {postOfferProgress}
+        {progress}
       </PostOfferCard>
     );
   }

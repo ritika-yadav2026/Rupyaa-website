@@ -17,7 +17,7 @@ export default function CreditScorePromoBanner({
   onStart,
 }: CreditScorePromoBannerProps): ReactElement {
   return (
-    <section className="relative overflow-hidden rounded-2xl bg-white sm:rounded-[28px]">
+    <section className="relative overflow-hidden rounded-2xl border border-[#FECA42] bg-white sm:rounded-[28px]">
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0"

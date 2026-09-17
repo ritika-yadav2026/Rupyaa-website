@@ -17,8 +17,8 @@ const KEY_LENGTH = 128;
 
 const SECRET =
   process.env.NEXT_PUBLIC_ENCRYPTION_SECRET ??
-  process.env.NEXT_PUBLIC_API_ENCRYPTION_SECRET ??
-  process.env.NEXT_PUBLIC_TEST_ENCRYPTION_SECRET ??
+  // process.env.NEXT_PUBLIC_API_ENCRYPTION_SECRET ??
+  // process.env.NEXT_PUBLIC_TEST_ENCRYPTION_SECRET ??
   "test-encryption-secret-key-32bytes!!";
 
 let cachedEncryptionEnabled: boolean | null = null;

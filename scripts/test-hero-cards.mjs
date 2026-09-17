@@ -8,7 +8,7 @@
 const API_BASE = (
   process.env.NEXT_PUBLIC_API_URL || "https://lending-api.wecredit.click"
 ).replace(/\/$/, "");
-const API_PATH_PREFIX = (process.env.NEXT_PUBLIC_API_PATH_PREFIX || "/api/v1")
+const API_PATH_PREFIX = ("/api/v1")
   .trim()
   .replace(/\/$/, "");
 

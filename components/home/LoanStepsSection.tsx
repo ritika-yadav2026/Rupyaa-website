@@ -87,10 +87,10 @@ export default function LoanStepsSection(): ReactElement {
           How It Works
         </h2>
         <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-12 xl:gap-16">
-          <div className="hidden items-end justify-center rounded-3xl bg-[linear-gradient(360deg,_#FECA42_0%,_rgba(254,202,66,0.45)_32%,_rgba(254,202,66,0.12)_58%,_#FFFFFF_82%)] px-6 pb-0 pt-10 sm:px-10 sm:pt-12 lg:flex">
+          <div className="hidden items-end justify-center rounded-3xl border border-[#FECA42] bg-[linear-gradient(360deg,_#FECA42_0%,_rgba(254,202,66,0.45)_32%,_rgba(254,202,66,0.12)_58%,_#FFFFFF_82%)] px-6 pb-0 pt-10 sm:px-10 sm:pt-12 lg:flex">
             <div className="relative w-full max-w-[240px] sm:max-w-[280px]">
               <Image
-                src={HOME_IMAGES.mockDevice}
+                src={HOME_IMAGES.howItWorksPhone}
                 alt="Rupyaa app - loan offer eligibility"
                 width={420}
                 height={735}

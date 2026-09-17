@@ -169,7 +169,7 @@ export default function AppHeader(): ReactElement {
     accountOrLogin = (
       <AppButton
         type="button"
-        className="hidden md:inline-flex"
+        className="hidden !min-h-0 rounded-lg bg-[#1A1A1A] px-5 py-2 text-sm font-semibold text-[#FECA42] hover:bg-black focus:ring-gray-900 md:inline-flex"
         onClick={() => router.push(authHref)}
       >
         Login
@@ -221,7 +221,7 @@ export default function AppHeader(): ReactElement {
         <AppButton
           type="button"
           fullWidth
-          className="mt-2"
+          className="mt-2 !min-h-[44px] rounded-lg bg-[#1A1A1A] py-2.5 text-sm font-semibold text-[#FECA42] hover:bg-black focus:ring-gray-900"
           onClick={() => {
             setMobileMenuOpen(false);
             router.push(authHref);

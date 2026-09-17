@@ -39,13 +39,17 @@ export default function UnderReviewDownloadCard({
   const trimmedApplicationNumber =
     typeof applicationNumber === "string" ? applicationNumber.trim() : "";
   return (
-    <div className="w-full rounded-3xl border border-[#C8D8D0] overflow-hidden bg-white/25 backdrop-blur-xl shadow-[0_18px_50px_rgba(0,0,0,0.12)]">
-      <div className="p-4 sm:p-5 relative">
+    <div
+      className="w-full overflow-hidden rounded-3xl border border-white/60 backdrop-blur-xl"
+      style={{
+        background: "linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, #FFFCF5 100%)",
+      }}
+    >
+      <div className="relative p-4 sm:p-5">
         <div
-          className="absolute inset-0 opacity-70"
+          className="pointer-events-none absolute inset-0"
           style={{
-            background:
-              "radial-gradient(900px 220px at 20% 0%, rgba(0,101,37,0.14), transparent 60%), radial-gradient(700px 220px at 95% 40%, rgba(0,101,37,0.10), transparent 55%)",
+            background: "transparent",
           }}
           aria-hidden
         />
