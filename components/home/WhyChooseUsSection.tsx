@@ -1,3 +1,5 @@
+"use client";
+
 import type { ReactElement, ReactNode } from "react";
 import {
   appShellContainerClassName,
@@ -80,9 +82,6 @@ const FEATURES = [
 const FEATURE_CARD_CLASSNAME =
   "flex h-full flex-col rounded-2xl border border-[#FECA42]/55 bg-[radial-gradient(ellipse_at_top_left,_#FECA42_0%,_rgba(254,202,66,0.45)_32%,_rgba(254,202,66,0.12)_58%,_#FFFFFF_82%)] p-5 sm:p-6";
 
-const MOBILE_TRACK_CLASSNAME =
-  "flex snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain pb-2 [-webkit-overflow-scrolling:touch] [touch-action:pan-x_pan-y] [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden";
-
 type FeatureCardProps = {
   readonly title: string;
   readonly description: string;
@@ -90,7 +89,7 @@ type FeatureCardProps = {
 };
 
 /**
- * Shared feature card used by the mobile carousel and desktop grid.
+ * Shared feature card used by the mobile marquee and desktop grid.
  */
 function FeatureCard({ title, description, icon: Icon }: FeatureCardProps): ReactElement {
   return (
@@ -101,6 +100,46 @@ function FeatureCard({ title, description, icon: Icon }: FeatureCardProps): Reac
       <h3 className="text-base font-bold text-gray-900 sm:text-lg">{title}</h3>
       <p className="mt-2 text-sm leading-relaxed text-gray-600">{description}</p>
     </article>
+  );
+}
+
+/**
+ * Mobile infinite horizontal loop of feature cards.
+ */
+function MobileInfiniteFeatureStrip(): ReactElement {
+  const loopFeatures = [...FEATURES, ...FEATURES];
+  return (
+    <div className="relative -mx-4 overflow-hidden sm:hidden">
+      <style>{`
+        @keyframes why-choose-marquee {
+          from { transform: translateX(0); }
+          to { transform: translateX(-50%); }
+        }
+        .why-choose-marquee-track {
+          animation: why-choose-marquee 12s linear infinite;
+          width: max-content;
+        }
+        .why-choose-marquee-track:hover {
+          animation-play-state: paused;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .why-choose-marquee-track {
+            animation: none;
+          }
+        }
+      `}</style>
+      <div className="why-choose-marquee-track flex gap-4 px-4">
+        {loopFeatures.map(({ title, description, icon }, index) => (
+          <div
+            key={`${title}-${index}`}
+            className="w-[min(78vw,260px)] shrink-0"
+            aria-hidden={index >= FEATURES.length}
+          >
+            <FeatureCard title={title} description={description} icon={icon} />
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
 
@@ -117,15 +156,7 @@ export default function WhyChooseUsSection(): ReactElement {
             financial information.
           </p>
         </div>
-        <div className="relative -mx-4 px-4 sm:hidden">
-          <div className={MOBILE_TRACK_CLASSNAME}>
-            {FEATURES.map(({ title, description, icon }) => (
-              <div key={title} className="w-[min(78vw,260px)] shrink-0 snap-start">
-                <FeatureCard title={title} description={description} icon={icon} />
-              </div>
-            ))}
-          </div>
-        </div>
+        <MobileInfiniteFeatureStrip />
         <div className="hidden gap-4 sm:grid sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
           {FEATURES.map(({ title, description, icon }) => (
             <FeatureCard key={title} title={title} description={description} icon={icon} />

@@ -133,7 +133,7 @@ function renderFaqAnswerContent(item: FAQItem): ReactNode {
   const sections: ReactNode[] = [];
   if (answer) {
     sections.push(
-      <p key="answer" className="text-gray-600 text-base leading-relaxed">
+      <p key="answer" className="text-sm leading-relaxed text-gray-600">
         {answer}
       </p>,
     );
@@ -142,7 +142,7 @@ function renderFaqAnswerContent(item: FAQItem): ReactNode {
     let heading: ReactNode = null;
     if (listHeading) {
       heading = (
-        <p className="text-gray-900 text-base font-semibold leading-relaxed">
+        <p className="text-sm font-semibold leading-relaxed text-gray-900">
           {listHeading}
         </p>
       );
@@ -150,7 +150,7 @@ function renderFaqAnswerContent(item: FAQItem): ReactNode {
     sections.push(
       <div key="bullets">
         {heading}
-        <ul className="mt-2 list-disc space-y-2 pl-5 text-gray-600 text-base leading-relaxed">
+        <ul className="mt-2 list-disc space-y-2 pl-5 text-sm leading-relaxed text-gray-600">
           {bulletPoints.map((point) => (
             <li key={point}>{point}</li>
           ))}
@@ -160,7 +160,7 @@ function renderFaqAnswerContent(item: FAQItem): ReactNode {
   }
   if (footer) {
     sections.push(
-      <p key="footer" className="text-gray-600 text-base leading-relaxed">
+      <p key="footer" className="text-sm leading-relaxed text-gray-600">
         {footer}
       </p>,
     );
@@ -241,12 +241,12 @@ export default function FAQSection({ startBatch = 0, layout = "centered" }: FAQS
             <button
               type="button"
               onClick={() => toggleItem(index)}
-              className="flex w-full items-center justify-between gap-3 p-4 text-left transition-colors hover:bg-black/[0.02] sm:gap-4 sm:p-5"
+              className="flex w-full items-center justify-between gap-3 p-2 text-left transition-colors hover:bg-black/[0.02] sm:gap-4"
               aria-expanded={isOpen}
               aria-controls={`faq-answer-${index}`}
               id={`faq-question-${index}`}
             >
-              <span className="pr-4 text-sm font-semibold text-gray-900 sm:text-base md:text-lg">
+              <span className="text-xs font-semibold text-gray-900 sm:text-sm md:text-base">
                 {question}
               </span>
               <span className="flex-shrink-0 text-gray-600">
@@ -275,17 +275,17 @@ export default function FAQSection({ startBatch = 0, layout = "centered" }: FAQS
       <section id="faq" className="bg-white">
         <div className={`${appShellContainerClassName} ${homeSectionSpacingClassName}`}>
           <div className="mt-8 grid gap-8 sm:mt-10 lg:mt-12 lg:grid-cols-[0.85fr_1.15fr] lg:items-center lg:gap-12">
-            <div className="flex flex-col justify-center">
+            <div className="flex flex-col justify-center text-center sm:text-left">
               <h2 className="text-2xl font-semibold tracking-[-0.03em] text-gray-900 sm:text-3xl lg:text-4xl">
                 Frequently
                 <br />
                 Asked Questions
               </h2>
-              <p className="mt-3 max-w-sm text-sm leading-6 text-slate-600 sm:text-base">
+              <p className="mt-3 hidden max-w-sm text-sm leading-6 text-slate-600 sm:block sm:text-base">
                 Need help with eligibility, your application, repayments or loan documents? Contact
                 the Rupyaa support team.
               </p>
-              <div className="mt-6">
+              <div className="mt-6 hidden sm:block">
                 <a
                   href="/support"
                   className="inline-flex min-h-[48px] items-center justify-center rounded-xl bg-button px-7 text-sm font-semibold text-gray-900 transition hover:bg-button/90"

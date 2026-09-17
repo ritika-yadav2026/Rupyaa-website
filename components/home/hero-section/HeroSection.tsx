@@ -124,7 +124,7 @@ export default function HeroSection(): ReactElement {
       style={{ background: PERSONAL_LOAN_PAGE_GRADIENT }}
     >
       <HeroSkyline />
-      <div className="relative z-[2] mx-auto flex w-full flex-1 flex-col items-center justify-center px-4 pb-10 pt-6">
+      <div className="relative z-[2] mx-auto flex w-full flex-1 flex-col items-center justify-start px-4 pb-10 pt-5 sm:justify-center sm:pt-6">
         {content}
       </div>
       {cancellationModal}

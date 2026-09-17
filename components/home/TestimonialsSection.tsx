@@ -61,15 +61,15 @@ const TESTIMONIALS = [
 
 const RATING_VALUE = "4.9";
 
-const MOBILE_TRACK_CLASSNAME =
-  "flex h-[156px] overflow-x-auto overscroll-x-contain [-webkit-overflow-scrolling:touch] [touch-action:pan-x_pan-y] [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden";
+const MOBILE_REVIEWS_TRACK_CLASSNAME =
+  "flex h-[156px] min-w-0 flex-1 overflow-x-auto overscroll-x-contain [-webkit-overflow-scrolling:touch] [touch-action:pan-x_pan-y] [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden";
 
 /**
  * Compact mobile rating card — same width as comment cards.
  */
 function MobileRatingPanel(): ReactElement {
   return (
-    <div className="flex h-full w-[135px] shrink-0 flex-col items-center justify-center bg-[#FECA42] px-3 text-center">
+    <div className="flex h-[156px] w-[135px] shrink-0 flex-col items-center justify-center bg-[#FECA42] px-3 text-center">
       <p className="text-[28px] font-extrabold leading-none text-gray-900">{RATING_VALUE}</p>
       <p className="mt-1.5 text-[10px] font-medium leading-tight text-gray-900">
         Customer Reviews
@@ -150,10 +150,12 @@ export default function TestimonialsSection(): ReactElement {
           What our customer say
         </h2>
 
-        {/* Mobile only: compact horizontal strip */}
-        <div className="overflow-hidden rounded-2xl border border-[#FECA42] bg-[#FFFCF4] lg:hidden">
-          <div className={MOBILE_TRACK_CLASSNAME}>
+        {/* Mobile: sticky rating + horizontally scrollable reviews */}
+        <div className="flex overflow-hidden rounded-2xl border border-[#FECA42] bg-[#FFFCF4] lg:hidden">
+          <div className="sticky left-0 z-[1] shrink-0 self-stretch">
             <MobileRatingPanel />
+          </div>
+          <div className={MOBILE_REVIEWS_TRACK_CLASSNAME}>
             {TESTIMONIALS.map(({ quote, name, location, initials }) => (
               <TestimonialBody
                 key={name}
@@ -161,7 +163,7 @@ export default function TestimonialsSection(): ReactElement {
                 name={name}
                 location={location}
                 initials={initials}
-                className="w-[135px] shrink-0 border-l border-[#FECA42] px-3 py-3"
+                className="h-full w-[135px] shrink-0 border-l border-[#FECA42] px-3 py-3"
                 quoteClassName="line-clamp-6 flex-1 text-[12px] leading-[1.35] text-gray-800"
                 metaClassName="mt-2 gap-1.5"
                 avatarClassName="flex size-[26px] shrink-0 items-center justify-center rounded-full bg-gray-200 text-[9px] font-semibold text-gray-700"
