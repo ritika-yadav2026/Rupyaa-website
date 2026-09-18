@@ -13,7 +13,7 @@ const AVATARS = [
  */
 export default function HeroTrustedBy(): ReactElement {
   return (
-    <div className="mb-5 flex items-center justify-center gap-3 sm:mb-7">
+    <div className="mb-4 mt-10 flex items-center justify-center gap-3 sm:mb-5 sm:mt-0">
       <div className="flex -space-x-2.5">
         {AVATARS.map((src, index) => (
           <span
@@ -25,7 +25,11 @@ export default function HeroTrustedBy(): ReactElement {
           </span>
         ))}
       </div>
-      <p className="text-sm font-medium text-gray-600 sm:text-[15px]">Trusted by 10,000+</p>
+      <p className="text-left text-sm font-medium leading-tight text-gray-600 sm:text-[15px]">
+        Trusted by
+        <br />
+        10,000+
+      </p>
     </div>
   );
 }

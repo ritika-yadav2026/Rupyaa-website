@@ -1,34 +1,79 @@
 "use client";
 
 import type { ReactElement } from "react";
-import { CBL_STRIP_LABEL } from "@/config/loanStatusCardConfig";
+import {
+  HeroArrowIcon,
+  HeroStatusCardShell,
+  HeroYellowButton,
+} from "@/components/home/hero-status-card/HeroStatusCardShell";
 
 type Props = {
-  readonly title: string;
-  readonly heading: string;
-  readonly description: string;
-  readonly stripLabel?: string;
+  readonly title?: string;
+  readonly heading?: string;
+  readonly description?: string;
 };
 
+function HourglassIcon(): ReactElement {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden>
+      <path
+        d="M6 2h12M6 22h12M8 2v4l4 4 4-4V2M8 22v-4l4-4 4 4v4"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function StayTunedSmileIcon(): ReactElement {
+  return (
+    <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden>
+      <circle cx="8" cy="8" r="7" fill="#FECA42" />
+      <circle cx="5.5" cy="6.5" r="1" fill="#1A1A1A" />
+      <circle cx="10.5" cy="6.5" r="1" fill="#1A1A1A" />
+      <path
+        d="M5 9.5c.8 1.2 2 1.8 3 1.8s2.2-.6 3-1.8"
+        stroke="#1A1A1A"
+        strokeWidth="1.2"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+/**
+ * CBL / rejected hero card — Coming Soon / better options.
+ */
 export default function HeroCblRejectedCard({
-  title,
-  heading,
-  description,
-  stripLabel = CBL_STRIP_LABEL,
+  title = "Better Loan Options",
+  heading = "COMING SOON...",
+  description = "We're working on better loan options for you.",
 }: Props): ReactElement {
   return (
-    <div
-      className="flex w-full max-w-[560px] flex-col rounded-2xl px-6 py-6 sm:px-7 sm:py-7 mb-4 border shadow-[0_12px_32px_rgba(0,104,55,0.12)] bg-white/25 backdrop-blur-xl lg:bg-transparent lg:backdrop-blur-0"
-      style={{ borderColor: "#C8D8D0" }}
-    >
-      <p className="text-xs font-semibold uppercase tracking-wide text-primary mb-2">{title}</p>
-      {stripLabel ? (
-        <div className="mb-3 inline-flex w-fit rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-bold text-primary">
-          {stripLabel}
-        </div>
-      ) : null}
-      <h2 className="text-lg font-extrabold text-gray-900 sm:text-xl leading-snug">{heading}</h2>
-      {description ? <p className="mt-2 text-sm text-gray-600 leading-relaxed">{description}</p> : null}
-    </div>
+    <HeroStatusCardShell>
+      <div className="mx-auto mb-3 inline-flex items-center gap-1.5 rounded-full border border-[#FECA42]/70 bg-white px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-gray-800 shadow-sm">
+        Stay Tuned
+        <StayTunedSmileIcon />
+      </div>
+      <p className="text-sm font-medium text-gray-700 sm:text-base">{title}</p>
+      <h2 className="mt-1 text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
+        {heading}
+      </h2>
+      <p className="mt-2 text-sm text-gray-600 sm:text-[15px]">{description}</p>
+      <div className="mt-6 sm:mt-7">
+        <HeroYellowButton href="/credit-score">
+          Check Credit Report
+          <HeroArrowIcon />
+        </HeroYellowButton>
+      </div>
+      <p className="mt-4 flex items-center justify-center gap-1.5 text-[11px] text-gray-500 sm:text-xs">
+        <span className="text-gray-400">
+          <HourglassIcon />
+        </span>
+        Check again in 30 days
+      </p>
+    </HeroStatusCardShell>
   );
 }

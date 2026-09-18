@@ -51,19 +51,31 @@ function DocumentRequestsEmptyState(): ReactElement {
 
 function NeedHelpBar(): ReactElement {
   return (
-    <div className="mt-6 flex flex-col gap-3 rounded-2xl bg-[#FFF8E6] px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-5">
-      <p className="text-sm text-gray-700">
-        <span className="font-semibold text-gray-900">Need Help?</span> Find answers to common
-        questions or get in touch with our support team.
-      </p>
-      <Link
-        href="/support"
-        className="inline-flex shrink-0 items-center gap-1 text-sm font-semibold text-gray-900 hover:underline"
-      >
-        Visit Support
+    <Link
+      href="/support"
+      className="mt-6 flex items-center gap-3 rounded-2xl border border-[#FECA42]/40 bg-[#FFF8E6] px-4 py-4 sm:px-5"
+    >
+      <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-gray-900 text-white">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
+          <path
+            d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </span>
+      <span className="min-w-0 flex-1">
+        <span className="block text-sm font-semibold text-gray-900">Need Help?</span>
+        <span className="mt-0.5 block text-sm text-gray-600">
+          Find answers or get in touch with our support team.
+        </span>
+      </span>
+      <span className="shrink-0 text-gray-500">
         <ChevronRightIcon />
-      </Link>
-    </div>
+      </span>
+    </Link>
   );
 }
 
@@ -102,7 +114,7 @@ function DocumentRequestsShell({
   return (
     <div className={`${appShellContainerClassName} box-border py-8 sm:py-10`}>
       <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:gap-8">
-        <div className="min-w-0 flex-1">
+        <div className="min-w-0 w-full lg:flex-1">
           <div className="mb-6 flex items-start justify-between gap-4">
             <div>
               <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">Document Requests</h1>
@@ -114,8 +126,8 @@ function DocumentRequestsShell({
           </div>
           {children}
         </div>
-        <div className="hidden w-[300px] shrink-0 self-stretch lg:flex xl:w-[340px]">
-          <div className="sticky top-24 h-[calc(100dvh-7rem)] w-full">
+        <div className="w-full shrink-0 lg:w-[300px] xl:w-[340px]">
+          <div className="h-auto min-h-[420px] w-full lg:sticky lg:top-24 lg:h-[calc(100dvh-7rem)] lg:min-h-0">
             <BasicInfoSidebar />
           </div>
         </div>

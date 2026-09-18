@@ -21,7 +21,7 @@ export default function DownloadAppSection(): ReactElement {
     <section className="bg-white">
       <div className={`${appShellContainerClassName} ${homeSectionSpacingClassName}`}>
         <div
-          className="relative flex overflow-hidden rounded-2xl border border-[#FECA42] sm:rounded-3xl"
+          className="relative flex flex-col overflow-hidden rounded-2xl border border-[#FECA42] sm:rounded-3xl lg:flex-row"
           style={{ background: SECTION_GRADIENT }}
         >
           <div className="relative z-10 flex w-full flex-col justify-center gap-6 p-6 sm:gap-8 sm:p-8 md:p-10 lg:max-w-[58%] lg:p-12 xl:max-w-[55%]">
@@ -49,6 +49,19 @@ export default function DownloadAppSection(): ReactElement {
               </div>
             </div>
           </div>
+          {/* Mobile: mock device in flow */}
+          <div className="relative z-10 flex justify-center px-4 pb-0 pt-2 lg:hidden">
+            <Image
+              src={HOME_IMAGES.mockDevice}
+              alt="Rupyaa app on mobile"
+              width={280}
+              height={490}
+              className="h-auto w-[min(58vw,220px)] object-contain object-bottom drop-shadow-2xl"
+              sizes="220px"
+              priority={false}
+            />
+          </div>
+          {/* Desktop: mock device on the right */}
           <div className="pointer-events-none absolute inset-y-0 right-0 bottom-0 hidden w-[46%] items-end justify-end pb-0 pr-2 lg:flex xl:pr-6">
             <div className="relative h-full w-full max-w-[300px] xl:max-w-[340px]">
               <Image

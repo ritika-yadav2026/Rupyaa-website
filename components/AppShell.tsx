@@ -75,7 +75,7 @@ export default function AppShell({ children }: AppShellProps) {
 
   return (
     <GoogleOAuthAppProvider>
-      <div className="min-h-screen w-full overflow-x-hidden bg-white flex flex-col">
+      <div className="min-h-screen w-full bg-white flex flex-col">
         {isLoggedIn && <RedirectionStageFetcher />}
         <ExternalAppConfigInit enabled={isLoggedIn} />
         <AppHeader />

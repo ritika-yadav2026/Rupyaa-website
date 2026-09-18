@@ -264,7 +264,7 @@ function AuthPageContent() {
         className="contents"
       >
         <div className="mb-6 flex flex-col items-start gap-1">
-          <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">
+          <h1 className="text-2xl font-bold leading-snug text-gray-900 sm:text-3xl">
             Welcome Back to ZapCash!
           </h1>
           <p className="text-base text-gray-500">Login to Your Account</p>
@@ -297,7 +297,7 @@ function AuthPageContent() {
   } else {
     formContent = (
       <>
-        <h1 className="mb-2 text-2xl font-bold text-gray-900 sm:text-3xl">
+        <h1 className="mb-2 text-2xl font-bold leading-snug text-gray-900 sm:text-3xl">
           Verify your Phone
         </h1>
         <div className="mb-6 flex flex-wrap items-center justify-between gap-2">
@@ -384,9 +384,9 @@ function AuthPageContent() {
   return (
     <SiteChrome
       className="flex min-h-screen min-h-[100dvh] flex-col bg-white"
-      mainClassName="flex flex-1 flex-col items-center justify-center px-4 pb-10 pt-4 outline-none sm:pb-14 sm:pt-8"
+      mainClassName="flex flex-1 flex-col items-center px-4 pb-10 outline-none sm:pb-14"
     >
-      <div className="flex w-full max-w-5xl flex-col gap-5 md:flex-row md:items-stretch md:gap-6 lg:gap-8">
+      <div className="my-auto flex w-full max-w-5xl flex-col gap-5 py-6 md:flex-row md:items-stretch md:gap-6 md:py-8 lg:gap-8">
         <div className="flex flex-1 flex-col rounded-2xl border border-gray-100 bg-white p-5 shadow-[0_8px_30px_rgba(0,0,0,0.06)] sm:p-6 md:min-w-0 md:p-8 lg:min-w-[420px]">
           {formContent}
         </div>
@@ -395,7 +395,7 @@ function AuthPageContent() {
         </div>
       </div>
 
-      <div className="mt-8 flex flex-wrap items-center justify-center gap-6 text-gray-400 sm:mt-10 sm:gap-10">
+      <div className="mt-2 flex flex-wrap items-center justify-center gap-6 pb-2 text-gray-400 sm:mt-4 sm:gap-10">
         <div className="flex flex-col items-center gap-1.5">
           <ClockIcon />
           <span className="text-[10px] font-medium uppercase tracking-wider sm:text-xs">

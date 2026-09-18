@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState, type ReactElement, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type CSSProperties, type ReactElement, type ReactNode } from "react";
 import LoanHighlightsSection from "@/components/home/LoanHighlightsSection";
 import Link from "next/link";
 import LoanHeroIntro from "@/components/LoanHeroIntro";
@@ -17,9 +17,26 @@ const LOAN_AMOUNT_MAX = 100000;
 const INTEREST_RATE_MIN = 10;
 const INTEREST_RATE_MAX = 24;
 
+function getRangeProgress(value: number, min: number, max: number): number {
+  if (max <= min) return 0;
+  return ((value - min) / (max - min)) * 100;
+}
+
 function getRangeBackground(value: number, min: number, max: number): string {
-  const progress = ((value - min) / (max - min)) * 100;
+  const progress = getRangeProgress(value, min, max);
   return `linear-gradient(to right, #FECA42 0%, #FECA42 ${progress}%, #F3F4F6 ${progress}%, #F3F4F6 100%)`;
+}
+
+function getRangeStyle(
+  value: number,
+  min: number,
+  max: number
+): React.CSSProperties {
+  const progress = getRangeProgress(value, min, max);
+  return {
+    background: getRangeBackground(value, min, max),
+    ["--range-progress" as string]: `${progress}%`,
+  };
 }
 
 function calculateEmi(principal: number, annualRate: number, months: number): number {
@@ -135,7 +152,7 @@ export default function GuestDashboardLanding(): ReactElement {
         <section className="mx-auto grid w-full max-w-7xl gap-8 px-4 pb-14 pt-10 sm:gap-10 sm:px-6 sm:pt-14 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-12 lg:px-8 lg:pb-20 lg:pt-16">
           <LoanHeroIntro />
 
-          <div className="order-1 rounded-[1.5rem] border border-[#FECA42]/50 bg-white p-5 shadow-[0_18px_50px_rgba(15,23,42,0.08)] sm:p-6 lg:order-2">
+          <div className="order-2 rounded-[1.5rem] border border-[#FECA42]/50 bg-white p-5 shadow-[0_18px_50px_rgba(15,23,42,0.08)] sm:p-6 lg:order-2">
             <h2 className="text-lg font-semibold tracking-[-0.02em] text-slate-900 sm:text-xl">
               Personal Loan EMI Calculator
             </h2>
@@ -158,7 +175,7 @@ export default function GuestDashboardLanding(): ReactElement {
                   value={loanAmount}
                   onChange={(event) => setLoanAmount(Number(event.target.value))}
                   className="emi-slider w-full"
-                  style={{ background: getRangeBackground(loanAmount, LOAN_AMOUNT_MIN, LOAN_AMOUNT_MAX) }}
+                  style={getRangeStyle(loanAmount, LOAN_AMOUNT_MIN, LOAN_AMOUNT_MAX)}
                   aria-label="Loan amount"
                 />
                 <div className="flex justify-between text-[0.7rem] font-medium text-slate-400">
@@ -212,9 +229,7 @@ export default function GuestDashboardLanding(): ReactElement {
                   value={interestRate}
                   onChange={(event) => setInterestRate(Number(event.target.value))}
                   className="emi-slider w-full"
-                  style={{
-                    background: getRangeBackground(interestRate, INTEREST_RATE_MIN, INTEREST_RATE_MAX),
-                  }}
+                  style={getRangeStyle(interestRate, INTEREST_RATE_MIN, INTEREST_RATE_MAX)}
                   aria-label="Interest rate"
                 />
                 <div className="flex justify-between text-[0.7rem] font-medium text-slate-400">
@@ -254,11 +269,8 @@ export default function GuestDashboardLanding(): ReactElement {
       </div>
 
       <LoanHighlightsSection />
-
-      <FAQSection startBatch={0} layout="split" />
-
       <DownloadAppSection />
-
+      <FAQSection startBatch={0} layout="split" />
       <Footer />
     </div>
   );

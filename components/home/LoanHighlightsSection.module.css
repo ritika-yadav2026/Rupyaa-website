@@ -1,37 +1,106 @@
-.section { width: 100%; max-width: 1080px; margin-inline: auto; padding: 44px 32px 52px; color: #202020; }
-.heading { text-align: center; margin-bottom: 38px; }
+.heading { text-align: center; margin-bottom: 24px; color: #202020; }
 .heading h2, .intro h2 { font-size: 28px; font-weight: 600; line-height: 1.2; letter-spacing: -.045em; }
 .heading p { margin-top: 10px; color: #656565; font-size: 15px; line-height: 1.2; }
-.cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
 .card { background: #fff8e7; border: 1px solid #ffd369; border-radius: 12px; padding: 14px 16px; text-align: center; }
 .highlightIcon { display: flex; align-items: center; justify-content: center; width: 26px; height: 26px; margin: 0 auto 12px; border-radius: 6px; background: #070707; }
 .highlightIcon img { width: 19px; height: 19px; object-fit: contain; filter: brightness(0) saturate(100%) invert(85%) sepia(74%) saturate(801%) hue-rotate(331deg) brightness(102%) contrast(99%); }
 .card h3 { font-size: 12px; font-weight: 400; line-height: 1.4; color: #606060; }
 .card p { font-size: 15px; font-weight: 600; line-height: 1.4; }
-.requirements { display: grid; grid-template-columns: .85fr 1.15fr; align-items: center; gap: 42px; background: #fff8e7; border-radius: 18px; padding: 36px 38px; margin-top: 36px; }
+
+.requirements {
+  display: grid;
+  grid-template-columns: .85fr 1.15fr;
+  grid-template-areas:
+    "intro items"
+    "cta items";
+  align-items: start;
+  column-gap: 28px;
+  row-gap: 16px;
+  background: #fff8e7;
+  border-radius: 18px;
+  padding: 24px 28px;
+  margin-top: 24px;
+}
+.intro { grid-area: intro; }
 .intro p { max-width: 300px; margin-top: 12px; color: #656565; font-size: 15px; line-height: 1.25; }
-.apply { display: inline-flex; align-items: center; justify-content: center; margin-top: 16px; min-height: 44px; width: 200px; max-width: 100%; padding: 10px 20px; border-radius: 9px; background: var(--brand-color); color: #111; font-size: 12px; font-weight: 600; transition: background .2s; }
+.items {
+  grid-area: items;
+  align-self: center;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px 24px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.apply {
+  grid-area: cta;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  width: 200px;
+  max-width: 100%;
+  padding: 10px 20px;
+  border-radius: 9px;
+  background: var(--brand-color);
+  color: #111;
+  font-size: 12px;
+  font-weight: 600;
+  transition: background .2s;
+}
 .apply:hover { background: #f5bd29; }
 .apply:focus-visible { outline: 2px solid #222; outline-offset: 3px; }
-.items { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 24px; list-style: none; padding: 0; margin: 0; }
-.items li { display: flex; align-items: flex-start; gap: 10px; min-width: 0; }
+.items li { display: flex; align-items: flex-start; gap: 10px; min-width: 0; text-align: left; }
 .requirementIcon { display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: 38px; height: 38px; border-radius: 50%; background: var(--brand-color); color: #141414; }
 .requirementIcon svg { width: 22px; height: 22px; }
 .items h3 { font-size: 20px; font-weight: 500; line-height: 1.15; letter-spacing: -.025em; }
 .items p { margin-top: 5px; color: #656565; font-size: 12px; line-height: 1.2; }
+
 @media (max-width: 900px) {
-  .section { padding-inline: 24px; }
-  .requirements { grid-template-columns: 1fr; gap: 28px; padding: 28px; }
-  .items { gap: 24px; }
+  .requirements {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "intro"
+      "items"
+      "cta";
+    justify-items: stretch;
+    row-gap: 20px;
+    padding: 28px 20px 24px;
+    text-align: center;
+  }
+  .intro { text-align: center; }
+  .intro h2 { font-size: 22px; }
+  .intro p {
+    max-width: 280px;
+    margin-inline: auto;
+    margin-top: 8px;
+    font-size: 13px;
+    line-height: 1.4;
+  }
+  .items {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    width: 100%;
+    max-width: 320px;
+    margin-inline: auto;
+  }
+  .items h3 { font-size: 15px; font-weight: 600; }
+  .items p { font-size: 12px; line-height: 1.35; }
+  .requirementIcon { width: 36px; height: 36px; }
+  .apply {
+    width: auto;
+    min-width: 180px;
+    margin-inline: auto;
+    margin-top: 4px;
+  }
 }
+
 @media (max-width: 540px) {
-  .section { padding: 36px 20px 44px; }
-  .heading { margin-bottom: 26px; }
-  .heading h2, .intro h2 { font-size: 26px; }
+  .heading { margin-bottom: 20px; }
+  .heading h2 { font-size: 26px; }
   .cards { grid-template-columns: 1fr; gap: 12px; }
-  .card { padding: 18px; }
-  .requirements { margin-top: 26px; padding: 24px 20px; }
-  .items { grid-template-columns: 1fr; gap: 22px; }
-  .items h3 { font-size: 19px; }
-  .items p { font-size: 13px; line-height: 1.4; }
+  .card { padding: 16px; }
+  .requirements { margin-top: 20px; padding: 24px 18px 22px; }
 }

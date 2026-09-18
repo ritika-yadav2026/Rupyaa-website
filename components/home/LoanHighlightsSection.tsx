@@ -1,6 +1,10 @@
 import type { ReactElement } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import {
+  appShellContainerClassName,
+  homeSectionSpacingClassName,
+} from "@/lib/app-shell-layout";
 import styles from "./LoanHighlightsSection.module.css";
 
 const TRANSPARENCY_CARDS = [
@@ -102,7 +106,10 @@ function WhatYouNeedIcon({ type }: { type: WhatYouNeedIconType }): ReactElement 
 
 export default function LoanHighlightsSection(): ReactElement {
   return (
-    <section className={styles.section} aria-label="Loan highlights and application requirements">
+    <section
+      className={`bg-white pt-6 sm:pt-8 ${appShellContainerClassName} ${homeSectionSpacingClassName}`}
+      aria-label="Loan highlights and application requirements"
+    >
       <div className={styles.heading}>
         <h2>Loan Highlights</h2>
         <p>Clear terms. Flexible options. Designed<br />around your needs.</p>
@@ -121,17 +128,22 @@ export default function LoanHighlightsSection(): ReactElement {
       <div className={styles.requirements}>
         <div className={styles.intro}>
           <h2>What You’ll Need</h2>
-          <p>Keep these ready for a faster, paperless application.</p>
-          <Link href="/auth" className={styles.apply}>Start Application</Link>
+          <p>Keep these documents ready for a faster application.</p>
         </div>
         <ul className={styles.items}>
           {WHAT_YOU_NEED_ITEMS.map((item) => (
             <li key={item.title}>
               <span className={styles.requirementIcon}><WhatYouNeedIcon type={item.icon} /></span>
-              <div><h3>{item.title}</h3><p>{item.description}</p></div>
+              <div>
+                <h3>{item.title}</h3>
+                <p>{item.description}</p>
+              </div>
             </li>
           ))}
         </ul>
+        <Link href="/auth" className={styles.apply}>
+          Start Application
+        </Link>
       </div>
     </section>
   );

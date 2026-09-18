@@ -87,31 +87,44 @@ input[type="range"]::-moz-range-track {
   border-radius: 9999px;
   -webkit-appearance: none;
   appearance: none;
+  background: #f3f4f6;
 }
-.emi-slider::-webkit-slider-runnable-track {
+input[type="range"].emi-slider::-webkit-slider-runnable-track {
+  height: 8px;
+  border-radius: 9999px;
   background: transparent;
 }
-.emi-slider::-moz-range-track {
-  background: transparent;
+input[type="range"].emi-slider::-moz-range-track {
+  height: 8px;
+  border-radius: 9999px;
+  /* Firefox paints the track — use CSS var updated live from JS */
+  background: linear-gradient(
+    to right,
+    #feca42 0%,
+    #feca42 var(--range-progress, 0%),
+    #f3f4f6 var(--range-progress, 0%),
+    #f3f4f6 100%
+  );
 }
-.emi-slider::-webkit-slider-thumb {
+input[type="range"].emi-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
   width: 20px;
   height: 20px;
+  margin-top: -6px;
   border-radius: 50%;
-  background: var(--brand-color);
+  background: #feca42;
   border: 2px solid #111827;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   cursor: pointer;
 }
-.emi-slider::-moz-range-thumb {
+input[type="range"].emi-slider::-moz-range-thumb {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: var(--brand-color);
+  background: #feca42;
   border: 2px solid #111827;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   cursor: pointer;
 }
 

@@ -13,12 +13,28 @@ import CreditScoreGuide from "@/components/credit-score/CreditScoreGuide";
 import EquifaxFullReport from "@/components/credit-score/EquifaxFullReport";
 import type { CreditScoreFormValues } from "@/lib/credit-score-api";
 
-function CreditScoreSection({ children }: { readonly children: ReactNode }) {
+type CreditScoreLayoutProps = {
+  readonly children: ReactNode;
+};
+
+/**
+ * Desktop: fixed viewport — left column scrolls, one sticky sidebar.
+ * Mobile: natural page stack (content then promo).
+ */
+function CreditScoreLayout({ children }: CreditScoreLayoutProps) {
   return (
-    <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-12 xl:grid-cols-[minmax(0,1fr)_380px] xl:gap-20">
-      <div className="min-w-0">{children}</div>
-      <div className="hidden h-[660px] lg:block">
-        <BasicInfoSidebar />
+    <div
+      className={`${appShellContainerClassName} box-border flex flex-col py-4 sm:py-6 lg:h-[calc(100dvh-4rem)] lg:max-h-[calc(100dvh-4rem)] lg:overflow-hidden`}
+    >
+      <div className="flex min-h-0 flex-1 flex-col gap-6 lg:flex-row lg:gap-8 lg:overflow-hidden xl:gap-12">
+        <div className="min-w-0 w-full lg:min-h-0 lg:flex-1 lg:overflow-x-hidden lg:overflow-y-auto lg:overscroll-contain">
+          {children}
+        </div>
+        <div className="w-full shrink-0 lg:h-full lg:min-h-0 lg:w-[300px] xl:w-[340px]">
+          <div className="h-auto min-h-[420px] w-full lg:h-full lg:min-h-0">
+            <BasicInfoSidebar />
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -56,13 +72,13 @@ export default function CreditScorePage() {
   let content: ReactNode;
   if (flow.step === "report" && flow.result) {
     content = (
-      <CreditScoreSection>
+      <CreditScoreLayout>
         <CreditScoreReport
           data={flow.result.data}
           onStartOver={flow.startOver}
           onUnlockReport={flow.unlockReport}
         />
-      </CreditScoreSection>
+      </CreditScoreLayout>
     );
   } else if (flow.step === "fullReport" && flow.result) {
     content = (
@@ -80,28 +96,20 @@ export default function CreditScorePage() {
       initialValues.mobileNumber = lockedMobileNumber;
     }
     content = (
-      <>
-        <CreditScoreSection>
-          <div id="widget">
-            <CreditScoreForm
-              onSubmit={flow.submitForm}
-              isSubmitting={flow.isPending}
-              initialValues={initialValues}
-              isMobileLocked={isMobileLocked}
-            />
-          </div>
-        </CreditScoreSection>
-        <div className="mt-10 sm:mt-14">
-          <CreditScoreSection>
-            <CreditScoreGuide />
-          </CreditScoreSection>
+      <CreditScoreLayout>
+        <div id="widget">
+          <CreditScoreForm
+            onSubmit={flow.submitForm}
+            isSubmitting={flow.isPending}
+            initialValues={initialValues}
+            isMobileLocked={isMobileLocked}
+          />
         </div>
-      </>
+        <div className="mt-10 sm:mt-14">
+          <CreditScoreGuide />
+        </div>
+      </CreditScoreLayout>
     );
   }
-  return (
-    <div className="-mt-0 min-h-full bg-white">
-      <div className={`${appShellContainerClassName} py-8 sm:py-10 lg:py-12`}>{content}</div>
-    </div>
-  );
+  return <div className="min-h-full bg-white">{content}</div>;
 }
