@@ -1,0 +1,92 @@
+name: Rupyaa
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  resolve-deploy-matrix:
+    name: Resolve deploy targets
+    runs-on: ubuntu-latest
+    outputs:
+      targets: ${{ steps.set.outputs.targets }}
+    steps:
+      - name: Set matrix from branch
+        id: set
+        run: |
+          REF="${{ github.ref_name }}"
+          case "$REF" in
+            main)
+              echo 'targets=["production"]' >> $GITHUB_OUTPUT
+              ;;
+            *)
+              echo "Unsupported branch: $REF"
+              exit 1
+              ;;
+          esac
+
+  deploy:
+    name: Deploy (${{ matrix.target }})
+    needs: resolve-deploy-matrix
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        target: ${{ fromJson(needs.resolve-deploy-matrix.outputs.targets) }}
+    environment: ${{ matrix.target == 'staging2' && 'staging2' || matrix.target == 'main' && 'main' || 'production' }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set environment variables for deploy target
+      id: set_env
+      run: |
+        case "${{ matrix.target }}" in
+          production)
+            echo "AWS_REGION=ap-south-1" >> $GITHUB_ENV
+            echo "ECR_REPOSITORY=rupyaa-client-production-ecr" >> $GITHUB_ENV
+            echo "ECS_SERVICE=rupyaa-client-production-service" >> $GITHUB_ENV
+            echo "ECS_CLUSTER=lending" >> $GITHUB_ENV
+            echo "DOCKERFILE=Dockerfile.prod" >> $GITHUB_ENV
+            ;;
+          *)
+            echo "Error: Unknown deploy target ${{ matrix.target }}"
+            exit 1
+            ;;
+        esac
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.RUPYAA_AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.RUPYAA_AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+
+    - name: Build, tag, and push image to Amazon ECR
+      run: |
+        IMAGE_TAG=${GITHUB_SHA::7}
+        docker build -f $DOCKERFILE -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: ${{ env.ECR_REPOSITORY }}
+        DOCKERFILE: ${{ env.DOCKERFILE }}
+        GITHUB_SHA: ${{ github.sha }}
+
+    - name: Force new ECS deployment
+      run: |
+        aws ecs update-service \
+          --cluster "$ECS_CLUSTER" \
+          --service "$ECS_SERVICE" \
+          --force-new-deployment
+        aws ecs wait services-stable \
+          --cluster "$ECS_CLUSTER" \
+          --services "$ECS_SERVICE"
