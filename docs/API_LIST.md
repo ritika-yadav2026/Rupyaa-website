@@ -1,6 +1,6 @@
-# ZapCash – API List
+# Rupyaa – API List
 
-This document lists all APIs used in the ZapCash project. The browser calls `NEXT_PUBLIC_API_URL` directly (no Next.js API proxy).
+This document lists all APIs used in the Rupyaa project. The browser calls `NEXT_PUBLIC_API_URL` directly (no Next.js API proxy).
 
 **Base URL:** `NEXT_PUBLIC_API_URL` (default: `https://lending-api.wecredit.click`)  
 **Mock Base URL:** `NEXT_PUBLIC_MOCK_API_URL` (for mock/admin endpoints)
@@ -32,7 +32,7 @@ This document lists all APIs used in the ZapCash project. The browser calls `NEX
 | Method | Endpoint | Lib | Description |
 |-------|----------|-----|-------------|
 | GET | `/api/v1/user/eligibility/experian` | `lib/eligibility-api.ts` | Trigger Experian soft pull. Query: `deviceType`.
-| GET | `/api/v1/loans/active` | `lib/eligibility-api.ts` | Get active loan. Header: `platform: ZAPCASH` |
+| GET | `/api/v1/loans/active` | `lib/eligibility-api.ts` | Get active loan. Header: `platform: Rupyaa` |
 
 ---
 

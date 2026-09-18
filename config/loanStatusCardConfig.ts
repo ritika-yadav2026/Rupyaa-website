@@ -13,7 +13,7 @@ export const DEFAULT_TITLE = "Check loan offers";
 export const DEFAULT_HEADING = "Instant Loan Up to";
 /** Used when an amount is shown separately and the default heading would duplicate it */
 export const DEFAULT_HEADING_WITHOUT_AMOUNT = "Get Loan Offers";
-export const DEFAULT_DESCRIPTION = "Instant approval with ZapCash credit engine";
+export const DEFAULT_DESCRIPTION = "Instant approval with Rupyaa credit engine";
 
 /** CBL / rejected strip (mobile parity) */
 export const CBL_STRIP_LABEL = "Stay tuned";
@@ -135,7 +135,7 @@ const STAGE_CARD_CONFIG: Record<UserStagesInBackend, LoanStatusCardConfig> = {
   },
   [UserStagesInBackend.DOWNLOAD_APP]: {
     title: DEFAULT_TITLE,
-    heading: "Continue on the ZapCash App",
+    heading: "Continue on the Rupyaa App",
     description: "Download our app to continue your loan journey.",
     hideAction: true,
     hideProgressStepper: true,

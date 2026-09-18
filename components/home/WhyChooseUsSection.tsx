@@ -10,7 +10,7 @@ type FeatureIconProps = {
 
 function FeatureIcon({ children }: FeatureIconProps): ReactElement {
   return (
-    <span className="mb-4 flex size-10 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-900 shadow-sm">
+    <span className="mb-4 flex size-10 items-center justify-center rounded-full border border-[#FECA42] bg-white text-gray-900 shadow-sm">
       {children}
     </span>
   );
@@ -78,7 +78,7 @@ const FEATURES = [
 ] as const;
 
 const FEATURE_CARD_CLASSNAME =
-  "flex h-full flex-col rounded-2xl border border-[#FECA42]/55 bg-[radial-gradient(ellipse_at_top_left,_#FECA42_0%,_rgba(254,202,66,0.45)_32%,_rgba(254,202,66,0.12)_58%,_#FFFFFF_82%)] p-5 sm:p-6";
+  "flex h-full flex-col rounded-2xl border border-[#FECA42] bg-[radial-gradient(ellipse_at_top_left,_#FECA42_0%,_rgba(254,202,66,0.45)_32%,_rgba(254,202,66,0.12)_58%,_#FFFFFF_82%)] p-5 sm:p-6";
 
 const MOBILE_TRACK_CLASSNAME =
   "flex snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain pb-2 [-webkit-overflow-scrolling:touch] [touch-action:pan-x_pan-y] [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden";

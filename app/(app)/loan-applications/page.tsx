@@ -63,7 +63,7 @@ export default function LoanApplicationsPage() {
   return (
     <div className={`${appShellContainerClassName} box-border py-8 sm:py-10`}>
       <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:gap-8">
-        <div className="min-w-0 flex-1">
+        <div className="min-w-0 w-full lg:flex-1">
           <div className="mb-6">
             <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">My Loans</h1>
             <p className="mt-1 text-sm text-gray-600 sm:text-base">
@@ -72,8 +72,8 @@ export default function LoanApplicationsPage() {
           </div>
           {content}
         </div>
-        <div className="hidden w-[300px] shrink-0 self-stretch lg:flex xl:w-[340px]">
-          <div className="sticky top-24 h-[calc(100dvh-7rem)] w-full">
+        <div className="w-full shrink-0 lg:w-[300px] xl:w-[340px]">
+          <div className="h-auto min-h-[420px] w-full lg:sticky lg:top-24 lg:h-[calc(100dvh-7rem)] lg:min-h-0">
             <BasicInfoSidebar />
           </div>
         </div>

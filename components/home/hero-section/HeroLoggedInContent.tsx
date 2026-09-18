@@ -1,9 +1,11 @@
 "use client";
 
+import type { ReactElement, ReactNode } from "react";
 import type { GetExistingActiveLoanResponse } from "@/lib/eligibility-api";
 import { buildHeroHomeCard } from "@/lib/build-hero-home-card";
 import { getLoggedInHeroUiCase } from "@/lib/hero-home-card-case";
 import HeroLoggedInCardArea from "@/components/home/HeroLoggedInCardArea";
+import HeroTrustedBy from "@/components/home/HeroTrustedBy";
 import { isHeroCardDebugEnabled, logHeroCardDebug } from "@/lib/hero-card-debug";
 import { STRING_CONSTANTS } from "@/utils/app-constants";
 import { HeroDebugPanel } from "@/components/home/hero-section/HeroDebugPanel";
@@ -22,6 +24,9 @@ export type HeroLoggedInContentProps = {
   onCancelLoanPress?: () => void;
 };
 
+/**
+ * Logged-in home hero: marketing headline + resolved journey / limit card.
+ */
 export function HeroLoggedInContent({
   firstName,
   userStage,
@@ -34,12 +39,11 @@ export function HeroLoggedInContent({
   showCancelLoanEntry = false,
   canCancelLoan = false,
   onCancelLoanPress,
-}: HeroLoggedInContentProps) {
-  const displayName = firstName?.trim() || "User";
+}: HeroLoggedInContentProps): ReactElement {
   const isLoading = isLoadingStage || isLoadingLoan;
-
   const resolved = buildHeroHomeCard(activeLoan, userStage);
   logHeroCardDebug("HeroLoggedInContent.resolved", {
+    firstName,
     stage: userStage?.stage,
     hasActiveLoan: activeLoan?.hasActiveLoan,
     loanStatus: activeLoan?.loanStatus ?? activeLoan?.loan?.status,
@@ -53,41 +57,24 @@ export function HeroLoggedInContent({
     window.location.href = STRING_CONSTANTS.PLAY_STORE_URL;
   };
 
+  let cardArea: ReactNode;
   if (isLoading) {
-    return (
-      <>
-     
-        <div className="mb-3 sm:mb-5 relative">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-gray-900 leading-[1.1] tracking-tight text-left">
-            Welcome Back, <span className="text-primary">{displayName}!</span>
-          </h1>
+    cardArea = (
+      <div
+        className="flex min-h-[200px] w-full items-center justify-center rounded-[1.35rem] border border-white/70 p-6 shadow-[0_12px_40px_rgba(15,23,42,0.12)] backdrop-blur-md sm:rounded-[1.5rem]"
+        style={{
+          background:
+            "linear-gradient(180deg, rgba(255, 255, 255, 0.72) 0%, rgba(255, 252, 245, 0.88) 100%)",
+        }}
+      >
+        <div className="flex animate-pulse flex-col items-center gap-2">
+          <div className="size-8 animate-spin rounded-full border-2 border-button border-t-transparent" />
+          <p className="text-sm text-gray-500">Loading your loan status...</p>
         </div>
-        <p className="text-gray-700 text-xs sm:text-base lg:text-lg mb-6 sm:mb-8 leading-relaxed text-left">
-          Control Your Finances With Easy And Secure Loans. Download Our App Now.
-        </p>
-        <div className="rounded-2xl bg-white border border-gray-200 p-6 flex items-center justify-center min-h-[200px]">
-          <div className="animate-pulse flex flex-col gap-2 items-center">
-            <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-            <p className="text-sm text-gray-500">Loading your loan status...</p>
-          </div>
-        </div>
-      </>
-    );
-  }
-
-  return (
-    <>
-
-      <div className="mb-3 sm:mb-5 relative">
-        <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 leading-[1.05] tracking-tight text-left">
-          Welcome Back,
-          <br />
-          <span className="text-primary">{displayName}!</span>
-        </h1>
       </div>
-      <p className="text-gray-600 text-sm sm:text-base mb-6 leading-relaxed text-left max-w-xl">
-        Control Your Finances With Easy And Secure Loans. Download Our App Now.
-      </p>
+    );
+  } else {
+    cardArea = (
       <HeroLoggedInCardArea
         resolved={resolved}
         journeyCardRemountKey={journeyCardRemountKey}
@@ -98,9 +85,26 @@ export function HeroLoggedInContent({
         canCancelLoan={canCancelLoan}
         onCancelLoanPress={onCancelLoanPress}
       />
-      {isHeroCardDebugEnabled() ? (
-        <HeroDebugPanel userStage={userStage} activeLoan={activeLoan} resolved={resolved} />
-      ) : null}
-    </>
+    );
+  }
+
+  let debugPanel: ReactNode = null;
+  if (isHeroCardDebugEnabled()) {
+    debugPanel = (
+      <HeroDebugPanel userStage={userStage} activeLoan={activeLoan} resolved={resolved} />
+    );
+  }
+
+  return (
+    <div className="mx-auto flex w-full max-w-[560px] flex-col items-center text-center sm:max-w-[640px]">
+      <HeroTrustedBy />
+      <h1 className="mt-3 text-[2.1rem] font-extrabold leading-[1.1] tracking-tight text-[#111827] sm:mt-4 sm:text-5xl md:text-6xl lg:text-[4.5rem]">
+        Choti si need,
+        <br />
+        Badi si Smile.
+      </h1>
+      <div className="mt-8 w-full max-w-[520px] sm:mt-8 lg:mt-6">{cardArea}</div>
+      {debugPanel}
+    </div>
   );
 }

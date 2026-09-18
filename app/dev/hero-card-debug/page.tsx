@@ -41,7 +41,7 @@ function getMockResolved(uiCase: UiCaseOption): HeroHomeResolvedCard {
   const sharedCopy = {
     title: "Check loan offers",
     heading: "Instant Loan up to",
-    description: "Instant approval with ZapCash credit engine",
+    description: "Instant approval with Rupyaa credit engine",
     actionLabel: "Check Eligibility",
     hideAction: false,
     hideProgressStepper: false,

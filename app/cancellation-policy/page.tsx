@@ -11,7 +11,7 @@ export default function CancellationPolicyPage() {
     >
       <p>
         This Cancellation Policy (&quot;Policy&quot;) outlines the terms and
-        conditions for cancellation of services availed through Zapcash, the
+        conditions for cancellation of services availed through Rupyaa, the
         brand name of Omnistack Innovation Private Limited (&quot;we&quot;,
         &quot;us&quot;, &quot;our&quot;). By using our platform and initiating
         any transaction, you agree to be bound by the terms of this Policy, as
@@ -20,7 +20,7 @@ export default function CancellationPolicyPage() {
 
       <PolicySection number={1} title="Nature of Services">
         <p className="mb-0">
-          Zapcash is a technology platform that facilitates access to credit and
+          Rupyaa is a technology platform that facilitates access to credit and
           financial products offered by regulated financial institutions
           including Banks and NBFCs (&quot;Lending Partners&quot;). The final
           approval, disbursal, and terms of any loan are solely governed by the
@@ -32,21 +32,21 @@ export default function CancellationPolicyPage() {
         <ul className="list-disc pl-5 sm:pl-6 space-y-1.5 sm:space-y-2 text-gray-600">
           <li>
             You may choose to cancel your loan application submitted via the
-            Zapcash platform at any time prior to final approval or disbursal by
+            Rupyaa platform at any time prior to final approval or disbursal by
             the Lending Partner.
           </li>
           <li>
             Cancellation requests must be submitted through your registered
             account or by contacting our customer support at{" "}
-            <a href="mailto:care@zapcash.in" className="break-all">
-              care@zapcash.in
+            <a href="mailto:care@rupyaa.in" className="break-all">
+              care@Rupyaa.in
             </a>
             .
           </li>
           <li>
             Once your application is under processing by a Lending Partner,
             cancellation will be subject to the internal policies of that
-            Partner. Zapcash does not guarantee cancellation once the file is
+            Partner. Rupyaa does not guarantee cancellation once the file is
             under review or approved by a Lending Partner.
           </li>
         </ul>
@@ -75,7 +75,7 @@ export default function CancellationPolicyPage() {
           If you have opted for any ancillary services (such as insurance
           products, value-added financial tools, or premium verification
           services), the cancellation of such services will be subject to the
-          individual service provider&apos;s terms and conditions. Zapcash will
+          individual service provider&apos;s terms and conditions. Rupyaa will
           assist you in coordinating with the relevant provider where possible.
         </p>
       </PolicySection>
@@ -108,9 +108,9 @@ export default function CancellationPolicyPage() {
         </ul>
       </PolicySection>
 
-      <PolicySection number={7} title="Zapcash's Role">
+      <PolicySection number={7} title="Rupyaa's Role">
         <p className="mb-0">
-          Zapcash is not a lender. We are not responsible for decisions made by
+          Rupyaa is not a lender. We are not responsible for decisions made by
           Lending Partners, nor for the fulfilment or cancellation of loans once
           transferred to their systems. Our role is limited to facilitating
           communication and service between you and the lender.
@@ -141,8 +141,8 @@ export default function CancellationPolicyPage() {
           </p>
           <p className="text-sm sm:text-base">
             <strong className="text-gray-800">Email:</strong>{" "}
-            <a href="mailto:care@zapcash.in" className="break-all">
-              care@zapcash.in
+            <a href="mailto:care@rupyaa.in" className="break-all">
+              care@Rupyaa.in
             </a>
           </p>
           <p className="text-sm sm:text-base">

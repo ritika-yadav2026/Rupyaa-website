@@ -64,7 +64,7 @@ function SiteChromeInner({
       <main
         id={mainId}
         tabIndex={-1}
-        className={cn("outline-none", mainPaddingClassName, mainClassName)}
+        className={cn("outline-none", mainClassName, mainPaddingClassName)}
       >
         {children}
       </main>
@@ -86,7 +86,7 @@ function SiteChromeFallback({
       <main
         id={mainId}
         tabIndex={-1}
-        className={cn("outline-none pt-16", mainClassName)}
+        className={cn("outline-none", mainClassName, "pt-16")}
       >
         {children}
       </main>

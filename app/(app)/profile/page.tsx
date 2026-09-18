@@ -359,7 +359,7 @@ export default function ProfilePage() {
         {isLoading && !apiData && (
           <div className="flex items-center justify-center py-16 text-gray-500">
             <div className="flex flex-col items-center gap-3">
-              <div className="h-10 w-10 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+              <div className="h-10 w-10 animate-spin rounded-full border-2 border-[#FECA42] border-t-transparent" />
               <span className="text-sm font-medium">Loading profile…</span>
             </div>
           </div>
@@ -368,7 +368,7 @@ export default function ProfilePage() {
         {(!isLoading || apiData) && apiData && (
           <>
             {showIncompleteBanner && (
-              <div className="mb-6 rounded-2xl border border-[#C8E6C9] bg-[#E8F5E9] px-4 py-4 sm:px-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div className="mb-6 rounded-2xl border border-[#FECA42]/60 bg-[#FFFCF4] px-4 py-4 sm:px-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
                   <p className="text-sm font-semibold text-gray-900">Complete your profile for faster approvals</p>
                   <p className="text-xs sm:text-sm text-gray-600 mt-1">
@@ -378,7 +378,7 @@ export default function ProfilePage() {
                 <div className="flex flex-col sm:flex-row gap-2 shrink-0">
                   <Link
                     href="/personal-loan"
-                    className="inline-flex items-center justify-center px-5 py-2.5 rounded-xl bg-primary text-white text-sm font-semibold hover:bg-primary/90 min-h-[44px] text-center"
+                    className="inline-flex items-center justify-center px-5 py-2.5 rounded-xl bg-[#FECA42] text-gray-900 text-sm font-semibold hover:bg-[#FECA42]/90 min-h-[44px] text-center"
                   >
                     Complete Profile
                   </Link>
@@ -391,63 +391,63 @@ export default function ProfilePage() {
                 </div>
               </div>
             )}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-8">
-              <div className="flex items-center gap-4">
-                <DefaultUserAvatar aria-label="Profile" />
-                <div>
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <h1 className="text-xl sm:text-2xl font-bold text-gray-900">{displayName}</h1>
-                    <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 rounded-full bg-primary shrink-0" />
-                      <span className="text-sm font-medium text-primary">Active Account</span>
+            <div className="mb-8 rounded-2xl border border-gray-200 bg-white p-4 sm:p-6">
+              <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex items-center gap-4">
+                  <DefaultUserAvatar
+                    className="h-16 w-16 bg-[#FFF4D9] sm:h-20 sm:w-20"
+                    iconClassName="h-9 w-9 text-gray-900 sm:h-11 sm:w-11"
+                    aria-label="Profile"
+                  />
+                  <div>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <h1 className="text-xl font-bold text-gray-900 sm:text-2xl">{displayName}</h1>
+                      <div className="flex items-center gap-2">
+                        <div className="h-2 w-2 shrink-0 rounded-full bg-[#10853F]" />
+                        <span className="text-sm font-medium text-[#10853F]">Active Account</span>
+                      </div>
                     </div>
+                    <p className="mt-0.5 text-sm text-gray-500">{displayOrDash(subtitle)}</p>
                   </div>
-                  <p className="text-sm text-gray-500 mt-0.5">{displayOrDash(subtitle)}</p>
                 </div>
               </div>
-              {/* {!isEditing && (
-                <button
-                  type="button"
-                  onClick={handleStartEdit}
-                  className="inline-flex items-center justify-center gap-2 py-3 px-6 rounded-xl bg-primary text-white font-medium hover:bg-primary/90 min-h-[48px] transition-colors"
-                >
-                  <PencilIcon />
-                  Edit Profile
-                </button>
-              )} */}
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-              <div className="bg-white rounded-2xl border border-gray-200 p-6 sm:p-8">
-                <div className="flex items-center gap-2 mb-6">
-                  <UserIcon className="text-primary shrink-0" />
+            <div className="mb-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
+              <div className="rounded-2xl border border-gray-200 bg-white p-6 sm:p-8">
+                <div className="mb-6 flex items-center gap-2">
+                  <UserIcon className="shrink-0 text-gray-900" />
                   <h2 className="text-lg font-bold text-gray-900">Personal Information</h2>
                 </div>
-                <div className="space-y-4">
+                <div className="space-y-3">
                   {personalFieldConfig.map((f) => {
                     const Icon = f.Icon;
                     const value = personal[f.key];
                     const isSalary = f.key === "salary";
+                    let valueClassName = "text-sm font-semibold text-gray-900";
+                    if (isSalary) {
+                      valueClassName = "text-sm font-semibold text-[#10853F]";
+                    }
                     return (
                       <div
                         key={f.key}
-                        className={`flex items-center gap-3 px-4 py-3 rounded-xl ${
-                          isSalary ? "bg-[#C8E6C9]/50 border border-[#A5D6A7]" : "bg-[#E8F5E9] border border-[#C8E6C9]"
-                        }`}
+                        className="flex items-center gap-3 rounded-xl border border-[#FECA42]/70 bg-[#FFFCF4] px-4 py-3"
                       >
-                        <Icon className="text-primary shrink-0" />
+                        <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-[#FFE398]">
+                          <Icon className="text-gray-900" />
+                        </span>
                         <div className="min-w-0 flex-1">
-                          <p className="text-xs text-gray-500 mb-0.5">{f.label}</p>
+                          <p className="mb-0.5 text-xs text-gray-500">{f.label}</p>
                           {isEditing ? (
                             <input
                               type="text"
                               value={value}
                               onChange={(e) => updatePersonal(f.key, e.target.value)}
-                              className="w-full text-sm font-semibold text-gray-900 bg-transparent border-none p-0 focus:outline-none focus:ring-0 placeholder:text-gray-400"
+                              className="w-full border-none bg-transparent p-0 text-sm font-semibold text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-0"
                               placeholder={f.label}
                             />
                           ) : (
-                            <p className="text-sm font-semibold text-gray-900">{displayOrDash(value)}</p>
+                            <p className={valueClassName}>{displayOrDash(value)}</p>
                           )}
                         </div>
                       </div>
@@ -456,22 +456,24 @@ export default function ProfilePage() {
                 </div>
               </div>
 
-              <div className="bg-white rounded-2xl border border-gray-200 p-6 sm:p-8">
-                <div className="flex items-center gap-2 mb-6">
-                  <MapPinIcon className="text-primary shrink-0" />
+              <div className="rounded-2xl border border-gray-200 bg-white p-6 sm:p-8">
+                <div className="mb-6 flex items-center gap-2">
+                  <MapPinIcon className="shrink-0 text-gray-900" />
                   <h2 className="text-lg font-bold text-gray-900">Address Information</h2>
                 </div>
-                <div className="space-y-4">
-                  <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-[#E8F5E9] border border-[#C8E6C9]">
-                    <HomeIcon className="text-primary shrink-0" />
+                <div className="divide-y divide-gray-100">
+                  <div className="flex items-center gap-3 py-3 first:pt-0">
+                    <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-[#FFE398]">
+                      <HomeIcon className="text-gray-900" />
+                    </span>
                     <div className="min-w-0 flex-1">
-                      <p className="text-xs text-gray-500 mb-0.5">Street Address</p>
+                      <p className="mb-0.5 text-xs text-gray-500">Street Address</p>
                       {isEditing ? (
                         <input
                           type="text"
                           value={street}
                           onChange={(e) => setStreet(e.target.value.slice(0, 500))}
-                          className="w-full text-sm font-semibold text-gray-900 bg-transparent border-none p-0 focus:outline-none focus:ring-0 placeholder:text-gray-400"
+                          className="w-full border-none bg-transparent p-0 text-sm font-semibold text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-0"
                           placeholder="Street Address"
                         />
                       ) : (
@@ -479,16 +481,18 @@ export default function ProfilePage() {
                       )}
                     </div>
                   </div>
-                  <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-[#E8F5E9] border border-[#C8E6C9]">
-                    <BuildingIcon className="text-primary shrink-0" />
+                  <div className="flex items-center gap-3 py-3">
+                    <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-[#FFE398]">
+                      <BuildingIcon className="text-gray-900" />
+                    </span>
                     <div className="min-w-0 flex-1">
-                      <p className="text-xs text-gray-500 mb-0.5">PIN code</p>
+                      <p className="mb-0.5 text-xs text-gray-500">City, State & ZIP</p>
                       {isEditing ? (
                         <input
                           type="text"
                           value={cityState}
                           onChange={(e) => setCityState(e.target.value.replace(/\D/g, "").slice(0, 6))}
-                          className="w-full text-sm font-semibold text-gray-900 bg-transparent border-none p-0 focus:outline-none focus:ring-0 placeholder:text-gray-400"
+                          className="w-full border-none bg-transparent p-0 text-sm font-semibold text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-0"
                           placeholder="PIN code"
                         />
                       ) : (
@@ -512,7 +516,7 @@ export default function ProfilePage() {
                 <button
                   type="button"
                   onClick={handleSave}
-                  className="w-full sm:w-auto py-3 px-6 rounded-xl bg-primary text-white font-medium hover:bg-primary/90 min-h-[48px] transition-colors"
+                  className="w-full sm:w-auto py-3 px-6 rounded-xl bg-[#FECA42] text-gray-900 font-medium hover:bg-[#FECA42]/90 min-h-[48px] transition-colors"
                 >
                   Save Changes
                 </button>

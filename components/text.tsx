@@ -55,9 +55,9 @@ function TermsContent() {
             <div className="px-4 sm:px-10 py-5 sm:py-10">
               <div className="prose prose-gray max-w-none text-sm sm:text-base text-gray-700 leading-relaxed sm:leading-loose space-y-5 sm:space-y-6 hyphens-auto break-words">
                 <p>
-                  Welcome to ZapCash. These Terms and Conditions
+                  Welcome to Rupyaa. These Terms and Conditions
                   (&quot;Terms&quot;) govern your access to and use of the
-                  ZapCash mobile application, website, and related services
+                  Rupyaa mobile application, website, and related services
                   (collectively, the &quot;Platform&quot; or
                   &quot;Services&quot;). By accessing or using the Platform, you
                   agree to be bound by these Terms. If you do not agree, please
@@ -74,9 +74,9 @@ function TermsContent() {
                   <ul className="list-disc pl-5 sm:pl-6 space-y-1.5 sm:space-y-2 text-gray-600">
                     <li>
                       <strong className="text-gray-800">
-                        “ZapCash” / “Company”
+                        “Rupyaa” / “Company”
                       </strong>{" "}
-                      refers to ZapCash, a technology platform facilitating loan
+                      refers to Rupyaa, a technology platform facilitating loan
                       services.
                     </li>
                     <li>
@@ -104,7 +104,7 @@ function TermsContent() {
                     </span>
                     Eligibility
                   </h2>
-                  <p className="mb-4">To use ZapCash Services, you must:</p>
+                  <p className="mb-4">To use Rupyaa Services, you must:</p>
                   <ul className="list-disc pl-5 sm:pl-6 space-y-1.5 sm:space-y-2 text-gray-600">
                     <li>Be at least 18 years of age.</li>
                     <li>Be a resident of India.</li>
@@ -118,7 +118,7 @@ function TermsContent() {
                     </li>
                   </ul>
                   <p className="mb-0">
-                    ZapCash reserves the right to deny access if eligibility
+                    Rupyaa reserves the right to deny access if eligibility
                     criteria are not met.
                   </p>
                 </section>
@@ -132,11 +132,11 @@ function TermsContent() {
                   </h2>
                   <ul className="list-disc pl-5 sm:pl-6 space-y-1.5 sm:space-y-2 text-gray-600">
                     <li>
-                      ZapCash operates as a technology platform that connects
+                      Rupyaa operates as a technology platform that connects
                       Users with Lending Partners.
                     </li>
                     <li>
-                      ZapCash does not act as a lender and does not provide
+                      Rupyaa does not act as a lender and does not provide
                       loans directly.
                     </li>
                     <li>
@@ -158,7 +158,7 @@ function TermsContent() {
                   </h3>
                   <p className="mb-4">
                     Loan approval is subject to the Lending Partner’s internal
-                    credit policies. ZapCash does not guarantee approval.
+                    credit policies. Rupyaa does not guarantee approval.
                   </p>
                   <h3 className="text-sm sm:text-base font-semibold text-gray-900 mb-1">
                     4.2 Interest &amp; Charges
@@ -312,7 +312,7 @@ function TermsContent() {
                     Communication Consent
                   </h2>
                   <p className="mb-4">
-                    You authorize ZapCash and its partners to contact you via:
+                    You authorize Rupyaa and its partners to contact you via:
                   </p>
                   <ul className="list-disc pl-5 sm:pl-6 space-y-1.5 sm:space-y-2 text-gray-600">
                     <li>Calls</li>
@@ -375,7 +375,7 @@ function TermsContent() {
                   </h2>
                   <p className="mb-0">
                     All content, trademarks, logos, and software on the Platform
-                    are the property of ZapCash or its licensors. Unauthorized
+                    are the property of Rupyaa or its licensors. Unauthorized
                     use, reproduction, or distribution is strictly prohibited.
                   </p>
                 </section>
@@ -387,7 +387,7 @@ function TermsContent() {
                     </span>
                     Third-Party Disclaimer
                   </h2>
-                  <p className="mb-4">ZapCash is not responsible for:</p>
+                  <p className="mb-4">Rupyaa is not responsible for:</p>
                   <ul className="list-disc pl-5 sm:pl-6 space-y-1.5 sm:space-y-2 text-gray-600">
                     <li>Decisions made by Lending Partners.</li>
                     <li>Services provided by third-party vendors.</li>
@@ -403,7 +403,7 @@ function TermsContent() {
                     Limitation of Liability
                   </h2>
                   <p className="mb-4">
-                    To the fullest extent permitted by law, ZapCash shall not be
+                    To the fullest extent permitted by law, Rupyaa shall not be
                     liable for:
                   </p>
                   <ul className="list-disc pl-5 sm:pl-6 space-y-1.5 sm:space-y-2 text-gray-600">
@@ -421,7 +421,7 @@ function TermsContent() {
                     Suspension and Termination
                   </h2>
                   <p className="mb-4">
-                    ZapCash reserves the right to suspend or terminate your
+                    Rupyaa reserves the right to suspend or terminate your
                     account without notice in case of:
                   </p>
                   <ul className="list-disc pl-5 sm:pl-6 space-y-1.5 sm:space-y-2 text-gray-600">
@@ -439,7 +439,7 @@ function TermsContent() {
                     Force Majeure
                   </h2>
                   <p className="mb-0">
-                    ZapCash shall not be liable for failure or delay caused by
+                    Rupyaa shall not be liable for failure or delay caused by
                     events beyond its control, including natural disasters,
                     technical failures, or government actions.
                   </p>
@@ -477,10 +477,10 @@ function TermsContent() {
                     <p className="text-sm sm:text-base">
                       <strong className="text-gray-800">Email:</strong>{" "}
                       <a
-                        href="mailto:grievance@zapcash.in"
+                        href="mailto:grievance@rupyaa.in"
                         className="break-all"
                       >
-                        grievance@zapcash.in
+                        grievance@rupyaa.in
                       </a>
                     </p>
                     <p className="text-sm sm:text-base">
@@ -501,7 +501,7 @@ function TermsContent() {
                     Changes to Terms
                   </h2>
                   <p className="mb-0">
-                    ZapCash reserves the right to modify these Terms at any
+                    Rupyaa reserves the right to modify these Terms at any
                     time. Updated Terms will be posted on the Platform.
                     Continued use constitutes acceptance of the revised Terms.
                   </p>

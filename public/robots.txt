@@ -15,4 +15,4 @@ Disallow: /dev
 Disallow: /_next/static/media/
 Disallow: /site.webmanifest
 
-Sitemap: https://zapcash.in/sitemap.xml
+Sitemap: https://rupyaa.com/sitemap.xml

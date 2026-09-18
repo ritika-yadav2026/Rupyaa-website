@@ -124,6 +124,24 @@ function CheckIcon(): React.ReactNode {
   );
 }
 
+function PersonIcon(): React.ReactNode {
+  return (
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      className="text-slate-900"
+      aria-hidden
+    >
+      <circle cx="12" cy="8" r="3.5" />
+      <path d="M5.5 19c1.2-3.2 3.5-4.8 6.5-4.8s5.3 1.6 6.5 4.8" />
+    </svg>
+  );
+}
+
 function ContactCard({
   title,
   content,
@@ -133,22 +151,24 @@ function ContactCard({
   const contentNode = href ? (
     <a
       href={href}
-      className="text-base font-semibold text-[#000000B2] hover:underline"
+      className="text-sm font-semibold text-slate-900 hover:underline sm:text-base"
     >
       {content}
     </a>
   ) : (
-    <p className="max-w-md text-base font-semibold leading-relaxed text-[#000000B2]">
+    <p className="text-sm font-semibold leading-snug text-slate-900 sm:max-w-md sm:text-base sm:leading-relaxed">
       {content}
     </p>
   );
   return (
-    <section className="flex min-h-[120px] items-center gap-5 rounded-xl border border-[#FECA42] bg-[#FFFCF4] p-5 shadow-[0_14px_32px_rgba(15,23,42,0.05)]">
-      <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-[#FFE398]">
+    <section className="flex items-center gap-3 rounded-xl border border-[#FECA42] bg-[#FFFCF4] p-3 sm:min-h-[120px] sm:gap-5 sm:p-5 sm:shadow-[0_14px_32px_rgba(15,23,42,0.05)]">
+      <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-[#FFE398] sm:size-14 sm:rounded-xl [&_svg]:h-[18px] [&_svg]:w-[18px] sm:[&_svg]:h-[26px] sm:[&_svg]:w-[26px]">
         {icon}
       </div>
-      <div>
-        <h2 className="mb-2 text-lg font-bold text-slate-900">{title}</h2>
+      <div className="min-w-0">
+        <h2 className="mb-0.5 text-xs font-medium text-slate-500 sm:mb-2 sm:text-lg sm:font-bold sm:text-slate-900">
+          {title}
+        </h2>
         {contentNode}
       </div>
     </section>
@@ -163,7 +183,7 @@ function SupportPromoCard(): React.ReactNode {
       <span className="mx-auto hidden size-[170px] sm:mx-0 sm:block">
         <AppDownloadQrCode
           url={downloadConfig.url}
-          label={`QR code for the ZapCash ${downloadConfig.storeLabel} listing`}
+          label={`QR code for the Rupyaa ${downloadConfig.storeLabel} listing`}
         />
       </span>
       <div>
@@ -362,7 +382,7 @@ function SupportContent(): React.ReactNode {
             Login to raise a support request
           </h2>
           <p className="mt-3 text-sm leading-relaxed text-slate-600">
-            Support requests are available for registered ZapCash users.
+            Support requests are available for registered Rupyaa users.
           </p>
           <AppButton
             type="button"
@@ -403,7 +423,7 @@ function SupportContent(): React.ReactNode {
     return (
       <form
         onSubmit={handleSubmit}
-        className="rounded-xl bg-white p-5 shadow-[0_18px_44px_rgba(15,23,42,0.08)] sm:p-6"
+        className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm sm:rounded-xl sm:border-0 sm:p-6 sm:shadow-[0_18px_44px_rgba(15,23,42,0.08)]"
       >
         <div className="space-y-4">
           <div className="grid gap-4 sm:grid-cols-2">
@@ -416,8 +436,8 @@ function SupportContent(): React.ReactNode {
               onChange={(event: ChangeEvent<HTMLInputElement>) =>
                 updateFormField("applicantReference", event.target.value)
               }
-              placeholder="e.g., A7J1Q8S"
-              inputClassName="uppercase"
+              placeholder="Loan Application Issue"
+              inputClassName="border-[#FECA42] bg-[#FFFCF4] focus:border-[#FECA42] sm:border-gray-200 sm:bg-white"
             />
             <AppTextField
               id="support-registered-phone"
@@ -425,8 +445,8 @@ function SupportContent(): React.ReactNode {
               type="tel"
               value={displayPhoneNumber}
               readOnly
-              placeholder="Phone number from your account"
-              inputClassName="bg-slate-50 text-slate-700"
+              placeholder="+91 9999999999"
+              inputClassName="border-[#FECA42] bg-[#FFFCF4] text-slate-700 focus:border-[#FECA42] sm:border-gray-200 sm:bg-slate-50"
             />
           </div>
           <SupportIssueDropdown
@@ -441,7 +461,7 @@ function SupportContent(): React.ReactNode {
             }
           />
           <label className="block">
-            <span className="mb-2 block text-sm font-semibold text-gray-800">
+            <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-gray-800 sm:text-sm sm:normal-case sm:tracking-normal">
               Describe your issue or feedback
             </span>
             <textarea
@@ -450,19 +470,19 @@ function SupportContent(): React.ReactNode {
                 updateFormField("description", event.target.value)
               }
               placeholder="Please provide details..."
-              rows={6}
-              className="w-full resize-none rounded-xl border border-gray-200 bg-white px-4 py-3.5 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-input-border focus:bg-input-bg focus:ring-2 focus:ring-input-border/20"
+              rows={5}
+              className="w-full resize-none rounded-xl border border-[#FECA42] bg-[#FFFCF4] px-4 py-3.5 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-[#FECA42] focus:ring-2 focus:ring-[#FECA42]/20 sm:border-gray-200 sm:bg-white sm:focus:border-input-border sm:focus:bg-input-bg sm:focus:ring-input-border/20"
             />
           </label>
           <div>
-            <span className="mb-2 block text-sm font-semibold text-gray-800">
+            <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-gray-800 sm:text-sm sm:normal-case sm:tracking-normal">
               Attach relevant files
             </span>
             <label
               htmlFor={fileInputId}
               onDragOver={handleAttachmentDragOver}
               onDrop={handleAttachmentDrop}
-              className="flex min-h-40 cursor-pointer flex-col items-center justify-center rounded-xl border border-dashed border-input-border/60 bg-input-bg px-4 text-center transition hover:border-input-border hover:bg-[#FFF4D9]"
+              className="flex min-h-36 cursor-pointer flex-col items-center justify-center rounded-xl border border-[#FECA42] bg-[#FFFCF4] px-4 text-center transition hover:bg-[#FFF4D9] sm:min-h-40 sm:border-dashed sm:border-input-border/60 sm:bg-input-bg sm:hover:border-input-border"
             >
               <UploadIcon />
               <span className="mt-3 text-sm font-bold text-gray-900">
@@ -507,39 +527,48 @@ function SupportContent(): React.ReactNode {
     );
   }
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-gray-50 sm:bg-white">
       {!isMobileSource && <AppHeader />}
       <main className={isMobileSource ? "" : "pt-16"}>
-        <div className={`${appShellContainerClassName} py-8 sm:py-10 lg:py-12`}>
-          <div className="mx-auto ">
-            <div className="mb-8 text-center">
-              <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl">
-                Welcome to <span className="text-[#FECA42]">Rupyaa Support</span>
+        <div className={`${appShellContainerClassName} py-6 sm:py-10 lg:py-12`}>
+          <div className="mx-auto max-w-5xl">
+            <div className="mb-6 text-center sm:mb-8">
+              <h1 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl">
+                Welcome to{" "}
+                <span className="text-slate-900 sm:text-[#FECA42]">Rupyaa Support</span>
               </h1>
-              <p className="mt-4 text-base font-semibold text-[#FECA42]">
+              <p className="mt-2 text-sm text-slate-500 sm:mt-4 sm:text-base sm:font-semibold sm:text-[#FECA42]">
                 How can we help you today?
               </p>
             </div>
-            <div className="grid gap-8 lg:grid-cols-[1fr_1fr] lg:items-start">
-              <div className="space-y-6">
-                <ContactCard
-                  title="Contact Support Number"
-                  content="85-0309-0309"
-                  href="tel:8503090309"
-                  icon={<PhoneIcon />}
-                />
-                <ContactCard
-                  title="Contact Support Email"
-                  content="care@zapcash.in"
-                  href="mailto:care@zapcash.in"
-                  icon={<MailIcon />}
-                />
-                <ContactCard
-                  title="Address"
-                  content="79, Ground Floor, World Trade Centre, Babar Lane, New Delhi - 110001, India"
-                  icon={<MapPinIcon />}
-                />
-              </div>
+            <div className="grid gap-4 sm:gap-8 lg:grid-cols-[1fr_1fr] lg:items-start">
+              <section className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm sm:space-y-0 sm:border-0 sm:bg-transparent sm:p-0 sm:shadow-none">
+                <div className="mb-3 flex items-center gap-2 sm:hidden">
+                  <PersonIcon />
+                  <h2 className="text-base font-bold text-slate-900">
+                    Personal Information
+                  </h2>
+                </div>
+                <div className="space-y-3 sm:space-y-6">
+                  <ContactCard
+                    title="Contact Support Number"
+                    content="85-0309-0309"
+                    href="tel:8503090309"
+                    icon={<PhoneIcon />}
+                  />
+                  <ContactCard
+                    title="Contact Support Email"
+                    content="care@rupyaa.in"
+                    href="mailto:care@rupyaa.in"
+                    icon={<MailIcon />}
+                  />
+                  <ContactCard
+                    title="Address"
+                    content="79, Ground Floor, World Trade Centre, Babar Lane, New Delhi - 110001, India"
+                    icon={<MapPinIcon />}
+                  />
+                </div>
+              </section>
               {renderForm()}
             </div>
             {downloadSection}

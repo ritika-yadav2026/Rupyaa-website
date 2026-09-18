@@ -70,7 +70,7 @@ function StoreBadges(): ReactElement {
           className="size-6 shrink-0 object-contain"
         />
       </a>
-      <a
+      {/* <a
         href={STRING_CONSTANTS.APP_STORE_URL}
         target="_blank"
         rel="noopener noreferrer"
@@ -80,7 +80,7 @@ function StoreBadges(): ReactElement {
         <svg viewBox="0 0 24 24" className="size-6 shrink-0" fill="currentColor" aria-hidden>
           <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.22-1.98 1.08-3.13-1.05.04-2.31.7-3.06 1.58-.67.78-1.26 2.03-1.1 3.22 1.16.09 2.35-.59 3.08-1.67" />
         </svg>
-      </a>
+      </a> */}
     </>
   );
 }
@@ -169,7 +169,7 @@ export default function AppHeader(): ReactElement {
     accountOrLogin = (
       <AppButton
         type="button"
-        className="hidden md:inline-flex"
+        className="hidden !min-h-0 rounded-lg bg-[#FECA42] px-5 py-2 text-sm font-semibold text-[#1A1A1A] hover:bg-black focus:ring-gray-900 md:inline-flex"
         onClick={() => router.push(authHref)}
       >
         Login
@@ -186,21 +186,21 @@ export default function AppHeader(): ReactElement {
           <Link
             href="/profile"
             onClick={() => setMobileMenuOpen(false)}
-            className="py-2 font-medium text-gray-900"
+            className="border-b-2 border-transparent py-2 text-sm font-medium text-gray-500"
           >
             Profile
           </Link>
           <Link
             href="/loan-applications"
             onClick={() => setMobileMenuOpen(false)}
-            className="py-2 font-medium text-gray-900"
+            className="border-b-2 border-transparent py-2 text-sm font-medium text-gray-500"
           >
             Loan Applications
           </Link>
           <Link
             href="/document-requests"
             onClick={() => setMobileMenuOpen(false)}
-            className="py-2 font-medium text-gray-900"
+            className="border-b-2 border-transparent py-2 text-sm font-medium text-gray-500"
           >
             Document Request
           </Link>
@@ -210,7 +210,7 @@ export default function AppHeader(): ReactElement {
               handleLogout();
               setMobileMenuOpen(false);
             }}
-            className="py-2 text-left font-medium text-red-500 hover:text-red-600"
+            className="py-2 text-left text-sm font-medium text-red-500 hover:text-red-600"
           >
             Logout
           </button>
@@ -233,31 +233,36 @@ export default function AppHeader(): ReactElement {
     }
 
     mobileMenu = (
-      <div className="absolute left-0 right-0 top-16 flex flex-col gap-1 border-t border-gray-100 bg-white px-4 py-4 sm:px-6 md:hidden lg:px-8">
-        {NAV_LINKS.map(({ href, label }) => {
-          const isActive = isNavLinkActive(pathname, href);
-          let linkClassName =
-            "border-b-2 border-transparent py-2 text-sm font-medium text-gray-500";
-          if (isActive) {
-            linkClassName =
-              "border-b-2 border-gray-900 py-2 text-sm font-semibold text-gray-900";
-          }
-          return (
-            <Link
-              key={label}
-              href={href}
-              onClick={() => setMobileMenuOpen(false)}
-              className={linkClassName}
-            >
-              {label}
-            </Link>
-          );
-        })}
-        <div className="mt-2 flex items-center gap-3">
-          <StoreBadges />
+      <>
+        <button
+          type="button"
+          aria-label="Close menu"
+          className="fixed inset-0 top-16 z-40 bg-black/40 md:hidden"
+          onClick={() => setMobileMenuOpen(false)}
+        />
+        <div className="absolute left-0 right-0 top-16 z-50 flex flex-col gap-1 border-b border-gray-200 bg-white px-4 py-4 shadow-[0_16px_40px_rgba(15,23,42,0.18)] sm:px-6 md:hidden lg:px-8">
+          {NAV_LINKS.map(({ href, label }) => {
+            const isActive = isNavLinkActive(pathname, href);
+            let linkClassName =
+              "border-b-2 border-transparent py-2 text-sm font-medium text-gray-500";
+            if (isActive) {
+              linkClassName =
+                "border-b-2 border-gray-900 py-2 text-sm font-semibold text-gray-900";
+            }
+            return (
+              <Link
+                key={label}
+                href={href}
+                onClick={() => setMobileMenuOpen(false)}
+                className={linkClassName}
+              >
+                {label}
+              </Link>
+            );
+          })}
+          {mobileAuthLinks}
         </div>
-        {mobileAuthLinks}
-      </div>
+      </>
     );
   }
 

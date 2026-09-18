@@ -20,7 +20,7 @@ function SsoLoadingView(): ReactNode {
       <div className="flex flex-col items-center gap-5 text-center">
         <Image
           src={IMAGES.zapcashLogo}
-          alt="ZapCash"
+          alt="Rupyaa"
           width={140}
           height={40}
           priority
@@ -29,7 +29,7 @@ function SsoLoadingView(): ReactNode {
         <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
         <div className="flex flex-col gap-1">
           <h1 className="text-lg font-semibold text-gray-900">
-            Signing you in to ZapCash
+            Signing you in to Rupyaa
           </h1>
           <p className="max-w-sm text-sm text-slate-600">
             Please wait a moment. Do not close this window.
@@ -46,7 +46,7 @@ function SsoErrorView(): ReactNode {
       <div className="w-full max-w-md rounded-2xl bg-white p-8 text-center shadow-sm">
         <Image
           src={IMAGES.zapcashLogo}
-          alt="ZapCash"
+          alt="Rupyaa"
           width={120}
           height={36}
           className="mx-auto h-9 w-auto object-contain"
@@ -87,7 +87,7 @@ function SsoCallbackContent(): ReactNode {
           leadId: result.data.leadId,
         });
         MarketingAttributionStorage.clear();
-        toast.success("Welcome to ZapCash!");
+        toast.success("Welcome to Rupyaa!");
         router.replace(DEFAULT_SSO_REDIRECT_PATH);
         return;
       }

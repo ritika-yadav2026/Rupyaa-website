@@ -1,10 +1,8 @@
 "use client";
 
 import { useCallback, useMemo, useState, type ReactElement, type ReactNode } from "react";
-import Image from "next/image";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getPersonalDetails } from "@/lib/user-api";
-import { appShellContainerClassName } from "@/lib/app-shell-layout";
 import { useGetExistingActiveLoan } from "@/services/loans/useGetExistingActiveLoan";
 import {
   getCanCancelFromActiveLoanResponse,
@@ -17,10 +15,12 @@ import HeroSkyline from "@/components/home/HeroSkyline";
 import { HeroLoggedInContent } from "@/components/home/hero-section/HeroLoggedInContent";
 import { HeroLoggedOut } from "./HeroLoggedOut";
 import { REACT_QUERY_KEYS } from "@/utils/app-constants";
+import { PERSONAL_LOAN_PAGE_GRADIENT } from "@/lib/personal-loan-page-gradient";
 
-const GUEST_HERO_BACKGROUND =
-  "linear-gradient(180deg, #FFFFFF 0%, #FFFDF8 40%, #FFE9A8 78%, #F6CB4A 100%)";
-
+/**
+ * Home hero: yellow gradient + skyline image for all states.
+ * Matches the designed home landing surface (guest and logged-in).
+ */
 export default function HeroSection(): ReactElement {
   const queryClient = useQueryClient();
   const { isLoggedIn } = useAuthLoggedInHint();
@@ -78,75 +78,35 @@ export default function HeroSection(): ReactElement {
   const handleRefreshStatus = useCallback(() => {
     queryClient.invalidateQueries({ queryKey: [REACT_QUERY_KEYS.EXISTING_ACTIVE_LOAN] });
     queryClient.invalidateQueries({ queryKey: [REACT_QUERY_KEYS.USER_STAGE_WEB] });
-  }, [isLoggedIn, refetchActiveLoanQuery, refetchUserStageQuery]);
+  }, [queryClient, refetchActiveLoanQuery, refetchUserStageQuery]);
 
   const isRefreshingHeroData = isFetchingUserStage || isFetchingActiveLoan;
 
   let content: ReactNode;
-  let skyline: ReactNode = null;
-  let sectionClassName: string;
-  let shellStyle: { background: string };
-
   if (isLoggedIn) {
-    shellStyle = {
-      background: "linear-gradient(180deg, #FFFFFF 0%, #FFFCF5 45%, #FFF3CC 100%)",
-    };
-    sectionClassName = "relative overflow-hidden pt-10 sm:pt-12 lg:pt-16";
     content = (
-      <div className={appShellContainerClassName}>
-        <div className="flex flex-col items-stretch justify-between gap-0 pb-8 sm:gap-10 sm:pb-10 lg:flex-row lg:items-center lg:gap-16">
-          <div className="relative order-1 flex w-full max-w-2xl flex-1 flex-col">
-            <HeroLoggedInContent
-              firstName={firstName}
-              userStage={userStage}
-              activeLoan={activeLoan}
-              isLoadingStage={isLoadingStage}
-              isLoadingLoan={isLoadingLoan}
-              isRefreshingHeroData={isRefreshingHeroData}
-              journeyCardRemountKey={0}
-              onRefreshStatus={handleRefreshStatus}
-              showCancelLoanEntry={showCancelLoanEntry}
-              canCancelLoan={canCancelLoan}
-              onCancelLoanPress={handleOpenCancellationModal}
-            />
-          </div>
-          <div className="relative order-2 hidden min-w-0 w-full items-center justify-center lg:flex lg:flex-1">
-            <div className="relative bottom-0 aspect-7/8 w-full max-w-[520px]">
-              <Image
-                src="/images/bannerNew.png"
-                alt="Rupyaa - Get your loan offer"
-                fill
-                className="object-contain object-bottom"
-                priority={true}
-                loading="eager"
-                sizes="(max-width: 1024px) 100vw, 50vw"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
+      <HeroLoggedInContent
+        firstName={firstName}
+        userStage={userStage}
+        activeLoan={activeLoan}
+        isLoadingStage={isLoadingStage}
+        isLoadingLoan={isLoadingLoan}
+        isRefreshingHeroData={isRefreshingHeroData}
+        journeyCardRemountKey={0}
+        onRefreshStatus={handleRefreshStatus}
+        showCancelLoanEntry={showCancelLoanEntry}
+        canCancelLoan={canCancelLoan}
+        onCancelLoanPress={handleOpenCancellationModal}
+      />
     );
   } else {
-    shellStyle = { background: GUEST_HERO_BACKGROUND };
-    sectionClassName =
-      "relative flex min-h-[calc(100dvh-4rem)] w-full flex-col overflow-hidden";
-    skyline = (
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-0 z-0 w-full px-0"
-      >
-        <HeroSkyline className="max-h-[48vh] sm:max-h-[52vh]" />
-      </div>
-    );
     content = (
-      <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-4 pb-[14vh] pt-6 sm:pb-[12vh]">
-        <HeroLoggedOut
-          mobile={mobile}
-          setMobile={setMobile}
-          mobileError={mobileError}
-          setMobileError={setMobileError}
-        />
-      </div>
+      <HeroLoggedOut
+        mobile={mobile}
+        setMobile={setMobile}
+        mobileError={mobileError}
+        setMobileError={setMobileError}
+      />
     );
   }
 
@@ -163,9 +123,14 @@ export default function HeroSection(): ReactElement {
   }
 
   return (
-    <section className={sectionClassName} style={shellStyle}>
-      {skyline}
-      {content}
+    <section
+      className="relative flex h-[calc(100dvh-4rem)] min-h-[calc(100dvh-4rem)] w-full flex-col overflow-hidden bg-white"
+      style={{ background: PERSONAL_LOAN_PAGE_GRADIENT }}
+    >
+      <HeroSkyline />
+      <div className="relative z-[2] mx-auto flex w-full flex-1 flex-col items-center justify-start px-4 pb-10 pt-5 sm:justify-center sm:pt-6">
+        {content}
+      </div>
       {cancellationModal}
     </section>
   );

@@ -186,7 +186,7 @@ function StandaloneEmploymentModeForm({ onContinue }: StandaloneProps) {
         return;
       }
       if (result.action.type === "SHOW_DOWNLOAD_APP") {
-        toast.success("Employment details saved. Continue on the ZapCash app.");
+        toast.success("Employment details saved. Continue on the Rupyaa app.");
         setShowDownloadApp(true);
         return;
       }

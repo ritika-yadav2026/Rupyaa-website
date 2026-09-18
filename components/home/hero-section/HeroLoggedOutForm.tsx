@@ -41,7 +41,7 @@ export function HeroLoggedOutForm({
   let errorBlock: ReactNode = null;
   if (mobileError) {
     errorBlock = (
-      <p id="hero-mobile-error" className="px-2 text-left text-sm text-red-600" role="alert">
+      <p id="hero-mobile-error" className="px-3 text-left text-xs text-red-600 sm:text-sm" role="alert">
         {mobileError}
       </p>
     );
@@ -55,16 +55,16 @@ export function HeroLoggedOutForm({
   return (
     <form onSubmit={handleGetLoan} className={formClassName}>
       <div
-        className={`flex w-full items-center gap-2 rounded-full border border-black/5 bg-white p-1.5 shadow-[0_10px_40px_rgba(0,0,0,0.08)] sm:gap-3 sm:p-2 ${shellBorderClassName}`}
+        className={`flex h-14 w-full items-center rounded-full border border-black/5 bg-white p-1.5 shadow-[0_8px_28px_rgba(0,0,0,0.08)] sm:h-16 sm:gap-3 sm:p-2 ${shellBorderClassName}`}
       >
         <label htmlFor="hero-mobile" className="sr-only">
           Mobile number
         </label>
-        <div className="flex min-w-0 flex-1 items-center gap-2 pl-4 sm:pl-5">
-          <span className="shrink-0 text-sm font-medium text-gray-500 sm:text-base">+91</span>
-          <span className="shrink-0 text-gray-300" aria-hidden>
-            |
+        <div className="flex h-full min-w-0 flex-1 items-center gap-2 pl-3.5 sm:pl-5">
+          <span className="shrink-0 text-[13px] font-semibold leading-none text-gray-500 sm:text-base">
+            +91
           </span>
+          <span className="h-4 w-px shrink-0 bg-gray-200" aria-hidden />
           <input
             id="hero-mobile"
             type="tel"
@@ -77,12 +77,12 @@ export function HeroLoggedOutForm({
             enterKeyHint="go"
             aria-invalid={!!mobileError}
             aria-describedby={mobileError ? "hero-mobile-error" : undefined}
-            className="min-w-0 flex-1 bg-transparent py-2.5 text-sm text-gray-900 outline-none placeholder:text-gray-400 sm:text-base"
+            className="min-w-0 flex-1 bg-transparent text-[13px] leading-none text-gray-900 outline-none placeholder:text-gray-400 sm:text-base"
           />
         </div>
         <button
           type="submit"
-          className="shrink-0 rounded-full bg-button px-6 py-3.5 text-sm font-bold uppercase tracking-wide text-gray-900 transition-all hover:bg-button/90 active:scale-[0.98] sm:px-8 sm:text-base"
+          className="flex h-full shrink-0 items-center justify-center rounded-full bg-button px-4 text-[12px] font-bold uppercase tracking-wide text-gray-900 transition-all hover:bg-button/90 active:scale-[0.98] sm:px-8 sm:text-base"
         >
           GET LOAN
         </button>

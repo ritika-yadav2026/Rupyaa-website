@@ -1,208 +1,185 @@
 "use client";
 
 /**
- * Post-offer journey hero: sanctioned amount, tenure / total-payable tiles, stepper (`children`), CTA.
- *
- * **When shown:** `getLoggedInHeroUiCase(resolved) === "journey_post_offer"` from `HeroLoggedInCardArea` →
- * `HeroCardByResolved` (stage → card mapping lives in `lib/build-hero-home-card.ts`).
- *
- * **Where:** Logged-in home hero only; parent layout handles banner overlay on small screens.
- *
- * **Shared UI:** Same `HeroCardGridShell` as `PreOfferCard`. Application id sits in the header row
- * with `ZapcashLogo` (`justify-between`); optional `statusPill` renders below that row when set.
+ * Post-offer journey hero: offer amount + tenure, optional stepper, Accept / continue CTA.
  */
 
-import type { ReactNode } from "react";
-import { HeroCardGridShell } from "@/components/home/HeroCardGridShell";
-import { PostOfferCtaWithOptionalRefresh } from "@/components/home/PostOfferCtaWithOptionalRefresh";
+import type { ReactElement, ReactNode } from "react";
+import Link from "next/link";
 import { formatCurrency } from "@/lib/format-utils";
-import ZapcashLogo from "@/components/ZapcashLogo";
-import { buildPostOfferCtaElement } from "./post-offer-cta/build-post-offer-cta";
 import { CancelLoanEntryLink } from "@/components/loan-cancellation/CancelLoanEntryLink";
 import { useEnableFullWebJourney } from "@/hooks/useEnableFullWebJourney";
-
-/** Mint fill for tenure / total payable tiles. */
-const TILE_BG = "#E6F4EA";
+import { buildPostOfferCtaElement } from "./post-offer-cta/build-post-offer-cta";
+import {
+  HeroAppIdBadge,
+  HeroCheckIcon,
+  HeroStatusCardShell,
+} from "@/components/home/hero-status-card/HeroStatusCardShell";
 
 export interface PostOfferCardProps {
-  /** Reserved for contextual label; surfaced to assistive tech only when set. */
   title?: string;
-  /** Application reference; when set, shown in the header row as `APPLICATION ID: …`. */
   applicationNumber?: string;
-  /** Optional status pill below the header row (e.g. overdue). */
   statusPill?: string;
-  /** Pill styling variant when `statusPill` is set. */
   statusPillVariant?: "active" | "overdue";
-  /** Sanctioned / approved loan amount (large green line). */
   amount?: number;
-  /** Tenure label, e.g. "90 Days". */
   tenure?: string;
-  /** Total payable numeric (formatted as currency). */
   totalPayable?: number;
   actionLabel: string;
   loanId?: string;
   onActionPress?: () => void;
   disableAction?: boolean;
   hideAction?: boolean;
-  /** When set, shows a refresh control beside the primary CTA (invalidates hero loan + user stage from parent). */
   onRefreshPress?: () => void;
-  /** True while existing-active-loan or user-stage refetch is in flight. */
   isRefreshing?: boolean;
-  /** Primary CTA link target when rendered as `Link` (default `/personal-loan`). */
   ctaHref?: string;
-  /** Progress stepper and extra content rendered above the CTA. */
   children?: ReactNode;
   showCancelLoanEntry?: boolean;
   canCancelLoan?: boolean;
   onCancelLoanPress?: () => void;
+  /** When true, shows Accept Offer button; otherwise shows Complete Details journey CTA. */
+  variant?: "accept" | "journey";
+  journeyCtaTitle?: string;
+  journeyCtaSubtitle?: string;
 }
 
-function getApplicationStripLabel(applicationNumber?: string): string {
-  const value = typeof applicationNumber === "string" ? applicationNumber.trim() : "";
-  if (!value) return "";
-  return `APPLICATION ID: ${value}`;
+function UserIcon(): ReactElement {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
+      <path
+        d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+      />
+      <circle cx="12" cy="7" r="4" stroke="currentColor" strokeWidth="1.8" />
+    </svg>
+  );
 }
 
+/**
+ * Post-offer / mid-journey offer card for the logged-in hero.
+ */
 export function PostOfferCard({
-  title,
   applicationNumber,
-  statusPill,
-  statusPillVariant,
   amount,
   tenure,
-  totalPayable,
   actionLabel,
   loanId,
   onActionPress,
   disableAction = false,
   hideAction = false,
-  onRefreshPress,
-  isRefreshing = false,
   ctaHref,
   children,
   showCancelLoanEntry = false,
   canCancelLoan = false,
   onCancelLoanPress,
-}: PostOfferCardProps) {
+  variant = "accept",
+  journeyCtaTitle = "Complete Your Details",
+  journeyCtaSubtitle = "5 Minutes away from your Funds.",
+}: PostOfferCardProps): ReactElement {
   const hasAction = typeof onActionPress === "function" || !!loanId || !disableAction;
   const isInteractive = hasAction && !disableAction;
   const enableFullWebJourney = useEnableFullWebJourney();
-  const stripLabel = getApplicationStripLabel(applicationNumber);
-  const totalPayableFormatted =
-    totalPayable != null && typeof totalPayable === "number"
-      ? formatCurrency(totalPayable)
-      : undefined;
+  const trimmedId = typeof applicationNumber === "string" ? applicationNumber.trim() : "";
+  let badge: ReactElement | undefined;
+  if (trimmedId) {
+    badge = <HeroAppIdBadge label={`Application ID : ${trimmedId}`} />;
+  }
 
-  const showTiles = tenure != null || totalPayableFormatted != null;
+  const tenureLabel =
+    typeof tenure === "string" && tenure.trim().length > 0 ? tenure.trim() : null;
 
-  const ctaContent = (
-    <span className="text-base sm:text-lg font-bold text-white tracking-tight">{actionLabel}</span>
-  );
+  let actionBlock: ReactNode = null;
+  if (!hideAction) {
+    if (variant === "journey") {
+      const href = ctaHref ?? "/personal-loan";
+      actionBlock = (
+        <Link
+          href={href}
+          className="mt-5 flex w-full items-center gap-3 rounded-xl bg-[#FECA42] px-3 py-3 text-left transition hover:bg-[#F5C038] sm:mt-6 sm:px-4"
+        >
+          <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-white/70 text-gray-900">
+            <UserIcon />
+          </span>
+          <span className="min-w-0 flex-1">
+            <span className="block text-sm font-bold text-gray-900 sm:text-base">
+              {journeyCtaTitle}
+            </span>
+            <span className="block text-xs text-gray-700 sm:text-sm">{journeyCtaSubtitle}</span>
+          </span>
+          <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-[#1A1A1A] text-white">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden>
+              <path
+                d="M5 12h14M13 6l6 6-6 6"
+                stroke="currentColor"
+                strokeWidth="2.4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </span>
+        </Link>
+      );
+    } else {
+      const ctaContent = <span>{actionLabel}</span>;
+      const ctaEnabledClass =
+        "inline-flex min-h-[48px] w-full items-center justify-center rounded-xl bg-[#FECA42] px-5 py-3 text-sm font-bold text-gray-900 transition hover:bg-[#F5C038] focus:outline-none focus:ring-2 focus:ring-[#FECA42] focus:ring-offset-2 sm:min-h-[52px] sm:text-base";
+      const ctaDisabledClass = `${ctaEnabledClass} cursor-not-allowed opacity-60`;
+      actionBlock = (
+        <div className="mt-6 sm:mt-7">
+          {buildPostOfferCtaElement({
+            ctaContent,
+            ctaEnabledClass,
+            ctaDisabledClass,
+            isInteractive,
+            loanId,
+            onActionPress,
+            href: ctaHref,
+            enableFullWebJourney,
+          })}
+        </div>
+      );
+    }
+  }
 
-  const ctaBase =
-    "py-3.5 sm:py-4 rounded-2xl text-center transition-colors font-bold shadow-sm border-0";
-  const ctaWidthClass = typeof onRefreshPress === "function" ? "min-w-0 flex-1 w-full" : "w-full";
-  const ctaEnabledClass =
-    `${ctaBase} ${ctaWidthClass} bg-primary text-white hover:bg-primary/90 active:scale-[0.99] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary`;
-  const ctaDisabledClass = `${ctaBase} ${ctaWidthClass} bg-gray-400 text-white cursor-not-allowed`;
-
-  const ctaElement = buildPostOfferCtaElement({
-    ctaContent,
-    ctaEnabledClass,
-    ctaDisabledClass,
-    isInteractive,
-    loanId,
-    onActionPress,
-    href: ctaHref,
-    enableFullWebJourney,
-  });
+  let amountBlock: ReactNode;
+  if (amount != null && typeof amount === "number") {
+    amountBlock = (
+      <p className="mt-2 text-4xl font-extrabold tracking-tight text-gray-900 sm:text-[2.75rem]">
+        {formatCurrency(amount)}
+      </p>
+    );
+  } else {
+    amountBlock = <p className="mt-2 text-xl font-semibold text-gray-400">—</p>;
+  }
 
   return (
-    <HeroCardGridShell>
-
-      <div className="px-4 sm:px-6 pb-4 pt-4 sm:pb-5 sm:pt-5">
-        <div>
-          <div className="flex items-center justify-between gap-3 sm:gap-4">
-            <div className="flex h-14 w-14 shrink-0 items-center justify-center">
-              <ZapcashLogo width={56} height={56} />
-            </div>
-            {stripLabel ? (
-              <p
-                className="min-w-0 max-w-[min(260px,72vw)] text-right text-sm font-bold uppercase leading-snug tracking-wide text-primary sm:text-base"
-                title={stripLabel}
-              >
-                <span className="wrap-break-word">{stripLabel}</span>
-              </p>
-            ) : null}
-          </div>
-          {statusPill != null && statusPill.trim().length > 0 ? (
-            <div className="mt-2 flex justify-end">
-              <div
-                className={`inline-flex rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-wide ${statusPillVariant === "overdue"
-                    ? "bg-red-50 text-red-600"
-                    : "border border-primary/25 bg-[#EEF6EF] text-primary"
-                  }`}
-              >
-                {statusPill.trim().toUpperCase()}
-              </div>
-            </div>
-          ) : null}
+    <HeroStatusCardShell badge={badge}>
+      <p className="text-sm mt-2 font-medium text-gray-700 sm:text-base">Your Rupyaa Offer</p>
+      {amountBlock}
+      {tenureLabel ? (
+        <p className="mt-2 text-base font-semibold text-gray-800 sm:text-lg">
+          Tenure : {tenureLabel}
+        </p>
+      ) : null}
+      {children ? <div className="mt-5 sm:mt-6">{children}</div> : null}
+      {actionBlock}
+      {variant === "accept" ? (
+        <p className="mt-4 flex items-center justify-center gap-1.5 text-[11px] text-gray-500 sm:text-xs">
+          <span className="text-gray-400">
+            <HeroCheckIcon />
+          </span>
+          No impact on credit score . No Paperwork
+        </p>
+      ) : null}
+      {showCancelLoanEntry ? (
+        <div className="mt-4">
+          <CancelLoanEntryLink
+            showLink={canCancelLoan === true}
+            onLinkPress={onCancelLoanPress ?? (() => undefined)}
+          />
         </div>
-
-        <div className="mt-6 space-y-1.5 sm:mt-7">
-          <p className="text-sm font-normal text-gray-500 sm:text-base">Your Approved Loan Amount</p>
-          {amount != null && typeof amount === "number" ? (
-            <p className="text-[2rem] font-bold leading-none tracking-tight text-primary tabular-nums sm:text-[2.625rem] md:text-[2.75rem]">
-              {formatCurrency(amount)}
-            </p>
-          ) : (
-            <p className="text-xl font-semibold text-gray-400">—</p>
-          )}
-        </div>
-
-        {showTiles ? (
-          <div className="mt-5 grid grid-cols-2 gap-3 sm:mt-6 sm:gap-3.5">
-            <div
-              className="rounded-xl px-3 py-3 sm:rounded-2xl sm:py-4"
-              style={{ backgroundColor: TILE_BG }}
-            >
-              <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-[0.08em] text-gray-500 sm:text-[11px]">
-                TENURE
-              </p>
-              <p className="text-sm font-bold tabular-nums text-primary sm:text-base">{tenure ?? "—"}</p>
-            </div>
-            <div
-              className="rounded-xl px-3 py-3 sm:rounded-2xl sm:py-4"
-              style={{ backgroundColor: TILE_BG }}
-            >
-              <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-[0.08em] text-gray-500 sm:text-[11px]">
-                TOTAL PAYABLE
-              </p>
-              <p className="text-sm font-bold tabular-nums text-primary sm:text-base">
-                {totalPayableFormatted ?? "—"}
-              </p>
-            </div>
-          </div>
-        ) : null}
-
-        {children ? <div className="mt-6 sm:mt-7">{children}</div> : null}
-
-        {!hideAction ? (
-          <div className="mt-6 sm:mt-7">
-            <PostOfferCtaWithOptionalRefresh onRefreshPress={onRefreshPress} isRefreshing={isRefreshing}>
-              {ctaElement}
-            </PostOfferCtaWithOptionalRefresh>
-            {showCancelLoanEntry ? (
-              <div className="mt-4">
-                <CancelLoanEntryLink
-                  showLink={canCancelLoan === true}
-                  onLinkPress={onCancelLoanPress ?? (() => undefined)}
-                />
-              </div>
-            ) : null}
-          </div>
-        ) : null}
-      </div>
-    </HeroCardGridShell>
+      ) : null}
+    </HeroStatusCardShell>
   );
 }

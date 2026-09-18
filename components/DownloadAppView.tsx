@@ -77,23 +77,23 @@ export default function DownloadAppView() {
         <aside className="flex flex-col items-center justify-center bg-linear-to-br from-brand-panel-start to-brand-panel-end px-6 py-10 text-center text-white sm:px-10 lg:min-h-[560px]">
           <p className="text-2xl font-bold">Almost Done! <span aria-hidden="true">🚀</span></p>
           <p className="mt-2 max-w-xs text-sm leading-5 text-white/75 sm:hidden">
-            Download the ZapCash App to complete your loan process.
+            Download the Rupyaa App to complete your loan process.
           </p>
           <p className="mt-2 hidden max-w-xs text-sm leading-5 text-white/75 sm:block">
-            Scan the QR code and download the ZapCash App to complete your loan process.
+            Scan the QR code and download the Rupyaa App to complete your loan process.
           </p>
 
           <Link
             href={downloadConfig.url}
             target="_blank"
             rel="noopener noreferrer nofollow"
-            aria-label={`Open ZapCash on the ${downloadConfig.storeLabel}`}
+            aria-label={`Open Rupyaa on the ${downloadConfig.storeLabel}`}
             className="mt-7 hidden rounded-2xl sm:block"
           >
             <span className="flex size-52 items-center justify-center">
               <AppDownloadQrCode
                 url={downloadConfig.url}
-                label={`QR code for the ZapCash ${downloadConfig.storeLabel} listing`}
+                label={`QR code for the Rupyaa ${downloadConfig.storeLabel} listing`}
               />
             </span>
           </Link>
