@@ -3,7 +3,7 @@ name: Rupyaa
 on:
   push:
     branches:
-      - production
+      - main
 
 jobs:
   resolve-deploy-matrix:
@@ -17,7 +17,7 @@ jobs:
         run: |
           REF="${{ github.ref_name }}"
           case "$REF" in
-            production)
+            main)
               echo 'targets=["production"]' >> $GITHUB_OUTPUT
               ;;
             *)
