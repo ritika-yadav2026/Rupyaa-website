@@ -25,7 +25,7 @@ export default function ApplicationRejectedView() {
           Unfortunately, your loan application could not be approved at this time. Please contact support for more details.
         </p>
         <a
-          href="mailto:help@zapcash.com"
+          href="mailto:help@rupyaa.com"
           className="inline-flex items-center justify-center py-3 px-6 rounded-xl bg-primary text-white font-semibold hover:bg-primary/90 min-h-[48px]"
         >
           Contact Support

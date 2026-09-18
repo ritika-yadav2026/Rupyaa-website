@@ -70,7 +70,7 @@ function RegisterLoanOfferMarketing({
     <div className="w-full max-w-full sm:max-w-[90vw] md:max-w-[80vw] lg:max-w-[65vw] min-w-0 mx-auto px-2 sm:px-0">
       <div className="text-center mb-6 sm:mb-8">
         <h1 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-gray-900 mb-3">
-          Welcome to <span className="text-primary">ZapCash!</span>
+          Welcome to <span className="text-primary">Rupyaa!</span>
         </h1>
         <p className="text-base text-gray-700">Your loan journey begins here.</p>
       </div>
@@ -98,7 +98,7 @@ function RegisterLoanOfferMarketing({
             </p>
           </div>
           <div>
-            <p className="text-sm text-gray-700 mb-4">To continue this offer download our ZapCash App.</p>
+            <p className="text-sm text-gray-700 mb-4">To continue this offer download our Rupyaa App.</p>
             <div className="flex flex-col gap-3">
               <AppButton type="button" fullWidth onClick={handleDownload}>
                 Continue In App

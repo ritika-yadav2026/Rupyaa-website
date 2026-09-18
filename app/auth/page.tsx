@@ -154,7 +154,7 @@ function AuthPageContent() {
         leadId: data.leadId,
       });
       MarketingAttributionStorage.clear();
-      toast.success("Welcome to ZapCash!");
+      toast.success("Welcome to Rupyaa!");
       router.replace(authRedirectPath);
     },
     onError: (err: Error) => {
@@ -265,7 +265,7 @@ function AuthPageContent() {
       >
         <div className="mb-6 flex flex-col items-start gap-1">
           <h1 className="text-2xl font-bold leading-snug text-gray-900 sm:text-3xl">
-            Welcome Back to ZapCash!
+            Welcome Back to Rupyaa!
           </h1>
           <p className="text-base text-gray-500">Login to Your Account</p>
         </div>

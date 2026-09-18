@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
-import { SITE_URL } from "@/utils/app-constants";
+import { seoMetadata } from "@/lib/seo-metadata";
 
-export const metadata: Metadata = {
-  alternates: {
-    canonical: `${SITE_URL}/auth`,
-  },
-};
+export const metadata = seoMetadata.auth;
 
 export default function AuthLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return children;

@@ -916,10 +916,10 @@ function RecoveryCollectionPolicyContent() {
                     <p className="text-sm sm:text-base">
                       <strong className="text-gray-800">Email:</strong>{" "}
                       <a
-                        href="mailto:grievance@zapcash.in"
+                        href="mailto:grievance@rupyaa.in"
                         className="break-all"
                       >
-                        grievance@zapcash.in
+                        grievance@rupyaa.in
                       </a>
                     </p>
                     <p className="text-sm sm:text-base">

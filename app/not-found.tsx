@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Page Not Found - ZapCash",
+  title: "Page Not Found - Rupyaa",
   description:
-    "The page you are looking for doesn't exist or has been moved. Return to ZapCash home.",
+    "The page you are looking for doesn't exist or has been moved. Return to Rupyaa home.",
 };
 
 function CompassIcon() {
@@ -127,10 +127,10 @@ export default function NotFound() {
           <p className="text-sm text-gray-600">
             Need urgent help? Reach us at{" "}
             <a
-              href="mailto:care@zapcash.in"
+              href="mailto:care@rupyaa.in"
               className="text-primary font-semibold hover:underline"
             >
-              care@zapcash.in
+              care@rupyaa.in
             </a>
           </p>
         </div>

@@ -30,7 +30,7 @@ const FAQ_ITEMS: readonly FAQItem[] = [
       "This is an illustrative example. Actual terms may vary based on eligibility and will be disclosed in the Key Fact Statement before loan acceptance.",
   },
   {
-    question: "Who is eligible to apply for a ZapCash personal loan?",
+    question: "Who is eligible to apply for a Rupyaa personal loan?",
     bulletPoints: [
       "Age: Minimum 21 years",
       "Employment Type: Salaried or Self-Employed",

@@ -164,8 +164,8 @@ export default function GrievanceRedressalPolicyPage() {
         <p className="mb-0">
           For any questions or to submit a grievance, please contact our
           customer support team at{" "}
-          <a href="mailto:care@zapcash.in" className="break-all">
-            care@zapcash.in
+          <a href="mailto:care@rupyaa.in" className="break-all">
+            care@Rupyaa.in
           </a>
           . We are committed to addressing your concerns promptly and ensuring
           your satisfaction.

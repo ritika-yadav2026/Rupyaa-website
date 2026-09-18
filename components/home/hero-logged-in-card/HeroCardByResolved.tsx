@@ -93,7 +93,7 @@ export function resolveHeroCardNode({
     return (
       <UnderReviewDownloadCard
         variant="download"
-        title="Continue on the ZapCash app"
+        title="Continue on the Rupyaa app"
         description="This step is available in our mobile app. Download the app to continue your loan journey."
       />
     );

@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "FAQ - ZapCash",
+  title: "FAQ - Rupyaa",
   description:
-    "Frequently asked questions about ZapCash digital loans, eligibility, disbursement, and repayment.",
+    "Frequently asked questions about Rupyaa digital loans, eligibility, disbursement, and repayment.",
 };
 
 export default function FaqLayout({

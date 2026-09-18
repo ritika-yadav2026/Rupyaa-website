@@ -275,7 +275,7 @@ export default function CreditScoreForm({
                   className="mt-0.5 h-4 w-4 shrink-0 rounded border-gray-300 text-primary focus:ring-primary"
                 />
                 <span>
-                  I authorize ZapCash to fetch my credit report from Equifax and agree to the{" "}
+                  I authorize Rupyaa to fetch my credit report from Equifax and agree to the{" "}
                   <Link href="/terms" className="font-semibold text-[#FECA42] hover:underline">
                     Terms
                   </Link>{" "}

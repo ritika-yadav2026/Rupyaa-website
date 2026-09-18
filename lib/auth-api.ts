@@ -106,7 +106,7 @@ export type ExchangeDsaSessionParams = {
 };
 
 /**
- * Exchanges a one-time DSA SSO ticket for a ZapCash access session.
+ * Exchanges a one-time DSA SSO ticket for a Rupyaa access session.
  * POST /auth/sessions/dsa — no partner API key; ticket is the credential.
  */
 export async function exchangeDsaSession(
@@ -118,7 +118,7 @@ export async function exchangeDsaSession(
     {
       method: "POST",
       headers: {
-        platform: "ZAPCASH",
+        platform:"RUPYAA",
       },
       body: JSON.stringify({
         ticket,

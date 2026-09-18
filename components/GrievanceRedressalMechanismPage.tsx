@@ -74,8 +74,8 @@ export default function GrievanceRedressalMechanismPage() {
             <p>Please contact Customer Relationship Manager.</p>
             <ContactCard>
               <ContactLine label="Email ID:">
-                <a href="mailto:grievance@zapcash.in" className="break-all">
-                  grievance@zapcash.in
+                <a href="mailto:grievance@rupyaa.in" className="break-all">
+                  grievance@rupyaa.in
                 </a>
               </ContactLine>
               <ContactLine label="Timings:">
@@ -102,8 +102,8 @@ export default function GrievanceRedressalMechanismPage() {
                 <a href="tel:+918503090309">85-0309-0309</a>
               </ContactLine>
               <ContactLine label="Email ID:">
-                <a href="mailto:care@zapcash.in" className="break-all">
-                  care@zapcash.in
+                <a href="mailto:care@rupyaa.in" className="break-all">
+                  care@rupyaa.in
                 </a>
               </ContactLine>
               <ContactLine label="Timings:">

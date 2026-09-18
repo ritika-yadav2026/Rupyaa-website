@@ -7,18 +7,18 @@ export default function RefundPolicyPage() {
   return (
     <PolicyPageLayout title="REFUND POLICY" effectiveDate="February 25, 2026">
       <p>
-        At Zapcash, operated by Omnistack Innovation Private Limited
+        At Rupyaa, operated by Omnistack Innovation Private Limited
         (&quot;we&quot;, &quot;us&quot;, or &quot;our&quot;), we prioritize
         transparency, integrity, and customer satisfaction. This Refund Policy
         outlines our practices and conditions related to refunds for payments
         made via our platform in connection with the financial services we
         facilitate. Please read this policy carefully before making any payments
-        through the Zapcash platform.
+        through the Rupyaa platform.
       </p>
 
       <PolicySection number={1} title="Introduction">
         <p className="mb-0">
-          At Zapcash, operated by Omnistack Innovation Private Limited, we
+          At Rupyaa, operated by Omnistack Innovation Private Limited, we
           prioritize transparency, integrity, and customer satisfaction. This
           Refund Policy outlines our practices and conditions related to refunds
           for payments made via our platform in connection with the financial
@@ -28,7 +28,7 @@ export default function RefundPolicyPage() {
 
       <PolicySection number={2} title="Nature of Services">
         <p className="mb-0">
-          Zapcash is a technology-driven platform that enables users to apply
+          Rupyaa is a technology-driven platform that enables users to apply
           for and manage financial services, including loan applications,
           through partnerships with regulated financial institutions such as
           banks and NBFCs. We facilitate service delivery, processing, and user
@@ -39,10 +39,10 @@ export default function RefundPolicyPage() {
       <PolicySection number={3} title="Applicability">
         <p className="mb-0">
           This Refund Policy applies to any service charges, fees, or payments
-          made by users to Zapcash or to any financial services facilitated
+          made by users to Rupyaa or to any financial services facilitated
           through the platform. This includes application fees, technology usage
           charges, convenience fees, or third-party verification service charges
-          paid via Zapcash.
+          paid via Rupyaa.
         </p>
       </PolicySection>
 
@@ -56,7 +56,7 @@ export default function RefundPolicyPage() {
             submitted.
           </li>
           <li>
-            Technology usage or convenience fees incurred for using the Zapcash
+            Technology usage or convenience fees incurred for using the Rupyaa
             platform.
           </li>
           <li>
@@ -96,8 +96,8 @@ export default function RefundPolicyPage() {
       <PolicySection number={6} title="Refund Request Procedure">
         <p className="mb-4">
           To initiate a refund request, please email us at{" "}
-          <a href="mailto:care@zapcash.in" className="break-all">
-            care@zapcash.in
+          <a href="mailto:care@rupyaa.in" className="break-all">
+            care@Rupyaa.in
           </a>{" "}
           with the following details:
         </p>
@@ -121,8 +121,8 @@ export default function RefundPolicyPage() {
 
       <PolicySection number={8} title="No Refund for Loan Repayments">
         <p className="mb-0">
-          Loan repayments made to lending partners through the Zapcash platform
-          are governed by the terms of the respective loan agreement. Zapcash is
+          Loan repayments made to lending partners through the Rupyaa platform
+          are governed by the terms of the respective loan agreement. Rupyaa is
           not responsible for refunding EMIs or interest once paid. Any such
           concerns must be addressed directly to the respective lender.
         </p>
@@ -144,8 +144,8 @@ export default function RefundPolicyPage() {
           </p>
           <p className="text-sm sm:text-base">
             <strong className="text-gray-800">Email:</strong>{" "}
-            <a href="mailto:care@zapcash.in" className="break-all">
-              care@zapcash.in
+            <a href="mailto:care@rupyaa.in" className="break-all">
+              care@Rupyaa.in
             </a>
           </p>
           <p className="text-sm sm:text-base">
@@ -157,7 +157,7 @@ export default function RefundPolicyPage() {
 
       <PolicySection number={10} title="Policy Amendments">
         <p className="mb-0">
-          Zapcash reserves the right to revise this Refund Policy from time to
+          Rupyaa reserves the right to revise this Refund Policy from time to
           time to reflect changes in regulatory requirements, platform
           functionality, or user feedback. Updated versions will be published on
           our Platform with the effective date clearly mentioned.

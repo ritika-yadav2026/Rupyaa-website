@@ -9,7 +9,7 @@ export default function ZapcashLoading() {
         />
         <img
           src={IMAGES.icon.src}
-          alt="ZapCash Icon"
+          alt="Rupyaa Icon"
           className="h-8 w-8 rounded-full mb-4"
         />
       </div>

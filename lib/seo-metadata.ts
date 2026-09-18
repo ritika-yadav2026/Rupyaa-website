@@ -62,10 +62,16 @@ export function buildSeoMetadata({
 }
 
 export const seoMetadata = {
-  home: buildSeoMetadata({
-    title: "Instant Personal Loan up to ₹5 Lakh | ZapCash",
+  auth: buildSeoMetadata({
+    title: "Login to Your Rupyaa Account Securely Right Now Here",
     description:
-      "Need quick cash? Apply for a personal loan up to ₹5 Lakh with digital KYC, transparent charges and fast approval. Check eligibility on ZapCash.",
+      "Sign in to your Rupyaa account to manage your personal loan, track your application status & check your credit score. Log in securely to your account now!",
+    path: "/auth",
+  }),
+  home: buildSeoMetadata({
+    title: "Instant Personal Loan Online – Fast Approval | Rupyaa",
+    description:
+      "Get an instant personal loan online with Rupyaa. Quick eligibility checks, minimal paperwork & fast disbursal. Apply now to get funds in your account today!",
     path: "/",
     keywords: [
       "instant personal loan app",
@@ -74,9 +80,9 @@ export const seoMetadata = {
     ],
   }),
   personalLoan: buildSeoMetadata({
-    title: "Personal Loan up to ₹5 Lakh Online | ZapCash",
+    title: "Personal Loan Online – Instant Approval Today | Rupyaa",
     description:
-      "Apply online for a personal loan up to ₹5 Lakh. Digital KYC, no collateral, clear fees and repayment details before you accept the offer.",
+      "Apply for a personal loan online with Rupyaa. Enjoy low interest rates, quick approval & same-day disbursal. Check your eligibility and apply online now!",
     path: "/personal-loan",
     keywords: [
       "personal loan up to 5 lakh",
@@ -85,16 +91,16 @@ export const seoMetadata = {
     ],
   }),
   emiCalculator: buildSeoMetadata({
-    title: "Free Personal Loan EMI Calculator - Know Your EMI in 10 Sec",
+    title: "Personal Loan EMI Calculator – Plan Online | Rupyaa",
     description:
-      "Find your exact monthly EMI in seconds. Just enter amount, tenure & rate - see your full repayment breakdown instantly. Free ZapCash EMI Calculator.",
+      "Plan your repayments with Rupyaa's free EMI calculator. Enter the loan amount, interest rate & tenure to instantly calculate your monthly EMI. Try it now!",
     path: "/emi-calculator",
     keywords: ["personal loan EMI calculator", "loan EMI calculator India"],
   }),
   creditScore: buildSeoMetadata({
-    title: "Check Credit Score Free — Instant Report Online | ZapCash",
+    title: "Check Your Free CIBIL Credit Score Online | Rupyaa",
     description:
-      "Check your credit score and full report free in under a minute. No impact on your score. Plus what the new RBI weekly reporting rules from July 2026 mean.",
+      "Check your free credit score online instantly with Rupyaa. View your CIBIL score, see what affects it & get tips to improve it. Check your score now free!",
     path: "/credit-score",
     keywords: [
       "credit score check",
@@ -104,78 +110,79 @@ export const seoMetadata = {
     ],
   }),
   support: buildSeoMetadata({
-    title: "Need Help? Contact ZapCash Support - 24 Hr Response",
+    title: "Customer Support & Help Center for All Users | Rupyaa",
     description:
-      "Have a question about your loan? Reach ZapCash support via email or call +91 8503090309. Real help, response within 24 hours - no bots, no waiting.",
+      "Need help with your loan, EMI or account? Visit Rupyaa's support center for FAQs, contact options & quick assistance from our team. Get help right now!",
     path: "/support",
-    keywords: ["ZapCash customer support", "loan support contact"],
+    keywords: ["Rupyaa customer support", "loan support contact"],
   }),
   privacyPolicy: buildSeoMetadata({
-    title: "ZapCash Privacy Policy - How We Protect Your Data",
+    title: "Privacy Policy – How We Protect Your Data | Rupyaa",
     description:
-      "See exactly how ZapCash collects, stores, and protects your personal and financial information. Your data, your control.",
+      "Read Rupyaa's privacy policy to understand how we collect, use, store & protect your personal data on our platform. Learn about your privacy rights here!",
     path: "/privacy-policy",
-    keywords: ["ZapCash privacy policy"],
+    keywords: ["Rupyaa privacy policy"],
   }),
   terms: buildSeoMetadata({
-    title: "ZapCash Terms & Conditions - Loan Service Agreement",
+    title: "Terms & Conditions of Use for Rupyaa's Services Here",
     description:
-      "Read the full Terms & Conditions for using ZapCash's personal loan app and services before you apply.",
+      "Review Rupyaa's terms & conditions governing the use of our platform, loan services & website. Read the full terms carefully before you apply for a loan.",
     path: "/terms",
-    keywords: ["ZapCash terms and conditions"],
+    keywords: ["Rupyaa terms and conditions"],
   }),
   lenders: buildSeoMetadata({
-    title: "ZapCash Lending Partners - RBI-Registered & Verified",
+    title: "Our Trusted RBI-Registered Lending Partners | Rupyaa",
     description:
-      "ZapCash works exclusively with Weekline Investment and Trading Company Ltd, an RBI-registered NBFC. Verify our lender before you borrow.",
+      "Discover Rupyaa's network of RBI-registered lending partners offering fast, secure & fully transparent personal loans across India. View our partners now!",
     path: "/lenders",
-    keywords: ["ZapCash NBFC partner", "Weekline Investment RBI NBFC"],
+    keywords: ["Rupyaa NBFC partner", "Weekline Investment RBI NBFC"],
   }),
   refundPolicy: buildSeoMetadata({
-    title: "ZapCash Refund Policy - Fees & Charges Explained",
+    title: "Refund Policy – Loan Charges & Refund Rules | Rupyaa",
     description:
-      "Understand when and how ZapCash refunds processing fees and charges. Clear terms, no hidden conditions.",
+      "Understand Rupyaa's refund policy, including eligibility criteria, processing timelines & applicable charges for loan refunds. Read the full policy now!",
     path: "/refund-policy",
-    keywords: ["ZapCash refund policy"],
+    keywords: ["Rupyaa refund policy"],
   }),
   codeOfConduct: buildSeoMetadata({
-    title: "ZapCash Code of Conduct - Our Lending Promise",
+    title: "Code of Conduct & Fair Lending Practices Policy | Rupyaa",
     description:
-      "See ZapCash's commitment to fair, transparent, and responsible lending practices for every borrower.",
+      "Learn about Rupyaa's code of conduct and fair practice standards that guide our ethical, transparent & responsible lending practices. Read it here now!",
     path: "/code-of-conduct",
-    keywords: ["ZapCash code of conduct", "responsible lending"],
+    keywords: ["Rupyaa code of conduct", "responsible lending"],
   }),
   cancellationPolicy: buildSeoMetadata({
-    title: "ZapCash Cancellation Policy - Cancel Your Loan Easily",
+    title: "Loan Cancellation Policy & Full Process Guide | Rupyaa",
     description:
-      "Changed your mind? Here's exactly how to cancel your ZapCash loan application and what charges may apply.",
+      "Learn how to cancel your loan application with Rupyaa, including eligibility conditions, timelines & applicable charges. Read the full policy now here!",
     path: "/cancellation-policy",
-    keywords: ["ZapCash loan cancellation policy"],
+    keywords: ["Rupyaa loan cancellation policy"],
   }),
   grievanceRedressalPolicy: buildSeoMetadata({
-    title: "ZapCash Grievance Redressal Policy - File a Complaint",
+    title: "Grievance Redressal Policy for Our Customers | Rupyaa",
     description:
-      "Not satisfied with how your issue was handled? Learn how to escalate a complaint with ZapCash's Grievance Redressal Policy.",
+      "Read Rupyaa's grievance redressal policy to understand how customer complaints are received, reviewed & resolved fairly and promptly. View it now here!",
     path: "/grievance-redressal-policy",
-    keywords: ["ZapCash grievance redressal", "loan complaint"],
+    keywords: ["Rupyaa grievance redressal", "loan complaint"],
   }),
   grievanceRedressalMechanism: buildSeoMetadata({
-    title: "ZapCash Grievance Officer - Escalate an Unresolved Issue",
+    title: "Grievance Redressal Mechanism & Full Process | Rupyaa",
     description:
-      "Still unresolved? Contact ZapCash's designated Grievance Officer directly for complaints that need urgent escalation.",
+      "Learn how Rupyaa's grievance redressal mechanism works, from filing a complaint to escalation and final resolution. Read the complete process now here!",
     path: "/grievance-redressal-mechanism",
-    keywords: ["ZapCash grievance officer", "loan complaint escalation"],
+    keywords: ["Rupyaa grievance officer", "loan complaint escalation"],
   }),
   recoveryCollectionPolicy: buildSeoMetadata({
-    title: "ZapCash Recovery Policy - Late Payment Charges Explained",
+    title: "Recovery & Collection Policy for Our Loans | Rupyaa",
     description:
-      "Missed an EMI? See exactly what late payment charges apply and how ZapCash's recovery process works - no surprises.",
+      "Understand Rupyaa's fair recovery & collection policy covering loan repayments, defaults & recovery practices used. Read the full policy to know more!",
     path: "/recovery-collection-policy",
-    keywords: ["ZapCash recovery policy", "late payment charges"],
+    keywords: ["Rupyaa recovery policy", "late payment charges"],
   }),
 } satisfies Record<string, Metadata>;
 
 const seoPathByKey = {
+  auth: "/auth",
   home: "/",
   personalLoan: "/personal-loan",
   emiCalculator: "/emi-calculator",
@@ -305,8 +312,8 @@ function normalizeLegacyLoanAmountCopy(text: string): string {
 }
 
 /**
- * Resolves SEO values from the public, view-only sheet. Checked-in metadata is
- * always used when Google is unavailable or a sheet field is blank.
+ * Uses the approved, checked-in titles and descriptions. The public sheet may
+ * supply keywords; checked-in keywords are used when it is unavailable or blank.
  */
 export async function getSeoMetadata(key: SeoMetadataKey): Promise<Metadata> {
   const fallback = seoMetadata[key];
@@ -317,12 +324,8 @@ export async function getSeoMetadata(key: SeoMetadataKey): Promise<Metadata> {
     if (!sheetRow) return fallback;
 
     return buildSeoMetadata({
-      title: normalizeLegacyLoanAmountCopy(
-        sheetRow.title || String(fallback.title ?? "ZapCash"),
-      ),
-      description: normalizeLegacyLoanAmountCopy(
-        sheetRow.description || fallback.description || "",
-      ),
+      title: String(fallback.title),
+      description: fallback.description || "",
       path,
       keywords:
         sheetRow.keywords.length > 0

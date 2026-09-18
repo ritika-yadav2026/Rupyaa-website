@@ -67,7 +67,7 @@ export function useExternalFlowConsentLock({
   const [locked, setLocked] = useState(false);
   const popupRef = useRef<Window | null>(null);
   const watcherIdRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  /** True once a valid ZAPCASH_CALLBACK_COMPLETE message was accepted (same browsing session as this flow). */
+  /** True once a valid Rupyaa_CALLBACK_COMPLETE message was accepted (same browsing session as this flow). */
   const completedViaPostMessageRef = useRef(false);
   /** Deferred "user closed popup / no callback" work — cancelled if postMessage wins the race. */
   const pendingClosedGraceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
