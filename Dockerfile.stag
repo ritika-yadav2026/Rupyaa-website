@@ -7,7 +7,7 @@ RUN npm ci
 
 FROM base AS builder
 ENV NEXT_TELEMETRY_DISABLED=1
-ENV NEXT_PUBLIC_API_URL=https://staging-api.rupyaa.com
+ENV NEXT_PUBLIC_API_URL=https://api-staging.rupyaa.com
 ENV NEXT_PUBLIC_TEST_ENCRYPTION_SECRET=276(Y(BN(UG(UB(UG(*)N((*HN9832428272bwig78fsbfu34igh87bveiub8G^%R*&Y^&R)))))))
 ENV NEXT_PUBLIC_GROMO_EQUIFAX_API_KEY=zapcash-wecredit-api-key
 COPY --from=deps /app/node_modules ./node_modules

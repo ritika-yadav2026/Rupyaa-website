@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - staging
 
 jobs:
   resolve-deploy-matrix:
@@ -19,6 +20,9 @@ jobs:
           case "$REF" in
             main)
               echo 'targets=["production"]' >> $GITHUB_OUTPUT
+              ;;
+            staging)
+              echo 'targets=["staging"]' >> $GITHUB_OUTPUT
               ;;
             *)
               echo "Unsupported branch: $REF"
@@ -50,6 +54,13 @@ jobs:
             echo "ECS_SERVICE=rupyaa-client-production-service" >> $GITHUB_ENV
             echo "ECS_CLUSTER=lending" >> $GITHUB_ENV
             echo "DOCKERFILE=Dockerfile.prod" >> $GITHUB_ENV
+            ;;
+          staging)
+            echo "AWS_REGION=ap-south-1" >> $GITHUB_ENV
+            echo "ECR_REPOSITORY=rupyaa-client-staging-ecr" >> $GITHUB_ENV
+            echo "ECS_SERVICE=rupyaa-client-staging-service" >> $GITHUB_ENV
+            echo "ECS_CLUSTER=lending" >> $GITHUB_ENV
+            echo "DOCKERFILE=Dockerfile.stag" >> $GITHUB_ENV
             ;;
           *)
             echo "Error: Unknown deploy target ${{ matrix.target }}"
