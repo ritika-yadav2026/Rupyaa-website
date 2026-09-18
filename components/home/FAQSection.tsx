@@ -276,16 +276,16 @@ export default function FAQSection({ startBatch = 0, layout = "centered" }: FAQS
         <div className={`${appShellContainerClassName} ${homeSectionSpacingClassName}`}>
           <div className="mt-8 grid gap-8 sm:mt-10 lg:mt-12 lg:grid-cols-[0.85fr_1.15fr] lg:items-center lg:gap-12">
             <div className="flex flex-col justify-center">
-              <h2 className="text-2xl font-semibold tracking-[-0.03em] text-gray-900 sm:text-3xl lg:text-4xl">
+              <h2 className="text-center text-2xl font-semibold tracking-[-0.03em] text-gray-900 sm:text-3xl lg:text-left lg:text-4xl">
                 Frequently
                 <br />
                 Asked Questions
               </h2>
-              <p className="mt-3 max-w-sm text-sm leading-6 text-slate-600 sm:text-base">
+              <p className="mx-auto mt-3 hidden max-w-sm text-center text-sm leading-6 text-slate-600 sm:block sm:text-base lg:mx-0 lg:text-left">
                 Need help with eligibility, your application, repayments or loan documents? Contact
                 the Rupyaa support team.
               </p>
-              <div className="mt-6">
+              <div className="mt-6 hidden sm:block">
                 <a
                   href="/support"
                   className="inline-flex min-h-[48px] items-center justify-center rounded-xl bg-button px-7 text-sm font-semibold text-gray-900 transition hover:bg-button/90"

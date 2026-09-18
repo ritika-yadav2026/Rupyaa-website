@@ -35,7 +35,7 @@ export default function DownloadAppSection(): ReactElement {
               </p>
             </div>
             <div className="flex flex-col items-center gap-4 sm:flex-row sm:items-center sm:justify-start sm:gap-5">
-              <div className="hidden size-[112px] shrink-0 overflow-hidden rounded-xl bg-white p-1.5 shadow-sm sm:block md:size-[128px]">
+              <div className="hidden size-[112px] shrink-0 overflow-hidden rounded-xl border border-[#FECA42] bg-white p-1.5 shadow-sm sm:block md:size-[128px]">
                 <AppDownloadQrCode
                   url={downloadConfig.url}
                   label={`QR code for the Rupyaa ${downloadConfig.storeLabel} listing`}
