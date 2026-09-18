@@ -5,7 +5,7 @@ export interface CreditScoreFaqItem {
 
 export const CREDIT_SCORE_FAQS: readonly CreditScoreFaqItem[] = [
   {
-    question: "Is checking my credit score on ZapCash really free?",
+    question: "Is checking my credit score on Rupyaa really free?",
     answer:
       "Yes. There is no charge and no card required. You get your Equifax score and full report at no cost.",
   },
@@ -70,7 +70,7 @@ export const CREDIT_SCORE_FAQS: readonly CreditScoreFaqItem[] = [
       "Start by pulling your full report and disputing errors, then pay every EMI and card due on time, keep card utilisation below 30%, and avoid new credit applications while you rebuild. Under the four-times-monthly reporting cycle, improvements can surface faster than before.",
   },
   {
-    question: "Which bureau score does ZapCash show?",
+    question: "Which bureau score does Rupyaa show?",
     answer:
       "This page shows your Equifax score. India has four RBI-licensed bureaus — Equifax, TransUnion CIBIL, Experian and CRIF High Mark — and each produces its own score under its own model.",
   },

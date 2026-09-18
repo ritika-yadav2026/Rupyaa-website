@@ -59,7 +59,7 @@ export default function NonSalaryAccountModal({
               height={36}
               className="h-9 w-9 shrink-0 rounded-full object-cover"
             />
-            <span className="text-lg font-bold text-gray-900 tracking-tight">ZapCash</span>
+            <span className="text-lg font-bold text-gray-900 tracking-tight">Rupyaa</span>
           </div>
 
           <h2

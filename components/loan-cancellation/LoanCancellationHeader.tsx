@@ -15,7 +15,7 @@ export default function LoanCancellationHeader() {
         className="h-9 w-9 shrink-0 rounded-full object-cover"
       />
       <span className="text-lg font-bold tracking-tight text-gray-900">
-        ZapCash
+      Rupyaa
       </span>
     </div>
   );

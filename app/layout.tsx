@@ -13,25 +13,25 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "ZapCash",
-  description: "ZapCash - Your loan application dashboard",
+  title: "Rupyaa",
+  description: "Rupyaa - Your loan application dashboard",
   openGraph: {
-    title: "ZapCash",
-    description: "ZapCash - Your loan application dashboard",
+    title: "Rupyaa",
+    description: "Rupyaa - Your loan application dashboard",
     url: SITE_URL,
-    siteName: "ZapCash",
+    siteName: "Rupyaa",
     type: "website",
     images: [
       {
         url: OG_IMAGE_URL,
-        alt: "ZapCash",
+        alt: "Rupyaa",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "ZapCash",
-    description: "ZapCash - Your loan application dashboard",
+    title: "Rupyaa",
+    description: "Rupyaa - Your loan application dashboard",
     images: [OG_IMAGE_URL],
   },
   icons: {

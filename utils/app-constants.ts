@@ -1,8 +1,8 @@
 export const STRING_CONSTANTS = {
     WHATSAPP_SUPPORT_URL: "https://wa.me/918503090309?text=Hi",
-    PLAY_STORE_URL: "https://play.google.com/store/apps/details?id=com.zapcash.loan",
+    PLAY_STORE_URL: "https://play.google.com/store/apps/details?id=com.rupyaa.loan",
     APP_STORE_URL:
-        "https://apps.apple.com/in/app/zapcash-quick-loans/id6761755166",
+        "",
 } as const;
 
 export const REACT_QUERY_KEYS = {
@@ -41,7 +41,9 @@ export const BSA_CONSENT_WAIT_SUBTITLE =
 /** Default Next.js route for the post-offer “continue journey” CTA. */
 export const POST_OFFER_CTA_DEFAULT_HREF = "/personal-loan";
 
-export const SITE_NAME = "ZapCash";
-export const SITE_URL = "https://zapcash.in"
+export const SITE_NAME = "Rupyaa";
+export const SITE_URL = "https://rupyaa.com"
+//TODO: Add OG image URL
 export const OG_IMAGE_URL =
-  "https://zapcash-assets.s3.ap-south-1.amazonaws.com/zapcash-og-image.jpg";
+  "";
+  

@@ -39,7 +39,7 @@ function PrivacyPolicyContent() {
                 </div>
                 <div className="min-w-0 flex-1">
                   <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 leading-tight">
-                    Zapcash Personal Loan Privacy Policy
+                  Rupyaa Personal Loan Privacy Policy
                   </h1>
                 </div>
               </div>
@@ -48,7 +48,7 @@ function PrivacyPolicyContent() {
             <div className="px-4 sm:px-10 py-5 sm:py-10">
               <div className="prose prose-gray max-w-none text-sm sm:text-base text-gray-700 leading-relaxed sm:leading-loose space-y-5 sm:space-y-6 hyphens-auto break-words">
                 <p>
-                  Zapcash Personal Loan (&quot;Zapcash,&quot; &quot;We,&quot;
+                Rupyaa Personal Loan (&quot;Rupyaa,&quot; &quot;We,&quot;
                   &quot;Us,&quot; or &quot;Our&quot;) is committed to protecting
                   your privacy and ensuring the security of your personal
                   information. This Privacy Policy explains how we collect, use,
@@ -60,8 +60,8 @@ function PrivacyPolicyContent() {
                   to the practices described in this Privacy Policy.
                 </p>
                 <p>
-                  Zapcash is operated by Omnistack Innovation Private Limited,
-                  and all services offered under the Zapcash brand are provided
+                Rupyaa is operated by Omnistack Innovation Private Limited,
+                  and all services offered under the Rupyaa brand are provided
                   by Omnistack Innovation Private Limited or its authorized
                   service partners, as applicable.
                 </p>
@@ -73,7 +73,7 @@ function PrivacyPolicyContent() {
                   lending.
                 </p>
                 <p>
-                  Zapcash is a digital lending platform that facilitates
+                Rupyaa is a digital lending platform that facilitates
                   personal loan services in partnership with RBI-registered
                   Non-Banking Financial Companies (
                   <a
@@ -88,7 +88,7 @@ function PrivacyPolicyContent() {
                   approvals, sanctions, disbursements, and credit decisions are
                   made by our registered lending partners in accordance with
                   applicable laws and regulatory guidelines issued by the
-                  Reserve Bank of India. Zapcash acts as a technology and
+                  Reserve Bank of India. Rupyaa acts as a technology and
                   service platform to support the loan application process,
                   customer onboarding, documentation, and related services. All
                   lending activities are conducted in compliance with applicable
@@ -337,7 +337,7 @@ function PrivacyPolicyContent() {
                     b. With Affiliates and Partners
                   </h3>
                   <ul className="list-disc pl-5 sm:pl-6 space-y-1.5 sm:space-y-2 text-gray-600">
-                    <li>Within the Zapcash group for operational purposes.</li>
+                    <li>Within the Rupyaa group for operational purposes.</li>
                     <li>
                       Lending partners or financial institutions involved in
                       loan facilitation.
@@ -472,7 +472,7 @@ function PrivacyPolicyContent() {
                     </li>
                   </ul>
                   <p className="mt-4">
-                    To exercise rights, email to care@zapcash.in. We respond
+                    To exercise rights, email to care@rupyaa.in. We respond
                     within 30 days.
                   </p>
                   <p className="mt-3">For cookies, see Section 8.</p>
@@ -537,7 +537,7 @@ function PrivacyPolicyContent() {
                     email communication.
                   </p>
                   <p className="mb-3">
-                    Your continued use of Zapcash services after the updated
+                    Your continued use of Rupyaa services after the updated
                     Privacy Policy becomes effective will constitute your
                     acceptance of the revised terms. If you do not agree with
                     the updated policy, you should discontinue use of our
@@ -546,7 +546,7 @@ function PrivacyPolicyContent() {
                   <p>
                     You are responsible for ensuring that the Personal
                     Information and Sensitive Personal Data you provide to
-                    Zapcash remains accurate and current. Please inform us
+                    Rupyaa remains accurate and current. Please inform us
                     promptly of any updates or corrections to your information
                     so that we can maintain accurate records and provide our
                     services effectively.
@@ -561,7 +561,7 @@ function PrivacyPolicyContent() {
                     Deletion Policy
                   </h2>
                   <p className="mb-4">
-                    Zapcash Personal Loan provides users with the option to
+                  Rupyaa Personal Loan provides users with the option to
                     request deletion of their account and associated personal
                     data.
                   </p>
@@ -573,7 +573,7 @@ function PrivacyPolicyContent() {
                   </p>
                   <ul className="list-disc pl-5 sm:pl-6 space-y-1.5 sm:space-y-2 text-gray-600">
                     <li>
-                      All loans taken through Zapcash have been fully repaid.
+                      All loans taken through Rupyaa have been fully repaid.
                     </li>
                     <li>
                       There are no outstanding dues, EMIs, penalties, or
@@ -592,14 +592,14 @@ function PrivacyPolicyContent() {
                     How to Request Account Deletion
                   </h3>
                   <p className="mb-3">
-                    You can request deletion of your Zapcash account through the
+                    You can request deletion of your Rupyaa account through the
                     following method:
                   </p>
                   <ul className="list-disc pl-5 sm:pl-6 space-y-1.5 sm:space-y-2 text-gray-600">
                     <li>
                       <strong className="text-gray-800">Email Request:</strong>{" "}
                       Send a deletion request from your registered email ID to:
-                      care@zapcash.in - Subject line: Account Deletion Request
+                      care@rupyaa.in - Subject line: Account Deletion Request
                     </li>
                   </ul>
                   <p className="mt-4">
@@ -614,7 +614,7 @@ function PrivacyPolicyContent() {
                   </p>
                   <ul className="list-disc pl-5 sm:pl-6 space-y-1.5 sm:space-y-2 text-gray-600">
                     <li>
-                      Your Zapcash account will be permanently deactivated.
+                      Your Rupyaa account will be permanently deactivated.
                     </li>
                     <li>You will no longer be able to log in to the app.</li>
                     <li>
@@ -942,10 +942,10 @@ function PrivacyPolicyContent() {
                     <p className="text-sm sm:text-base">
                       <strong className="text-gray-800">Email:</strong>{" "}
                       <a
-                        href="mailto:grievance@zapcash.in"
+                        href="mailto:grievance@rupyaa.in"
                         className="break-all"
                       >
-                        grievance@zapcash.in
+                        grievance@rupyaa.in
                       </a>
                     </p>
                     <p className="text-sm sm:text-base">
@@ -962,7 +962,7 @@ function PrivacyPolicyContent() {
                     </p>
                   </div>
                   <p className="mt-6">
-                    Thank you for trusting Zapcash with your financial journey.
+                    Thank you for trusting Rupyaa with your financial journey.
                     We value your privacy as much as you do.
                   </p>
                 </section>

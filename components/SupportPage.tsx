@@ -183,7 +183,7 @@ function SupportPromoCard(): React.ReactNode {
       <span className="mx-auto hidden size-[170px] sm:mx-0 sm:block">
         <AppDownloadQrCode
           url={downloadConfig.url}
-          label={`QR code for the ZapCash ${downloadConfig.storeLabel} listing`}
+          label={`QR code for the Rupyaa ${downloadConfig.storeLabel} listing`}
         />
       </span>
       <div>
@@ -382,7 +382,7 @@ function SupportContent(): React.ReactNode {
             Login to raise a support request
           </h2>
           <p className="mt-3 text-sm leading-relaxed text-slate-600">
-            Support requests are available for registered ZapCash users.
+            Support requests are available for registered Rupyaa users.
           </p>
           <AppButton
             type="button"
@@ -558,8 +558,8 @@ function SupportContent(): React.ReactNode {
                   />
                   <ContactCard
                     title="Contact Support Email"
-                    content="care@zapcash.in"
-                    href="mailto:care@zapcash.in"
+                    content="care@rupyaa.in"
+                    href="mailto:care@rupyaa.in"
                     icon={<MailIcon />}
                   />
                   <ContactCard

@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Under Maintenance - ZapCash",
-  description: "ZapCash is currently under maintenance. We'll be back soon.",
+  title: "Under Maintenance - Rupyaa",
+  description: "Rupyaa is currently under maintenance. We'll be back soon.",
 };
 
 function WrenchIcon() {
@@ -46,17 +46,17 @@ export default function MaintenancePage() {
           We&apos;ll be back soon!
         </h1>
         <p className="text-base sm:text-lg text-gray-600 mb-6 sm:mb-8">
-          ZapCash is currently under scheduled maintenance. We&apos;re working hard to improve your
+          Rupyaa is currently under scheduled maintenance. We&apos;re working hard to improve your
           experience and will be back shortly.
         </p>
         <div className="rounded-xl bg-white/80 backdrop-blur-sm border border-gray-100 px-6 py-4 w-full">
           <p className="text-sm text-gray-600">
             For urgent assistance, please contact us at{" "}
             <a
-              href="mailto:care@zapcash.in"
+              href="mailto:care@rupyaa.in"
               className="text-primary font-semibold hover:underline"
             >
-              care@zapcash.in
+              care@Rupyaa.in
             </a>
           </p>
         </div>

@@ -3,22 +3,22 @@ export const personalLoanSchema = {
     "@graph": [
       {
         "@type": "WebPage",
-        "@id": "https://zapcash.in/personal-loan#webpage",
-        url: "https://zapcash.in/personal-loan",
-        name: "Personal Loan - ZapCash",
+        "@id": "https://rupyaa.com/personal-loan#webpage",
+        url: "https://rupyaa.com/personal-loan",
+        name: "Personal Loan - Rupyaa",
         description:
-          "Apply for an unsecured personal loan of up to Rs. 5,00,000 through ZapCash with digital KYC, transparent charges, and lender approval.",
-        isPartOf: { "@id": "https://zapcash.in/#website" },
-        about: { "@id": "https://zapcash.in/personal-loan#loan" },
+          "Apply for an unsecured personal loan of up to Rs. 5,00,000 through Rupyaa with digital KYC, transparent charges, and lender approval.",
+        isPartOf: { "@id": "https://rupyaa.com/#website" },
+        about: { "@id": "https://rupyaa.com/personal-loan#loan" },
         inLanguage: "en-IN",
       },
       {
         "@type": "LoanOrCredit",
-        "@id": "https://zapcash.in/personal-loan#loan",
-        name: "Personal Loan from ZapCash",
+        "@id": "https://rupyaa.com/personal-loan#loan",
+        name: "Personal Loan from Rupyaa",
         description:
-          "Apply for an unsecured personal loan of up to Rs. 5,00,000 through ZapCash, subject to eligibility, KYC, credit profile, and lending partner approval.",
-        provider: { "@id": "https://zapcash.in/#organization" },
+          "Apply for an unsecured personal loan of up to Rs. 5,00,000 through Rupyaa, subject to eligibility, KYC, credit profile, and lending partner approval.",
+        provider: { "@id": "https://rupyaa.com/#organization" },
         loanType: "Personal loan",
         amount: {
           "@type": "MonetaryAmount",
@@ -29,7 +29,7 @@ export const personalLoanSchema = {
       },
       {
         "@type": "FAQPage",
-        "@id": "https://zapcash.in/personal-loan#faq",
+        "@id": "https://rupyaa.com/personal-loan#faq",
         mainEntity: [
           {
             "@type": "Question",
@@ -82,10 +82,10 @@ export const zapcashJsonLdSchema = {
   "@graph": [
     {
       "@type": ["Organization", "FinancialService"],
-      "@id": "https://zapcash.in/#organization",
-      name: "ZapCash",
+      "@id": "https://rupyaa.com/#organization",
+      name: "Rupyaa",
       legalName: "Omnistack Innovation Private Limited",
-      url: "https://zapcash.in/",
+      url: "https://rupyaa.com/",
       telephone: "+91-8503090309",
       address: {
         "@type": "PostalAddress",
@@ -97,53 +97,53 @@ export const zapcashJsonLdSchema = {
       },
       logo: {
         "@type": "ImageObject",
-        "@id": "https://zapcash.in/#logo",
-        url: "https://zapcash.in/images/logo.png",
+        "@id": "https://rupyaa.com/#logo",
+        url: "https://rupyaa.com/images/logo.png",
       },
       image:
         "https://zapcash-assets.s3.ap-south-1.amazonaws.com/zapcash-og-image.jpg",
       priceRange: "Personal loans up to Rs. 5,00,000",
       description:
-        "ZapCash helps eligible users apply for unsecured personal loans of up to Rs. 5,00,000 through a digital process.",
+        "Rupyaa helps eligible users apply for unsecured personal loans of up to Rs. 5,00,000 through a digital process.",
       areaServed: {
         "@type": "Country",
         name: "India",
       },
       brand: {
         "@type": "Brand",
-        name: "ZapCash",
+        name: "Rupyaa",
       },
       contactPoint: [
         {
           "@type": "ContactPoint",
           contactType: "customer support",
           telephone: "+91-8503090309",
-          url: "https://zapcash.in/support",
+          url: "https://rupyaa.com/support",
           areaServed: "IN",
           availableLanguage: ["en-IN", "hi-IN"],
         },
       ],
-      sameAs: ["https://play.google.com/store/apps/details?id=com.zapcash.loan"],
+      sameAs: ["https://play.google.com/store/apps/details?id=com.rupyaa.loan"],
     },
     {
       "@type": "WebSite",
-      "@id": "https://zapcash.in/#website",
-      name: "ZapCash",
-      url: "https://zapcash.in/",
+      "@id": "https://rupyaa.com/#website",
+      name: "Rupyaa",
+      url: "https://rupyaa.com/",
       publisher: {
-        "@id": "https://zapcash.in/#organization",
+        "@id": "https://rupyaa.com/#organization",
       },
       inLanguage: "en-IN",
     },
     {
       "@type": "MobileApplication",
-      "@id": "https://zapcash.in/#mobileapp",
-      name: "ZapCash",
+      "@id": "https://rupyaa.com/#mobileapp",
+      name: "Rupyaa",
       operatingSystem: "Android",
       applicationCategory: "FinanceApplication",
-      url: "https://play.google.com/store/apps/details?id=com.zapcash.loan",
+      url: "https://play.google.com/store/apps/details?id=com.rupyaa.loan",
       publisher: {
-        "@id": "https://zapcash.in/#organization",
+        "@id": "https://rupyaa.com/#organization",
       },
     },
   ],
@@ -155,22 +155,22 @@ export const zapcashJsonLdSchema = {
     "@graph": [
       {
         "@type": "WebPage",
-        "@id": "https://zapcash.in/emi-calculator#webpage",
-        url: "https://zapcash.in/emi-calculator",
-        name: "Free Personal Loan EMI Calculator - ZapCash",
+        "@id": "https://rupyaa.com/emi-calculator#webpage",
+        url: "https://rupyaa.com/emi-calculator",
+        name: "Free Personal Loan EMI Calculator - Rupyaa",
         description:
-          "Use the ZapCash EMI calculator to estimate monthly EMI, repayment amount, interest, and tenure for a personal loan.",
-        isPartOf: { "@id": "https://zapcash.in/#website" },
+          "Use the Rupyaa EMI calculator to estimate monthly EMI, repayment amount, interest, and tenure for a personal loan.",
+        isPartOf: { "@id": "https://rupyaa.com/#website" },
         inLanguage: "en-IN",
       },
       {
         "@type": "WebApplication",
-        "@id": "https://zapcash.in/emi-calculator#calculator",
+        "@id": "https://rupyaa.com/emi-calculator#calculator",
         name: "Personal Loan EMI Calculator",
-        url: "https://zapcash.in/emi-calculator",
+        url: "https://rupyaa.com/emi-calculator",
         applicationCategory: "FinanceApplication",
         operatingSystem: "Web",
-        publisher: { "@id": "https://zapcash.in/#organization" },
+        publisher: { "@id": "https://rupyaa.com/#organization" },
       },
     ],
   };
@@ -181,20 +181,20 @@ export const zapcashJsonLdSchema = {
     "@graph": [
       {
         "@type": "WebPage",
-        "@id": "https://zapcash.in/lenders#webpage",
-        url: "https://zapcash.in/lenders",
-        name: "ZapCash Lending Partners",
+        "@id": "https://rupyaa.com/lenders#webpage",
+        url: "https://rupyaa.com/lenders",
+        name: "Rupyaa Lending Partners",
         description:
-          "ZapCash works with Weekline Investment and Trading Company Ltd, an RBI-registered NBFC, for loan sanction and ownership.",
-        isPartOf: { "@id": "https://zapcash.in/#website" },
-        about: { "@id": "https://zapcash.in/lenders#weekline" },
+          "Rupyaa works with Weekline Investment and Trading Company Ltd, an RBI-registered NBFC, for loan sanction and ownership.",
+        isPartOf: { "@id": "https://rupyaa.com/#website" },
+        about: { "@id": "https://rupyaa.com/lenders#weekline" },
         inLanguage: "en-IN",
       },
       {
         "@type": "FinancialService",
-        "@id": "https://zapcash.in/lenders#weekline",
+        "@id": "https://rupyaa.com/lenders#weekline",
         name: "Weekline Investment and Trading Company Ltd",
-        description: "RBI-registered NBFC lending partner for ZapCash loans.",
+        description: "RBI-registered NBFC lending partner for Rupyaa loans.",
         address: {
           "@type": "PostalAddress",
           streetAddress: "79, Ground Floor, World Trade Centre, Barar Lane",
@@ -218,31 +218,31 @@ export const zapcashJsonLdSchema = {
     "@graph": [
       {
         "@type": "WebPage",
-        "@id": "https://zapcash.in/#webpage",
-        url: "https://zapcash.in/",
-        name: "ZapCash - Instant Personal Loan App",
+        "@id": "https://rupyaa.com/#webpage",
+        url: "https://rupyaa.com/",
+        name: "Rupyaa - Instant Personal Loan App",
         description:
-          "Apply for an unsecured personal loan of up to Rs. 5,00,000 with ZapCash through a secure digital process, subject to eligibility and lender approval.",
+          "Apply for an unsecured personal loan of up to Rs. 5,00,000 with Rupyaa through a secure digital process, subject to eligibility and lender approval.",
         isPartOf: {
-          "@id": "https://zapcash.in/#website",
+          "@id": "https://rupyaa.com/#website",
         },
         about: {
-          "@id": "https://zapcash.in/#organization",
+          "@id": "https://rupyaa.com/#organization",
         },
         primaryImageOfPage: {
           "@type": "ImageObject",
-          url: "https://zapcash.in/images/bannerNew.png",
+          url: "https://rupyaa.com/images/bannerNew.png",
         },
         inLanguage: "en-IN",
       },
       {
         "@type": "LoanOrCredit",
-        "@id": "https://zapcash.in/#loan-product",
-        name: "ZapCash Personal Loan",
+        "@id": "https://rupyaa.com/#loan-product",
+        name: "Rupyaa Personal Loan",
         description:
           "Unsecured personal loan of up to Rs. 5,00,000, subject to borrower eligibility, KYC, credit profile, and lending partner approval.",
         provider: {
-          "@id": "https://zapcash.in/#organization",
+          "@id": "https://rupyaa.com/#organization",
         },
         loanType: "Personal loan",
         amount: {
@@ -257,7 +257,7 @@ export const zapcashJsonLdSchema = {
       },
       {
         "@type": "FAQPage",
-        "@id": "https://zapcash.in/#faq",
+        "@id": "https://rupyaa.com/#faq",
         mainEntity: [
           {
             "@type": "Question",
@@ -292,13 +292,13 @@ export const zapcashJsonLdSchema = {
   export const supportPageSchema = {
     "@context": "https://schema.org",
     "@type": "ContactPage",
-    "@id": "https://zapcash.in/support#webpage",
-    url: "https://zapcash.in/support",
-    name: "ZapCash Support",
+    "@id": "https://rupyaa.com/support#webpage",
+    url: "https://rupyaa.com/support",
+    name: "Rupyaa Support",
     description:
-      "Contact ZapCash support for questions about loan applications, repayment, documents, or complaints.",
-    isPartOf: { "@id": "https://zapcash.in/#website" },
-    about: { "@id": "https://zapcash.in/#organization" },
+      "Contact Rupyaa support for questions about loan applications, repayment, documents, or complaints.",
+    isPartOf: { "@id": "https://rupyaa.com/#website" },
+    about: { "@id": "https://rupyaa.com/#organization" },
     inLanguage: "en-IN",
   };
 
@@ -307,14 +307,14 @@ export const creditScoreSchema = {
   "@graph": [
     {
       "@type": "WebPage",
-      "@id": "https://zapcash.in/credit-score#webpage",
-      url: "https://zapcash.in/credit-score",
+      "@id": "https://rupyaa.com/credit-score#webpage",
+      url: "https://rupyaa.com/credit-score",
       name: "Check Credit Score Free — Instant Report Online",
       description:
         "Check your credit score and full report free in under a minute. Understand the new RBI weekly reporting rules effective 1 July 2026.",
       inLanguage: "en-IN",
-      isPartOf: { "@id": "https://zapcash.in/#website" },
-      publisher: { "@id": "https://zapcash.in/#organization" },
+      isPartOf: { "@id": "https://rupyaa.com/#website" },
+      publisher: { "@id": "https://rupyaa.com/#organization" },
       dateModified: "2026-08-04",
       breadcrumb: {
         "@type": "BreadcrumbList",
@@ -323,24 +323,24 @@ export const creditScoreSchema = {
             "@type": "ListItem",
             position: 1,
             name: "Home",
-            item: "https://zapcash.in/",
+            item: "https://rupyaa.com/",
           },
           {
             "@type": "ListItem",
             position: 2,
             name: "Credit Score",
-            item: "https://zapcash.in/credit-score",
+            item: "https://rupyaa.com/credit-score",
           },
         ],
       },
     },
     {
       "@type": "FAQPage",
-      "@id": "https://zapcash.in/credit-score#faq",
+      "@id": "https://rupyaa.com/credit-score#faq",
       mainEntity: [
         {
           "@type": "Question",
-          name: "Is checking my credit score on ZapCash really free?",
+          name: "Is checking my credit score on Rupyaa really free?",
           acceptedAnswer: {
             "@type": "Answer",
             text: "Yes. There is no charge and no card required. You get your Equifax score and full report at no cost.",

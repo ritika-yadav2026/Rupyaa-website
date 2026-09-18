@@ -24,7 +24,7 @@ export default function ZapcashLogo({
       <div className="relative flex items-center justify-center"> */}
       <Image
         src={IMAGES.zapcashLogo.src}
-        alt="ZapCash Logo"
+        alt="Rupyaa Logo"
         className={`h-${height} w-${width} rounded-full ${className}`}
         width={width}
         height={height}

@@ -4,7 +4,7 @@
  */
 export function getLocationEnableSteps(): readonly string[] {
   return [
-    "Look at the top address bar, where zapcash.in is shown.",
+    "Look at the top address bar, where rupyaa.in is shown.",
     "Click the settings icon on the left side of the website address.",
     "Select Location → Allow.",
     "Come back and click Try Again.",
